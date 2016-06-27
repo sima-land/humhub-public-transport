@@ -1,10 +1,10 @@
 {
-    "id": "public_transport_map",
-    "name": "Public transport map for Sima-Land",
-    "description": "Allows admins to create bus routes with connected map-service, and users to inspect those routes.",
-    "keywords": ["bus", "map", "route"],
-    "version": "0.0.1",
-    "humhub": {
-        "minVersion": "0.20"
-    }
+	"id": "public_transport_map",
+	"name": "Public transport map for Sima-Land",
+	"description": "Allows admins to create bus routes with connected map-service, and users to inspect those routes.",
+	"keywords": ["bus", "map", "route"],
+	"version": "0.0.1",
+	"humhub": {
+		"minVersion": "0.20"
+	}
 }
