@@ -1,5 +1,4 @@
 <?php
-
 	use humhub\modules\user\models\User;
 	use humhub\widgets\TopMenu;
 	use humhub\modules\user\widgets\ProfileHeaderControls;
@@ -14,5 +13,4 @@
 			['class' => ProfileHeaderControls::className(), 'event' => ProfileHeaderControls::EVENT_INIT, 'callback' => ['humhub\modules\public_transport_map\Events', 'onProfileHeaderControlsInit']],
 		],
 	];
-	
 ?>
