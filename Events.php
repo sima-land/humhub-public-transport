@@ -24,14 +24,6 @@ class Events extends \yii\base\Object
      *
      * @param type $event
      */
-    
-    /**
-     *
-     * Здесь могла бы быть ваша реклама
-     * временно, конечно же
-     *
-     */
-
     /**
      * On build of the TopMenu, check if module is enabled
      * When enabled add a menu item
