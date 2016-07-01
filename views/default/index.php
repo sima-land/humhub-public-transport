@@ -19,17 +19,6 @@ humhub\modules\public_transport_map\Assets::register($this);
                          * The following script generates dynamic tabs with names and dates for today and the week ahead).
                          * It uses standard functions and arrays to store generated data.
                          */
-                        /*УДАЛИ!*/
-                        $(document).ready(function()
-                        {
-                            start('#today');
-                            $('.nav-tabs a').on('shown.bs.tab', function(e)
-                            {
-                                start($('.nav-tabs .active > a').attr('href'));
-                            });
-                        });
-                        /*УДАЛИ!*/
-                        
                         function getDayName(dayNumber)
                         {
                             switch (dayNumber)
@@ -153,66 +142,34 @@ humhub\modules\public_transport_map\Assets::register($this);
                     <div class="tab-content">
                         <div class="tab-pane" id="today">
                             <select id ="" class="form-control" onchange="start(this.value)">
-                                <option value="#today">Today</option>
-                                <option selected value="#tomorrow">Tomorrow</option>
-                                <option>More tabs</option>
-                                <option>More tabs</option>
                             </select>
                         </div>
                         <div class="tab-pane" id="tomorrow">
                             <select class="form-control" onchange="start(this.value)">
-                                <option>Tomorrow</option>
-                                <option>More tabs</option>
-                                <option>More tabs</option>
-                                <option>More tabs</option>
                             </select>
                         </div>
                         <div class="tab-pane" id="2days">
                             <select class="form-control" onchange="start(this.value)">
-                                <option>Two days from now</option>
-                                <option>More tabs</option>
-                                <option>More tabs</option>
-                                <option>More tabs</option>
                             </select>
                         </div>
                         <div class="tab-pane" id="3days">
                             <select class="form-control" onchange="start(this.value)">
-                                <option>Three days from now</option>
-                                <option>More tabs</option>
-                                <option>More tabs</option>
-                                <option>More tabs</option>
                             </select>
                         </div>
                         <div class="tab-pane" id="4days">
                             <select class="form-control" onchange="start(this.value)">
-                                <option>Four days from now</option>
-                                <option>More tabs</option>
-                                <option>More tabs</option>
-                                <option>More tabs</option>
                             </select>
                         </div>
                         <div class="tab-pane" id="5days">
                             <select class="form-control" onchange="start(this.value)">
-                                <option>Five days from now</option>
-                                <option>More tabs</option>
-                                <option>More tabs</option>
-                                <option>More tabs</option>
                             </select>
                         </div>
                         <div class="tab-pane" id="6days">
                             <select class="form-control" onchange="start(this.value)">
-                                <option>Six days from now</option>
-                                <option>More tabs</option>
-                                <option>More tabs</option>
-                                <option>More tabs</option>
                             </select>
                         </div>
                         <div class="tab-pane" id="7days">
                             <select class="form-control" onchange="start(this.value)">
-                                <option>A week from now</option>
-                                <option>More tabs</option>
-                                <option>More tabs</option>
-                                <option>More tabs</option>
                             </select>
                         </div>
                     </div>
