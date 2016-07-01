@@ -5,7 +5,7 @@ namespace humhub\modules\public_transport_map\controllers;
 use yii\web\Controller;
 
 /**
- * Default controller for the `Public transport map` module
+ * Default controller for the `Public Transport Map` module
  */
 class DefaultController extends Controller
 {
