@@ -38,17 +38,17 @@ class m160630_111016_initial_tables extends Migration
             'node_interval'=>$this->text(),
         ]);
 
-        $this->addPrimaryKey('pk_route_node_route_id_node_id','route_node','route_id,node_id');
+        $this->addPrimaryKey('pk_route_node_route_id_node_id','ptm_route_node','route_id,node_id');
 
-        $this->addForeignKey('fk_schedule_route_id','schedule','route_id','route','id',null,null);
-        $this->addForeignKey('fk_route_node_route_id','route_node','route_id','route','id',null,null);
-        $this->addForeignKey('fk_route_node_node_id','route_node','node_id','node','id',null,null);
-        $this->addForeignKey('fk_route_direction_id','route','direction_id','direction','id',null,null);
+        $this->addForeignKey('fk_schedule_route_id','ptm_schedule','route_id','ptm_route','id',null,null);
+        $this->addForeignKey('fk_route_node_route_id','ptm_route_node','route_id','ptm_route','id',null,null);
+        $this->addForeignKey('fk_route_node_node_id','ptm_route_node','node_id','ptm_node','id',null,null);
+        $this->addForeignKey('fk_route_direction_id','ptm_route','direction_id','ptm_direction','id',null,null);
 
-        $this->insert('direction', [
+        $this->insert('ptm_direction', [
             'description'=> 'на работу',
         ]);
-        $this->insert('direction', [
+        $this->insert('ptm_direction', [
             'description'=> 'с работы',
         ]);
     }

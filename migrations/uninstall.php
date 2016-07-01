@@ -6,10 +6,10 @@ class uninstall extends Migration
 {
     public function safeUp()
     {
-        $this->dropForeignKey('fk_schedule_route_id','schedule');
-        $this->dropForeignKey('fk_route_direction_id','route');
-        $this->dropForeignKey('fk_route_node_route_id','route_node');
-        $this->dropForeignKey('fk_route_node_node_id','route_node');
+        $this->dropForeignKey('fk_schedule_route_id','ptm_schedule');
+        $this->dropForeignKey('fk_route_direction_id','ptm_route');
+        $this->dropForeignKey('fk_route_node_route_id','ptm_route_node');
+        $this->dropForeignKey('fk_route_node_node_id','ptm_route_node');
 
 
         $this->dropTable('ptm_schedule');
