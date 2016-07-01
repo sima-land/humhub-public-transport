@@ -11,28 +11,28 @@ class m160630_111016_initial_tables extends Migration
 {
     public function safeUp()
     {
-        $this->createTable('node', [
+        $this->createTable('ptm_node', [
             'id' => $this->primaryKey(),
             'name' => $this->char(40),
-            'coor_x'=>$this->float(10),
-            'coor_y'=>$this->float(10),
+            'lat'=>$this->float(10),
+            'lng'=>$this->float(10),
         ]);
-        $this->createTable('route', [
+        $this->createTable('ptm_route', [
             'id' => $this->primaryKey(),
             'direction_id'=>$this->integer(),
             'title'=>$this->char(50),
         ]);
-        $this->createTable('direction', [
+        $this->createTable('ptm_direction', [
             'id' => $this->primaryKey(),
             'description'=>$this->char(10),
         ]);
-        $this->createTable('schedule', [
+        $this->createTable('ptm_schedule', [
             'id'=>$this->primaryKey(),
             'start_at' => $this->dateTime(),
             'route_id'=>$this->integer(),
             'comment'=>$this->text(),
         ]);
-        $this->createTable('route_node', [
+        $this->createTable('ptm_route_node', [
             'route_id' => $this->integer(),
             'node_id' => $this->integer(),
             'node_interval'=>$this->text(),

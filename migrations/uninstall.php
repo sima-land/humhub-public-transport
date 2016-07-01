@@ -12,11 +12,11 @@ class uninstall extends Migration
         $this->dropForeignKey('fk_route_node_node_id','route_node');
 
 
-        $this->dropTable('schedule');
-        $this->dropTable('route_node');
-        $this->dropTable('route');
-        $this->dropTable('node');
-        $this->dropTable('direction');
+        $this->dropTable('ptm_schedule');
+        $this->dropTable('ptm_route_node');
+        $this->dropTable('ptm_route');
+        $this->dropTable('ptm_node');
+        $this->dropTable('ptm_direction');
     }
 
     public function down()
