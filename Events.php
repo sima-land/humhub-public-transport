@@ -18,7 +18,6 @@ use yii\helpers\Url;
  */
 class Events extends \yii\base\Object
 {
-
     /**
      * On User delete, also delete all comments
      *
@@ -37,10 +36,10 @@ class Events extends \yii\base\Object
         }
 
         $event->sender->addItem(array(
-            'label' => Yii::t('PublicTransportMapModule.base', 'Public Transport Map'),
+            'label' => Yii::t('PublicTransportMapModule.base', 'Bus Map'),
             'url' => Url::to(['/public_transport_map/default/index']),
             'icon' => '<i class="fa fa-bus"></i>',
-            'isActive' => (Yii::$app->controller->module && Yii::$app->controller->module->id == 'public_transport_map'),
+            'isActive' => (Yii::$app->controller->module && Yii::$app->controller->module->id == 'bus_map'),
             'sortOrder' => 300,
         ));
     }
