@@ -24,12 +24,12 @@ class m160630_111016_initial_tables extends Migration
         ]);
         $this->createTable('direction', [
             'id' => $this->primaryKey(),
-            'direction'=>$this->char(10),
+            'description'=>$this->char(10),
         ]);
         $this->createTable('schedule', [
-            'date_at' => $this->date(),
+            'id'=>$this->primaryKey(),
+            'start_at' => $this->dateTime(),
             'route_id'=>$this->integer(),
-            'start_time'=>$this->time(),
             'comment'=>$this->text(),
         ]);
         $this->createTable('route_node', [
@@ -46,26 +46,17 @@ class m160630_111016_initial_tables extends Migration
         $this->addForeignKey('fk_route_direction_id','route','direction_id','direction','id',null,null);
 
         $this->insert('direction', [
-            'direction'=> 'на работу',
+            'description'=> 'на работу',
         ]);
         $this->insert('direction', [
-            'direction'=> 'с работы',
+            'description'=> 'с работы',
         ]);
     }
 
-    public function safeDown()
+    public function down()
     {
-        $this->dropForeignKey('fk_schedule_route_id','schedule');
-        $this->dropForeignKey('fk_route_direction_id','route');
-        $this->dropForeignKey('fk_route_node_route_id','route_node');
-        $this->dropForeignKey('fk_route_node_node_id','route_node');
+        echo "m160630_111016_initial_tables cannot be reverted.\n";
 
-
-        $this->dropTable('schedule');
-        $this->dropTable('route_node');
-        $this->dropTable('route');
-        $this->dropTable('node');
-        $this->dropTable('direction');
-
+        return false;
     }
 }
