@@ -34,15 +34,19 @@ class Events extends \yii\base\Object
         if (Yii::$app->user->isGuest) {
             return;
         }
-
         $event->sender->addItem(array(
-            'label' => Yii::t('PublicTransportMapModule.base', 'Bus Map'),
+            'label' => Yii::t('PublicTransportMapModule.base', 'Public Transport Map'),
             'url' => Url::to(['/public_transport_map/default/index']),
             'icon' => '<i class="fa fa-bus"></i>',
-            'isActive' => (Yii::$app->controller->module && Yii::$app->controller->module->id == 'bus_map'),
+            'isActive' => (Yii::$app->controller->module && Yii::$app->controller->module->id == 'public_transport_map'),
             'sortOrder' => 300,
         ));
     }
-
-    
+    public static function onNotificationAddonInit($event)
+    {
+        if (Yii::$app->user->isGuest) {
+            return;
+        }
+        $event->sender->addWidget(Notifications::className(), array(), array('sortOrder' => 90));
+    }
 }
