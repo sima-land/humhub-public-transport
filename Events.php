@@ -18,7 +18,6 @@ use yii\helpers\Url;
  */
 class Events extends \yii\base\Object
 {
-
     /**
      * On User delete, also delete all comments
      *
@@ -37,31 +36,13 @@ class Events extends \yii\base\Object
         }
 
         $event->sender->addItem(array(
-            'label' => Yii::t('PublicTransportMapModule.base', 'Public Transport Map'),
+            'label' => Yii::t('PublicTransportMapModule.base', 'Bus Map'),
             'url' => Url::to(['/public_transport_map/default/index']),
             'icon' => '<i class="fa fa-bus"></i>',
-            'isActive' => (Yii::$app->controller->module && Yii::$app->controller->module->id == 'public_transport_map'),
+            'isActive' => (Yii::$app->controller->module && Yii::$app->controller->module->id == 'bus_map'),
             'sortOrder' => 300,
         ));
     }
 
-    public static function onNotificationAddonInit($event)
-    {
-        if (Yii::$app->user->isGuest) {
-            return;
-        }
-
-        $event->sender->addWidget(Notifications::className(), array(), array('sortOrder' => 90));
-    }
     
-    public static function onProfileHeaderControlsInit($event)
-    {
-        $profileUser = $event->sender->user;
-        $notPermitted = version_compare(Yii::$app->version, '1.1', '>=') && !$profileUser->getPermissionManager()->can(new SendMail());
-        if (Yii::$app->user->isGuest || $profileUser->id == Yii::$app->user->id || $notPermitted) {
-            return;
-        }
-
-        $event->sender->addWidget(NewMessageButton::className(), array('guid' => $event->sender->user->guid, 'type' => 'info'), array('sortOrder' => 90));
-    }
 }

@@ -1,2 +1,2 @@
-# humhub-public-transport
-Public transport module for humhub
+# humhub-public-transport-map
+Public transport map module for humhub
