@@ -35,7 +35,7 @@ class m160630_111016_initial_tables extends Migration
         $this->createTable('ptm_route_node', [
             'route_id' => $this->integer(),
             'node_id' => $this->integer(),
-            'node_interval'=>$this->text(),
+            'node_interval'=>$this->integer(),
         ]);
 
         $this->addPrimaryKey('pk_route_node_route_id_node_id','ptm_route_node','route_id,node_id');
@@ -46,10 +46,10 @@ class m160630_111016_initial_tables extends Migration
         $this->addForeignKey('fk_route_direction_id','ptm_route','direction_id','ptm_direction','id',null,null);
 
         $this->insert('ptm_direction', [
-            'description'=> 'на работу',
+            'description'=> 'На работу',
         ]);
         $this->insert('ptm_direction', [
-            'description'=> 'с работы',
+            'description'=> 'С работы',
         ]);
     }
 

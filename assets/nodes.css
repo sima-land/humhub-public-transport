@@ -1,0 +1,8 @@
+.node-output {
+    display: inline-block;
+    border-radius: 4px;
+    background-color: #ededed;
+    color: #555;
+    margin: 15px 5px 5px 5px;
+    padding: 5px 10px 5px 10px ;
+}
