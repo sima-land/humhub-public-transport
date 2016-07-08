@@ -93,13 +93,13 @@ class DefaultController extends Controller
            ->orderBy('node_interval ASC')
            ->all();
 
-       for ($i=0; $i <count($nodes); $i++)
+       for ($i=0; $i < count($nodes); $i++)
        {
            $nodeNameArr[$i] = $nodes[$i]->name;
            $nodeLatArr[$i] = $nodes[$i]->lat;
            $nodeLngArr[$i] = $nodes[$i]->lng;
        }
-       
+
        return $this->render('nodes', array(
            'nodes'=>$nodes,
            'schedule'=>$schedule,
@@ -110,4 +110,29 @@ class DefaultController extends Controller
            'nodeLngArr'=>$nodeLngArr
        ));
    }
+
+    public function actionRouteRefresh($id)//для ajax запросов от index
+    {
+        $nodeNameArr = [];
+        $nodeLatArr = [];
+        $nodeLngArr = [];
+        $current_date = date('Y-m-d');
+
+        $schedule = PtmSchedule::find()
+            ->where(['date(start_at)'=>$current_date])
+            ->all();
+        $nodes = PtmNode::find()
+            ->joinWith('ptmRouteNodes')
+            ->where(['ptm_route_node.route_id'=>$schedule[$id]->route_id])
+            ->orderBy('node_interval ASC')
+            ->all();
+
+        for ($i=0; $i < count($nodes); $i++)
+        {
+            $nodeNameArr[$i] = $nodes[$i]->name;
+            $nodeLatArr[$i] = $nodes[$i]->lat;
+            $nodeLngArr[$i] = $nodes[$i]->lng;
+        }
+        return json_encode([$id, $nodeNameArr, $nodeLatArr, $nodeLngArr]);
+    }
 }
