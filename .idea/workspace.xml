@@ -1,13 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="1c2fe314-2563-4f08-850c-6ab0b5822ce9" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/map_script.js" afterPath="$PROJECT_DIR$/assets/map_script.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controllers/DefaultController.php" afterPath="$PROJECT_DIR$/controllers/DefaultController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/default/index.php" afterPath="$PROJECT_DIR$/views/default/index.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/default/nodes.php" afterPath="$PROJECT_DIR$/views/default/nodes.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/default/routesOnMap.php" afterPath="$PROJECT_DIR$/views/default/routesOnMap.php" />
-    </list>
+    <list default="true" id="1c2fe314-2563-4f08-850c-6ab0b5822ce9" name="Default" comment="" />
     <ignored path="humhub-public-transport.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path=".idea/dataSources.local.xml" />
@@ -330,12 +324,12 @@
       <workItem from="1467862618252" duration="122000" />
       <workItem from="1467863623765" duration="1913000" />
       <workItem from="1467866222349" duration="23850000" />
-      <workItem from="1467947859522" duration="31864000" />
+      <workItem from="1467947859522" duration="32179000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="57974000" />
+    <option name="totallyTimeSpent" value="58289000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="67" y="24" width="1853" height="1056" extended-state="6" />
