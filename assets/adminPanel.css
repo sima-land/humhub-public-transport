@@ -1,0 +1,22 @@
+.admin-panel {
+    margin: 10px 0px 0px 0px;
+    border: 1px solid #ddd;
+    border-radius: 2px;
+    padding: 10px;
+}
+
+.admin-panel input {
+    display: list-item;
+    border: 2px solid #ccc;
+    border-radius: 1px;
+    padding: 2px;
+    margin: 10px;
+}
+
+.admin-panel input:active {
+    border-color: #888;
+}
+
+#login-button {
+    padding: 10px 30px;
+}

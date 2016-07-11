@@ -7,7 +7,7 @@ var map = L.map('map');
 
 L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiYXNhbmgiLCJhIjoiY2lweHZzN2E1MDA3cmh4bm83a3BqeTFhYSJ9._Nf0tZAU-7JSwX8zcUnELA', {
     maxZoom: 18,
-    minZoom: 9,
+    minZoom: 4,
     id: 'asanh.0god5b4e',
     accessToken: 'pk.eyJ1IjoiYXNhbmgiLCJhIjoiY2lweHZzN2E1MDA3cmh4bm83a3BqeTFhYSJ9._Nf0tZAU-7JSwX8zcUnELA'
 }).addTo(map);
@@ -45,6 +45,7 @@ var draw = function (nodeNameArr, loc, nodeLatArr, nodeLngArr) {
     }).addTo(map);
 
     for (var q = 2; q < loc.length; q++) {
+        //alert('splice waypoint');
         control.spliceWaypoints(control.getWaypoints().length, 0, loc[q]);
     }
 
@@ -82,3 +83,7 @@ function mapZoom(id) {
     marker[id].openPopup();
     return;
 }
+
+map.on('click', function(e) {
+    alert(e.latlng); // e is an event object (MouseEvent in this case)
+});
