@@ -9,6 +9,7 @@ use yii\web\Controller;
 use yii\db;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
+use Yii;
 /**
  * Default controller for the `Public transport map` module
  */
@@ -141,29 +142,33 @@ class DefaultController extends Controller
 
     public function actionAdminPanel()
     {
-        /*$login = $_POST['login'];
-        $password = $_POST['password'];
-
-        $admins = PtmAuth::find()
-            ->where(['login'=>$login])
-            ->all();*/
         $model = new PtmAuth();
-        //var_dump($model);exit;
 
-        if ($model->load(Yii::$app->request->post()) && $model->vaidate()) {
-            return $this->render('adminPanel', array(
-                'model'=>$model
-            ));
+        $data = $model->load(Yii::$app->request->post());
+
+        $login = $model->getLogin();
+        $password = $model->getPassword();
+
+        $admin = PtmAuth::find()
+            ->where([
+                'login'=>$login,
+                'password'=>$password
+            ])
+            ->all();
+
+        if (!$admin) $error_message = 'login and password do not match';
+
+        if ($data && $admin) {
+            return $this->render('adminPanelLogined', [
+                'model' => $model,
+                'admin' => $admin
+            ]);
         } else {
-
-            return $this->render('adminPanel', array(
-                'model'=>$model
-            ));
+            return $this->render('adminPanel', [
+                'model'=>$model,
+                'error_message' => $error_message
+            ]);
         }
-/*
-        return $this->render ('adminPanel', [
-            'admins'=>$admins,
-            'password'=>$password
-        ]);*/
     }
+
 }

@@ -20,19 +20,20 @@ class PtmAuth extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['login', 'password'], 'required']//,
-            //['password', 'validatePassword']
+            [['login', 'password'], 'required', 'message' => 'please fill all the fields']//,
+            //[['login', 'password'], 'email']
         ];
     }
 
  /*   public function validatePassword()
     {
-        $user = $this->getUser();
+        $user = $this->getLogin();
 
         if (!$user || !$user->validatePassword($this->password)) {
             $this->addError('password', 'Password or username is not correct.');
         }
     }*/
+
 
     /**
      * @return bool

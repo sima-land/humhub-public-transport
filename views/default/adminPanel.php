@@ -7,29 +7,28 @@ use yii\widgets\ActiveForm;
 ?>
 
 
-<div class="admin-panel">
-    <?php
+<div class="admin-panel" style="border-style: none;">
+    <div class="form-group">
+        <div class="col-lg-6">
+        <?php
         $form = ActiveForm::begin([
             'id'=>'login-form',
             'options' => ['class' => 'form-horizontal'],
         ]);
 
-        $form->field($model, 'login')->textInput();
-        $form->field($model, 'password')->passwordInput();
-    ?>
-    <div class="form-group">
-        <div class="col-lg-offset-1 col-lg-11">
+        ?>
+        <?=$form->field($model, 'login')->textInput();?>
+        <?=$form->field($model, 'password')->passwordInput();?>
+
             <?= Html::submitButton('Вход', ['class' => 'btn btn-primary']) ?>
+
+
+        <div style="color: indianred; margin-top: 20px;"><?=$error_message?></div>
+
+
+        <?php
+            ActiveForm::end();
+        ?>
+        </div>
     </div>
-    </div>
-    <?php
-        ActiveForm::end();
-    ?>
-<!--
-    <form action="adminPanel.php" method="post">
-        <input name="login" type="text" placeholder="Login" required />
-        <input name="password" type="text" placeholder="Password" required />
-        <input id="login-button" type="submit" value="Войти" />
-    </form>
--->
 </div>

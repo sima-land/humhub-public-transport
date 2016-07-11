@@ -2,7 +2,8 @@
     margin: 10px 0px 0px 0px;
     border: 1px solid #ddd;
     border-radius: 2px;
-    padding: 10px;
+    padding: 20px;
+    padding-top: 0px;
 }
 
 .admin-panel input {
@@ -17,6 +18,10 @@
     border-color: #888;
 }
 
+.admin-panel h2 {
+    margin-left: 50px;
+}
+/*
 #login-button {
     padding: 10px 30px;
-}
+}*/
