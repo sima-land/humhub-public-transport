@@ -2,7 +2,7 @@
 humhub\modules\public_transport_map\Assets::register($this);
 
 /**
- * Main view.
+  Main view.
  */
 ?>
 
