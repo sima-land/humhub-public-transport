@@ -11,7 +11,8 @@ class Assets extends AssetBundle
 {
     public $css = [
         'leaflet-routing-machine.css',
-        'nodes.css'
+        'nodes.css',
+        'adminPanel.css'
     ];
     public $js = [
         'map_script.js',

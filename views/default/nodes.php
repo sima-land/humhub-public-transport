@@ -8,7 +8,7 @@ humhub\modules\public_transport_map\Assets::register($this);
 <script>
     function mapZoom(id)
     {
-        map.setView([nodeLatArr[id],nodeLngArr[id]], 15);
+        map.setView([nodeLatArr[id],nodeLngArr[id]], 13);
         marker[id].openPopup();
         return;
     }
@@ -34,7 +34,7 @@ humhub\modules\public_transport_map\Assets::register($this);
             'nodeLatArr'=>json_encode($nodeLatArr),
             'nodeLngArr'=>json_encode($nodeLngArr)
         ]);
-    var_dump($nodeNameArr);
+    //var_dump($nodeNameArr);
     ?>
     <script>//alert('nodes.php');</script>
 </div>

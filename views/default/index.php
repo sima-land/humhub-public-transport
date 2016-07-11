@@ -69,7 +69,11 @@ humhub\modules\public_transport_map\Assets::register($this);
                         'nodeLatArr'=>$nodeLatArr,
                         'nodeLngArr'=>$nodeLngArr
                     ));
+
                     echo $this->render('mapCreate');
+
+                    echo $this->render('adminPanel');
+
                     ?>
 
                     <script>
@@ -96,6 +100,7 @@ humhub\modules\public_transport_map\Assets::register($this);
                                 url: 'index.php?r=public_transport_map%2Fdefault%2Flist-generator&date=' + $('.nav-tabs .active a').attr('href'),
                                 success: function (data) {
                                     var parsedJSON = JSON.parse(data);
+                                    //alert(parsedJSON);
                                     $.each(parsedJSON[0], function(i) {
                                         $('#routes').append($("<option></option>").attr("value", i).text(parsedJSON[1][i]+': '+parsedJSON[0][i]));
                                     })
@@ -123,10 +128,12 @@ humhub\modules\public_transport_map\Assets::register($this);
                         });
                         function showNodes(str, firstCall)
                         {
+                            if (str === null) str = '0';
+                            //alert(str + ' ' + firstCall);
                             //alert('shownodes was called');
                             if (str == "")
                             {
-                                alert('select is empty');
+                                //alert('select is empty');
                                 document.getElementById("nodes").innerHTML = "";
                                 return;
                             } else
@@ -148,24 +155,26 @@ humhub\modules\public_transport_map\Assets::register($this);
                                 };
                                 if (firstCall) {
                                     //alert('firstCall');
-                                    xmlhttp.open("GET","index.php?r=public_transport_map%2Fdefault%2Fnodes-collection&id=" + str,true);
+                                    xmlhttp.open("GET","index.php?r=public_transport_map%2Fdefault%2Fnodes-collection&id=" + str + '&current_date=' + $('.nav-tabs .active a').attr('href'),true);
                                     xmlhttp.send();
                                 }
                                 else {
                                     //alert('notFirst');// alert(str);
                                     //отрисовка табличек с названиями остановок
-                                    xmlhttp.open("GET","index.php?r=public_transport_map%2Fdefault%2Fnodes-collection&id=" + str,true);
+                                    xmlhttp.open("GET","index.php?r=public_transport_map%2Fdefault%2Fnodes-collection&id=" + str + '&current_date=' + $('.nav-tabs .active a').attr('href'),true);
                                     xmlhttp.send();
 
 
                                     //запрс для получения информации и последующей отрисовки карты
                                     $.ajax({
                                         type: 'POST',
-                                        url: 'index.php?r=public_transport_map%2Fdefault%2Froute-refresh&id=' + str,
+                                        url: 'index.php?r=public_transport_map%2Fdefault%2Froute-refresh&id=' + str + '&current_date=' + $('.nav-tabs .active a').attr('href'),
                                         success: function (data) {
                                             //получаем всю информацию о точках чтоб поставить их на карту
-                                            parsedJSON = JSON.parse(data);
-                                            alert(parsedJSON[2][1] + ' ' + parsedJSON[3][1])
+                                            var parsedJSON = JSON.parse(data);
+                                            //alert(parsedJSON[1][1] + ' ' + parsedJSON[2][1]);
+                                            //здесь надо написать функцию по установке точек и прокладке маршрута
+                                            start(parsedJSON[0], parsedJSON[1], parsedJSON[2])
                                         },
                                         error: function () {
                                             alert('error in map ajax request')

@@ -1,6 +1,7 @@
 <?php
 namespace humhub\modules\public_transport_map\controllers;
 
+use humhub\modules\public_transport_map\models\PtmAuth;
 use humhub\modules\public_transport_map\models\PtmNode;
 use humhub\modules\public_transport_map\models\PtmRouteNode;
 use humhub\modules\public_transport_map\models\PtmSchedule;
@@ -71,14 +72,14 @@ class DefaultController extends Controller
         return json_encode([$newTitles, $directions]);
     }
 
-   public function actionNodesCollection($id)
+   public function actionNodesCollection($id, $current_date)
    {
        $id = intval($_GET['id']);
 
        $nodeNameArr = [];
        $nodeLatArr = [];
        $nodeLngArr = [];
-       $current_date = date('Y-m-d');
+       //$current_date = date('Y-m-d');
 
        $schedule = PtmSchedule::find()
            ->where(['date(start_at)'=>$current_date])
@@ -111,12 +112,12 @@ class DefaultController extends Controller
        ));
    }
 
-    public function actionRouteRefresh($id)//для ajax запросов от index
+    public function actionRouteRefresh($id, $current_date)//для ajax запросов от index
     {
         $nodeNameArr = [];
         $nodeLatArr = [];
         $nodeLngArr = [];
-        $current_date = date('Y-m-d');
+        //$current_date = date('Y-m-d');
 
         $schedule = PtmSchedule::find()
             ->where(['date(start_at)'=>$current_date])
@@ -133,6 +134,34 @@ class DefaultController extends Controller
             $nodeLatArr[$i] = $nodes[$i]->lat;
             $nodeLngArr[$i] = $nodes[$i]->lng;
         }
-        return json_encode([$id, $nodeNameArr, $nodeLatArr, $nodeLngArr]);
+        return json_encode([$nodeNameArr, $nodeLatArr, $nodeLngArr]);
+    }
+
+    public function actionAdminPanel()
+    {
+        /*$login = $_POST['login'];
+        $password = $_POST['password'];
+
+        $admins = PtmAuth::find()
+            ->where(['login'=>$login])
+            ->all();*/
+        $model = new PtmAuth();
+
+        if ($model->load(yii::$app->request->post()) && $model->vaidate()) {
+            return $this->render('adminPanel', [
+                'model' => $model
+            ]);
+        } else {
+            return $this->render('adminPanel', [
+                'model'=> $model
+            ]);
+        }
+
+
+/*
+        return $this->render ('adminPanel', [
+            'admins'=>$admins,
+            'password'=>$password
+        ]);*/
     }
 }
