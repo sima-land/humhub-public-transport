@@ -84,6 +84,3 @@ function mapZoom(id) {
     return;
 }
 
-map.on('click', function(e) {
-    alert(e.latlng); // e is an event object (MouseEvent in this case)
-});

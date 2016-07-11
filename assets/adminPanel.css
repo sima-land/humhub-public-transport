@@ -21,6 +21,8 @@
 .admin-panel h2 {
     margin-left: 50px;
 }
+
+#mapid { height: 600px; }
 /*
 #login-button {
     padding: 10px 30px;
