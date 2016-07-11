@@ -1,7 +1,9 @@
 <?php
+humhub\modules\public_transport_map\Assets::register($this);
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+/** @var class $model */
 ?>
 
 

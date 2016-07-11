@@ -72,7 +72,7 @@ humhub\modules\public_transport_map\Assets::register($this);
 
                     echo $this->render('mapCreate');
 
-                    echo $this->render('adminPanel');
+                    echo "<a href='index.php?r=public_transport_map%2Fdefault%2Fadmin-panel'>Go to admin panel</a>"
 
                     ?>
 

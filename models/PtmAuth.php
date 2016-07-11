@@ -2,12 +2,10 @@
 
 namespace humhub\modules\public_transport_map\models;
 
-//use humhub\modules\public_transport_map\controllers\AuthController;
-use humhub\modules\public_transport_map\controllers\DefaultController;
 use yii;
 
 
-class PtmAuth extends Model
+class PtmAuth extends \yii\db\ActiveRecord
 {
 
     public static function tableName()

@@ -7,6 +7,8 @@ use humhub\modules\public_transport_map\models\PtmRouteNode;
 use humhub\modules\public_transport_map\models\PtmSchedule;
 use yii\web\Controller;
 use yii\db;
+use yii\bootstrap\ActiveForm;
+use yii\helpers\Html;
 /**
  * Default controller for the `Public transport map` module
  */
@@ -146,18 +148,18 @@ class DefaultController extends Controller
             ->where(['login'=>$login])
             ->all();*/
         $model = new PtmAuth();
+        //var_dump($model);exit;
 
-        if ($model->load(yii::$app->request->post()) && $model->vaidate()) {
-            return $this->render('adminPanel', [
-                'model' => $model
-            ]);
+        if ($model->load(Yii::$app->request->post()) && $model->vaidate()) {
+            return $this->render('adminPanel', array(
+                'model'=>$model
+            ));
         } else {
-            return $this->render('adminPanel', [
-                'model'=> $model
-            ]);
+
+            return $this->render('adminPanel', array(
+                'model'=>$model
+            ));
         }
-
-
 /*
         return $this->render ('adminPanel', [
             'admins'=>$admins,
