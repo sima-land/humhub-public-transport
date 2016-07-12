@@ -15,8 +15,5 @@ var nodeLngArr = JSON.parse(<?php echo $nodeLngArr ?>);
 
 $(function () {
     start(nodeNameArr, nodeLatArr, nodeLngArr);
-    map.on('click', function(e) {
-        L.marker(e.latlng).addTo(map);
-    });
 })
 </script>

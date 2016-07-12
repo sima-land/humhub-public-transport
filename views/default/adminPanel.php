@@ -11,6 +11,7 @@ use yii\widgets\ActiveForm;
     <div class="form-group">
         <div class="col-lg-6">
         <?php
+        
         $form = ActiveForm::begin([
             'id'=>'login-form',
             'options' => ['class' => 'form-horizontal'],
