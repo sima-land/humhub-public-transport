@@ -79,9 +79,8 @@ var start = function(nodeNameArr, nodeLatArr, nodeLngArr) {
     }
 }
 
-function mapZoom(id) {
-    alert(nodeNameArr[id]);
-    map.setView([nodeLatArr[id],nodeLngArr[id]], 15);
+function mapZoom(id, nodeLat, nodeLng) {
+    map.setView([nodeLat,nodeLng], 15);
     marker[id].openPopup();
     return;
 }

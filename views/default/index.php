@@ -154,12 +154,13 @@ humhub\modules\public_transport_map\Assets::register($this);
                                     }
                                 };
                                 if (firstCall) {
-                                    //alert('firstCall');
+                                    //alert("index.php?r=public_transport_map%2Fdefault%2Fnodes-collection&id=" + str + '&current_date=' + $('.nav-tabs .active a').attr('href'));
                                     xmlhttp.open("GET","index.php?r=public_transport_map%2Fdefault%2Fnodes-collection&id=" + str + '&current_date=' + $('.nav-tabs .active a').attr('href'),true);
                                     xmlhttp.send();
                                 }
                                 else {
-                                    //alert('notFirst');// alert(str);
+                                    //alert('notFirst');//
+                                    alert(str);
                                     //отрисовка табличек с названиями остановок
                                     xmlhttp.open("GET","index.php?r=public_transport_map%2Fdefault%2Fnodes-collection&id=" + str + '&current_date=' + $('.nav-tabs .active a').attr('href'),true);
                                     xmlhttp.send();
@@ -172,7 +173,7 @@ humhub\modules\public_transport_map\Assets::register($this);
                                         success: function (data) {
                                             //получаем всю информацию о точках чтоб поставить их на карту
                                             var parsedJSON = JSON.parse(data);
-                                            //alert(parsedJSON[1][1] + ' ' + parsedJSON[2][1]);
+                                            alert(parsedJSON);
                                             //здесь надо написать функцию по установке точек и прокладке маршрута
                                             start(parsedJSON[0], parsedJSON[1], parsedJSON[2])
                                         },

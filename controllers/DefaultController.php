@@ -77,7 +77,9 @@ class DefaultController extends Controller
 
    public function actionNodesCollection($id, $current_date)
    {
-       $id = intval($_GET['id']);
+       //$id = intval($_GET['id']);
+
+       $id = intval($id);
 
        $nodeNameArr = [];
        $nodeLatArr = [];
@@ -92,19 +94,19 @@ class DefaultController extends Controller
            ->where(['ptm_route_node.route_id'=>$schedule[$id]->route_id])
            ->orderBy('node_interval ASC')
            ->all();
-       $routeNode = PtmRouteNode::find()
+       $routeNode = PtmRouteNode::find()//========================================================
            ->where(['ptm_route_node.route_id'=>$schedule[$id]->route_id])
            ->orderBy('node_interval ASC')
            ->all();
 
-       for ($i=0; $i < count($nodes); $i++)
+       for ($i = 0; $i < count($nodes); $i++)
        {
            $nodeNameArr[$i] = $nodes[$i]->name;
            $nodeLatArr[$i] = $nodes[$i]->lat;
            $nodeLngArr[$i] = $nodes[$i]->lng;
        }
 
-       return $this->render('nodes', array(
+       return $this->render('nodes', [
            'nodes'=>$nodes,
            'schedule'=>$schedule,
            'id'=>$id,
@@ -112,7 +114,7 @@ class DefaultController extends Controller
            'nodeNameArr'=>$nodeNameArr,
            'nodeLatArr'=>$nodeLatArr,
            'nodeLngArr'=>$nodeLngArr
-       ));
+       ]);
    }
 
     public function actionRouteRefresh($id, $current_date)//для ajax запросов от index
@@ -169,6 +171,11 @@ class DefaultController extends Controller
                 'error_message' => $error_message
             ]);
         }
+    }
+
+    public function actionAddSchedule()
+    {
+        return 0;
     }
 
 }
