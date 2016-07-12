@@ -17,6 +17,12 @@ use Yii;
  */
 class PtmNode extends \yii\db\ActiveRecord
 {
+
+
+    public $newName = '';
+    public $newLat = '';
+    public $newLng = '';
+
     /**
      * @inheritdoc
      */
@@ -31,15 +37,15 @@ class PtmNode extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['lat', 'lng'], 'number'],
-            [['name'], 'string', 'max' => 40],
+            [['newLat', 'newLng'], 'number'],
+            [['newName'], 'string', 'max' => 40],
         ];
     }
 
     /**
      * @inheritdoc
      */
-    public function attributeLabels()
+    /*public function attributeLabels()
     {
         return [
             'id' => Yii::t('PublicTransportMapModule', 'ID'),
@@ -47,8 +53,7 @@ class PtmNode extends \yii\db\ActiveRecord
             'lat' => Yii::t('PublicTransportMapModule', 'Lat'),
             'lng' => Yii::t('PublicTransportMapModule', 'Lng'),
         ];
-    }
-
+    }/*
     /**
      * @return \yii\db\ActiveQuery
      */
@@ -56,12 +61,34 @@ class PtmNode extends \yii\db\ActiveRecord
     {
         return $this->hasMany(PtmRouteNode::className(), ['node_id' => 'id']);
     }
-
     /**
      * @return \yii\db\ActiveQuery
      */
     public function getRoutes()
     {
         return $this->hasMany(PtmRoute::className(), ['id' => 'route_id'])->viaTable('ptm_route_node', ['node_id' => 'id']);
+    }
+    /**
+     * @return string
+     */
+    public function getNewName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNewLat()
+    {
+        return $this->newLat;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNewLng()
+    {
+        return $this->newLng;
     }
 }

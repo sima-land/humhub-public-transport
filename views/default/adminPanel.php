@@ -17,7 +17,6 @@ use yii\widgets\ActiveForm;
                 'id' => 'login-form',
                 'options' => ['class' => 'form-horizontal'],
             ]);
-
             ?>
             <?= $form->field($model, 'login')->textInput(); ?>
             <?= $form->field($model, 'password')->passwordInput(); ?>
@@ -31,6 +30,7 @@ use yii\widgets\ActiveForm;
             <?php
             ActiveForm::end();
             ?>
+
         </div>
     </div>
 </div>

@@ -37,7 +37,9 @@ humhub\modules\public_transport_map\Assets::register($this);
             'nodeLatArr'=>json_encode($nodeLatArr),
             'nodeLngArr'=>json_encode($nodeLngArr)
         ]);
-    var_dump($i);var_dump($id);
+    echo "<pre>";
+    //var_dump($i);var_dump($id); var_dump($nodeNameArr); var_dump($schedule);
+    echo "</pre>";
     ?>
     <script>//alert('nodes.php');</script>
 </div>

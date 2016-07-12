@@ -20,10 +20,17 @@
 
 .admin-panel h2 {
     margin-left: 50px;
+    display: inline-block;
 }
 
-#mapid { height: 600px; }
-/*
-#login-button {
-    padding: 10px 30px;
-}*/
+.admin-panel #exit-button {
+    float: right;
+    margin: 30px;
+    margin-bottom: 0px;
+    color: indianred;
+}
+
+#map-admin {
+    height: 600px;
+    cursor: crosshair;
+}

@@ -144,8 +144,9 @@ class DefaultController extends Controller
 
     public function actionAdminPanel()
     {
+        $newNode = new PtmNode();
         $model = new PtmAuth();
-
+        //$data1 = $newNode->load(Yii::$app->request->post());
         $data = $model->load(Yii::$app->request->post());
 
         $login = $model->getLogin();
@@ -163,19 +164,34 @@ class DefaultController extends Controller
         if ($data && $admin) {
             return $this->render('adminPanelLogined', [
                 'model' => $model,
-                'admin' => $admin
+                'admin' => $admin,
+                'newNode' => $newNode
             ]);
         } else {
             return $this->render('adminPanel', [
                 'model'=>$model,
-                'error_message' => $error_message
+                'error_message' => $error_message,
+                'newNode' => $newNode
             ]);
         }
     }
 
-    public function actionAddSchedule()
+    public function actionAdminPanelLogined()
     {
-        return 0;
+        var_dump("f"); exit();
+        $newNode = new PtmNode();
+
+        $data = $newNode->load(Yii::$app->request->post());
+
+        $lat = $newNode->getNewLat();
+        $lng = $newNode->getNewLng();
+        $name = $newNode->getNewName();
+
+        //here will be queries to DB
+
+        return $this->render('adminPanelLogined', [
+            'newNode' => $newNode
+        ]);
     }
 
 }

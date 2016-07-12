@@ -60,7 +60,7 @@ humhub\modules\public_transport_map\Assets::register($this);
                     </div>
                     
                     <?php
-                    echo $this->render('nodes', array(
+                    echo $this->render('nodes', [
                         'nodes'=>$nodes,
                         'schedule'=>$schedule,
                         'id'=>$id,
@@ -68,7 +68,7 @@ humhub\modules\public_transport_map\Assets::register($this);
                         'nodeNameArr'=>$nodeNameArr,
                         'nodeLatArr'=>$nodeLatArr,
                         'nodeLngArr'=>$nodeLngArr
-                    ));
+                    ]);
 
                     echo $this->render('mapCreate');
 
@@ -160,7 +160,7 @@ humhub\modules\public_transport_map\Assets::register($this);
                                 }
                                 else {
                                     //alert('notFirst');//
-                                    alert(str);
+                                    //alert(str);
                                     //отрисовка табличек с названиями остановок
                                     xmlhttp.open("GET","index.php?r=public_transport_map%2Fdefault%2Fnodes-collection&id=" + str + '&current_date=' + $('.nav-tabs .active a').attr('href'),true);
                                     xmlhttp.send();
@@ -173,7 +173,7 @@ humhub\modules\public_transport_map\Assets::register($this);
                                         success: function (data) {
                                             //получаем всю информацию о точках чтоб поставить их на карту
                                             var parsedJSON = JSON.parse(data);
-                                            alert(parsedJSON);
+                                            //alert(parsedJSON);
                                             //здесь надо написать функцию по установке точек и прокладке маршрута
                                             start(parsedJSON[0], parsedJSON[1], parsedJSON[2])
                                         },

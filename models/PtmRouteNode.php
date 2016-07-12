@@ -27,7 +27,7 @@ class PtmRouteNode extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
-    public function rules()
+   /* public function rules()
     {
         return [
             [['route_id', 'node_id'], 'required'],
@@ -36,7 +36,7 @@ class PtmRouteNode extends \yii\db\ActiveRecord
             [['node_id'], 'exist', 'skipOnError' => true, 'targetClass' => PtmNode::className(), 'targetAttribute' => ['node_id' => 'id']],
             [['route_id'], 'exist', 'skipOnError' => true, 'targetClass' => PtmRoute::className(), 'targetAttribute' => ['route_id' => 'id']],
         ];
-    }
+    }*/
 
     /**
      * @inheritdoc
