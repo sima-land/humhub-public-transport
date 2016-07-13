@@ -12,7 +12,7 @@ use yii\widgets\ActiveForm;
     <div class="form-group">
         <div class="col-lg-6">
             <?php
-
+            // there is a col 'super_admin' in table 'user' maybe it is an admin rights ident
             $form = ActiveForm::begin([
                 'id' => 'login-form',
                 'options' => ['class' => 'form-horizontal'],

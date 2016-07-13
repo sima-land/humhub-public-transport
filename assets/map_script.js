@@ -28,10 +28,14 @@ var marker_old = [];
  * Functions of drawing routes and collecting data.
  *
  * The first one draws routes, the second one clears the map, then collects coordinates and passes it to the first one.
- * WARNING! Changing variable name 'loc' breaks everything (page refreshing constantly).
+ * WARNING! Changing variable name 'loc' breaks everything (page refreshes constantly).
  */
 
 var draw = function (nodeNameArr, loc, nodeLatArr, nodeLngArr) {
+
+    //alert('function draw');
+    //alert(loc);
+
     trigger = 1;
 
     control = L.Routing.control({
@@ -57,6 +61,7 @@ var draw = function (nodeNameArr, loc, nodeLatArr, nodeLngArr) {
 
 var start = function(nodeNameArr, nodeLatArr, nodeLngArr) {
     if (trigger == 1) {
+        //alert(nodeNameArr);
         location_old = loc;
         marker_old = marker;
 

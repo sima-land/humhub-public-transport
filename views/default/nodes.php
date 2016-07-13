@@ -2,7 +2,7 @@
 humhub\modules\public_transport_map\Assets::register($this);
 
 /**
- * Displaying route nodes and zooming on click.
+ * Displays route nodes and zooming on click.
  */
 ?>
 <script>
@@ -18,9 +18,6 @@ humhub\modules\public_transport_map\Assets::register($this);
     <?php
         $startTime = new DateTime($schedule[$id]->start_at);
         $nodeTime = $startTime;
-        /*echo "<pre>";
-        var_dump($routeNode);
-        echo "</pre>";*/
         for ($i = 0; $i < count($nodes); $i++)
         {
             if ($i > 0)
@@ -37,9 +34,5 @@ humhub\modules\public_transport_map\Assets::register($this);
             'nodeLatArr'=>json_encode($nodeLatArr),
             'nodeLngArr'=>json_encode($nodeLngArr)
         ]);
-    echo "<pre>";
-    //var_dump($i);var_dump($id); var_dump($nodeNameArr); var_dump($schedule);
-    echo "</pre>";
     ?>
-    <script>//alert('nodes.php');</script>
 </div>

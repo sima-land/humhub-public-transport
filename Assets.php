@@ -16,6 +16,7 @@ class Assets extends AssetBundle
     ];
     public $js = [
         'map_script.js',
+        'cdnjs.cloudflare.com/ajax/libs/leaflet-routing-machine/3.0.3/leaflet-routing-machine.js'
     ];
     public function init()
     {

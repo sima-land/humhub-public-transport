@@ -3,10 +3,12 @@ namespace humhub\modules\public_transport_map\controllers;
 
 use humhub\modules\public_transport_map\models\PtmAuth;
 use humhub\modules\public_transport_map\models\PtmNode;
+use humhub\modules\public_transport_map\models\PtmRoute;
 use humhub\modules\public_transport_map\models\PtmRouteNode;
 use humhub\modules\public_transport_map\models\PtmSchedule;
 use yii\web\Controller;
 use yii\db;
+use yii\db\ActiveRecord;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
 use Yii;
@@ -19,6 +21,10 @@ class DefaultController extends Controller
      * Renders the index view for the module
      * @return string
      */
+
+    private $name;
+
+
     public function actionIndex()
     {
         $id = 0;
@@ -77,14 +83,12 @@ class DefaultController extends Controller
 
    public function actionNodesCollection($id, $current_date)
    {
-       //$id = intval($_GET['id']);
 
        $id = intval($id);
 
        $nodeNameArr = [];
        $nodeLatArr = [];
        $nodeLngArr = [];
-       //$current_date = date('Y-m-d');
 
        $schedule = PtmSchedule::find()
            ->where(['date(start_at)'=>$current_date])
@@ -122,7 +126,6 @@ class DefaultController extends Controller
         $nodeNameArr = [];
         $nodeLatArr = [];
         $nodeLngArr = [];
-        //$current_date = date('Y-m-d');
 
         $schedule = PtmSchedule::find()
             ->where(['date(start_at)'=>$current_date])
@@ -144,13 +147,33 @@ class DefaultController extends Controller
 
     public function actionAdminPanel()
     {
-        $newNode = new PtmNode();
+        $newRoute = new PtmRoute();//adds a new route and stops from $newNode
+        $newRouteNode = new PtmRouteNode();
+        
+        $newNode = new PtmNode();//adds new nodes (stops)
+        
         $model = new PtmAuth();
-        //$data1 = $newNode->load(Yii::$app->request->post());
-        $data = $model->load(Yii::$app->request->post());
+
+        //$this->names[0] = null;
+
+        //here i need an array of parameters for making all checks before insert
+
+        //newRoute : newID newDirectionID newTitle
+        //newRouteNode : newRouteID newNodeID newNodeInterval
+
+        //newDirectionID = INPUT | newTitle = INPUT | newID:AUTO_INCREMENT
+        //newRouteID = newID | newNodeID = (here will be array of nodes) | newNodeInterval = ( ! INPUT )
+
+
+        $dataNode = $newNode->load(Yii::$app->request->post());
+        $dataAuth = $model->load(Yii::$app->request->post());
 
         $login = $model->getLogin();
         $password = $model->getPassword();
+
+        if ($dataNode) $this->name = $newNode->getNewName();
+
+
 
         $admin = PtmAuth::find()
             ->where([
@@ -159,19 +182,40 @@ class DefaultController extends Controller
             ])
             ->all();
 
+        if ($dataNode) {
+            /*Yii::$app->db->createCommand()->insert('ptm_node', [
+                'name' => $newNode->getNewName(),
+                'lat' => $newNode->getNewLat(),
+                'lng' => $newNode->getNewLng()
+            ])->execute();*/
+            $newNode->Clear();
+            return $this->render('adminPanelLogined', [
+                'newNode' => $newNode,
+                'newRoute' => $newRoute,
+                'newRouteNode' => $newRouteNode,
+                'names' => $this->name
+            ]);
+        }
+
         if (!$admin) $error_message = 'login and password do not match';
 
-        if ($data && $admin) {
+        if ($dataAuth && $admin) {
+            //$_SESSION['admin'] = $admin[0];
             return $this->render('adminPanelLogined', [
                 'model' => $model,
                 'admin' => $admin,
-                'newNode' => $newNode
+                'newRoute' => $newRoute,
+                'newRouteNode' => $newRouteNode,
+                'newNode' => $newNode,
+                'names' => $this->name
             ]);
         } else {
             return $this->render('adminPanel', [
                 'model'=>$model,
                 'error_message' => $error_message,
-                'newNode' => $newNode
+                'newNode' => $newNode,
+                'newRoute' => $newRoute,
+                'newRouteNode' => $newRouteNode
             ]);
         }
     }
@@ -179,18 +223,18 @@ class DefaultController extends Controller
     public function actionAdminPanelLogined()
     {
         var_dump("f"); exit();
-        $newNode = new PtmNode();
+        //$newNode = new PtmNode();
 
-        $data = $newNode->load(Yii::$app->request->post());
+        //$data = $newNode->load(Yii::$app->request->post());
 
-        $lat = $newNode->getNewLat();
-        $lng = $newNode->getNewLng();
-        $name = $newNode->getNewName();
+        //$lat = $newNode->getNewLat();
+        //$lng = $newNode->getNewLng();
+        $name = 5;
 
         //here will be queries to DB
 
         return $this->render('adminPanelLogined', [
-            'newNode' => $newNode
+            'f' => '77'
         ]);
     }
 
