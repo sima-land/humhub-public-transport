@@ -29,6 +29,7 @@ use yii\widgets\ActiveForm;
                 <?= $formNode->field($newNode, 'newLat')->textInput(); ?>
                 <?= $formNode->field($newNode, 'newLng')->textInput(); ?>
                 <?= $formNode->field($newNode, 'newName')->textInput(); ?>
+                <?= $formNode->field($newNode, 'newNodeInterval')->textInput(); ?>
 
                 <?= Html::submitButton('Добавить остановку', ['class' => 'btn btn-primary']) ?>
 
@@ -87,10 +88,12 @@ use yii\widgets\ActiveForm;
 
     <script>
         $(document).ready(function () {
+            $('#ptmnode-newnodeinterval').mask("99:99");//it is a mask for the time input
             var newName = ''; newName = "<?=$newNode->newName?>";
             var newLat = ''; newLat = "<?=$newNode->newLat?>";
             var newLng = ''; newLng = "<?=$newNode->newLng?>";
-            var newNode = [newName, newLat, newLng];// Node
+            var newTime = ''; newTime = toDate("<?=$newNode->newNodeInterval?>");//newTime should get a datatime object
+            var newNode = [newName, newLat, newLng, newTime];// Node
 
             if (newName != '' && newName != null) {//it collects names of new nodes
                 if (getItemFromLocalStorage('nodes').length != 0) {
@@ -103,15 +106,18 @@ use yii\widgets\ActiveForm;
             else {
                 initLocalStorage('nodes');
             }
+            alert(getItemFromLocalStorage('nodes')[0][3]-getItemFromLocalStorage('nodes')[1][3]);
 
             for (var i = 0; i < getItemFromLocalStorage('nodes').length; i++) {//show added node cards
                 $('.node-cards').append("<div class='node-card-item'>" + getItemFromLocalStorage('nodes')[i][0] + "</div>")
             }
         });
 //request to controller for adding to DB
+
+
         $('#add-route').on('click', function () {
 
-            var newNameArray = []; var newLatArray = []; var newLngArray = [];
+            var newNameArray = []; var newLatArray = []; var newLngArray = []; var newTimeArray = [];
             var newDirection = $('#ptmroute-newdirectionid').val();
             var newTitle = $('#ptmroute-newtitle').val();
 
@@ -119,13 +125,16 @@ use yii\widgets\ActiveForm;
                 newNameArray.push(getItemFromLocalStorage('nodes')[i][0]);
                 newLatArray.push(getItemFromLocalStorage('nodes')[i][1]);
                 newLngArray.push(getItemFromLocalStorage('nodes')[i][2]);
+                newTimeArray.push(getItemFromLocalStorage('nodes')[i][3]);
             }
 
-            alert(newNameArray[0]   );
+            //we have to convert newTimeArray from time to integer ( node interval )
+
+            alert(newTimeArray[0]-newTimeArray[1]);
 
             $.ajax({
                 type: 'GET',
-                url: 'index.php?r=public_transport_map%2Fdefault%2Fadd-route&nodeNamesReady=' + JSON.stringify(newNameArray) + '&nodeLatReady=' + JSON.stringify(newLatArray) + '&nodeLngReady=' + JSON.stringify(newLngArray) + '&routeDirection=' + newDirection + '&routeTitle=' + newTitle,
+                url: 'index.php?r=public_transport_map%2Fdefault%2Fadd-route&nodeNamesReady=' + JSON.stringify(newNameArray) + '&nodeLatReady=' + JSON.stringify(newLatArray) + '&nodeLngReady=' + JSON.stringify(newLngArray) + '&nodeTimeReady' + /*JSON.stringify(newTimeArray) + */'&routeDirection=' + newDirection + '&routeTitle=' + newTitle,
                 success: function (data) {
                     alert(data);
                 },
@@ -189,6 +198,14 @@ use yii\widgets\ActiveForm;
 
         function initLocalStorage(index) {
             localStorage.setItem(index, JSON.stringify([]));
+        }
+
+        function toDate(dStr) {
+            var now = new Date();
+            now.setHours(dStr.substr(0,dStr.indexOf(":")));
+            now.setMinutes(dStr.substr(dStr.indexOf(":")+1));
+            now.setSeconds(0);
+            return now;
         }
 
     </script>

@@ -12,6 +12,7 @@ use yii\db\ActiveRecord;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
 use Yii;
+
 /**
  * Default controller for the `Public transport map` module
  */
@@ -28,26 +29,25 @@ class DefaultController extends Controller
     public function actionIndex()
     {
         $id = 0;
-        $nodeNameArr =[];
+        $nodeNameArr = [];
         $nodeLatArr = [];
         $nodeLngArr = [];
         $current_date = date('Y-m-d');
 
         $schedule = PtmSchedule::find()
-            ->where(['date(start_at)'=>$current_date])
+            ->where(['date(start_at)' => $current_date])
             ->all();
         $nodes = PtmNode::find()
             ->joinWith('ptmRouteNodes')
-            ->where(['ptm_route_node.route_id'=>$schedule[$id]->route_id])
+            ->where(['ptm_route_node.route_id' => $schedule[$id]->route_id])
             ->orderBy('node_interval ASC')
             ->all();
         $routeNode = PtmRouteNode::find()
-            ->where(['ptm_route_node.route_id'=>$schedule[$id]->route_id])
+            ->where(['ptm_route_node.route_id' => $schedule[$id]->route_id])
             ->orderBy('node_interval ASC')
             ->all();
 
-        for ($i=0; $i <count($nodes); $i++)
-        {
+        for ($i = 0; $i < count($nodes); $i++) {
             $nodeNameArr[$i] = $nodes[$i]->name;
             $nodeLatArr[$i] = $nodes[$i]->lat;
             $nodeLngArr[$i] = $nodes[$i]->lng;
@@ -55,71 +55,70 @@ class DefaultController extends Controller
         $nodeNameArr = json_encode($nodeNameArr);
         $nodeLatArr = json_encode($nodeLatArr);
         $nodeLngArr = json_encode($nodeLngArr);
-        
+
         return $this->render('index', [
-            'nodes'=>$nodes,
-            'schedule'=>$schedule,
-            'id'=>$id,
-            'routeNode'=>$routeNode,
-            'nodeNameArr'=>$nodeNameArr,
-            'nodeLatArr'=>$nodeLatArr,
-            'nodeLngArr'=>$nodeLngArr
+            'nodes' => $nodes,
+            'schedule' => $schedule,
+            'id' => $id,
+            'routeNode' => $routeNode,
+            'nodeNameArr' => $nodeNameArr,
+            'nodeLatArr' => $nodeLatArr,
+            'nodeLngArr' => $nodeLngArr
         ]);
     }
+
     public function actionListGenerator($date)
     {
         $url = \Yii::$app->request->url;
         $date = substr($url, -10, 10);
-        $schedule = PtmSchedule::find()->joinWith('route')->where(['date(start_at)'=>$date])->orderBy('direction_id ASC')->all();
+        $schedule = PtmSchedule::find()->joinWith('route')->where(['date(start_at)' => $date])->orderBy('direction_id ASC')->all();
         $newTitles = [];
         $directions = [];
-        for ($i = 0; $i < count($schedule); $i++)
-        {
+        for ($i = 0; $i < count($schedule); $i++) {
             $newTitles[$i] = $schedule[$i]->route->title;
             $directions[$i] = $schedule[$i]->route->direction->description;
         }
         return json_encode([$newTitles, $directions]);
     }
 
-   public function actionNodesCollection($id, $current_date)
-   {
+    public function actionNodesCollection($id, $current_date)
+    {
 
-       $id = intval($id);
+        $id = intval($id);
 
-       $nodeNameArr = [];
-       $nodeLatArr = [];
-       $nodeLngArr = [];
+        $nodeNameArr = [];
+        $nodeLatArr = [];
+        $nodeLngArr = [];
 
-       $schedule = PtmSchedule::find()
-           ->where(['date(start_at)'=>$current_date])
-           ->all();
-       $nodes = PtmNode::find()
-           ->joinWith('ptmRouteNodes')
-           ->where(['ptm_route_node.route_id'=>$schedule[$id]->route_id])
-           ->orderBy('node_interval ASC')
-           ->all();
-       $routeNode = PtmRouteNode::find()
-           ->where(['ptm_route_node.route_id'=>$schedule[$id]->route_id])
-           ->orderBy('node_interval ASC')
-           ->all();
+        $schedule = PtmSchedule::find()
+            ->where(['date(start_at)' => $current_date])
+            ->all();
+        $nodes = PtmNode::find()
+            ->joinWith('ptmRouteNodes')
+            ->where(['ptm_route_node.route_id' => $schedule[$id]->route_id])
+            ->orderBy('node_interval ASC')
+            ->all();
+        $routeNode = PtmRouteNode::find()
+            ->where(['ptm_route_node.route_id' => $schedule[$id]->route_id])
+            ->orderBy('node_interval ASC')
+            ->all();
 
-       for ($i = 0; $i < count($nodes); $i++)
-       {
-           $nodeNameArr[$i] = $nodes[$i]->name;
-           $nodeLatArr[$i] = $nodes[$i]->lat;
-           $nodeLngArr[$i] = $nodes[$i]->lng;
-       }
+        for ($i = 0; $i < count($nodes); $i++) {
+            $nodeNameArr[$i] = $nodes[$i]->name;
+            $nodeLatArr[$i] = $nodes[$i]->lat;
+            $nodeLngArr[$i] = $nodes[$i]->lng;
+        }
 
-       return $this->render('nodes', [
-           'nodes'=>$nodes,
-           'schedule'=>$schedule,
-           'id'=>$id,
-           'routeNode'=>$routeNode,
-           'nodeNameArr'=>$nodeNameArr,
-           'nodeLatArr'=>$nodeLatArr,
-           'nodeLngArr'=>$nodeLngArr
-       ]);
-   }
+        return $this->render('nodes', [
+            'nodes' => $nodes,
+            'schedule' => $schedule,
+            'id' => $id,
+            'routeNode' => $routeNode,
+            'nodeNameArr' => $nodeNameArr,
+            'nodeLatArr' => $nodeLatArr,
+            'nodeLngArr' => $nodeLngArr
+        ]);
+    }
 
     public function actionRouteRefresh($id, $current_date)//для ajax запросов от index
     {
@@ -128,16 +127,15 @@ class DefaultController extends Controller
         $nodeLngArr = [];
 
         $schedule = PtmSchedule::find()
-            ->where(['date(start_at)'=>$current_date])
+            ->where(['date(start_at)' => $current_date])
             ->all();
         $nodes = PtmNode::find()
             ->joinWith('ptmRouteNodes')
-            ->where(['ptm_route_node.route_id'=>$schedule[$id]->route_id])
+            ->where(['ptm_route_node.route_id' => $schedule[$id]->route_id])
             ->orderBy('node_interval ASC')
             ->all();
 
-        for ($i=0; $i < count($nodes); $i++)
-        {
+        for ($i = 0; $i < count($nodes); $i++) {
             $nodeNameArr[$i] = $nodes[$i]->name;
             $nodeLatArr[$i] = $nodes[$i]->lat;
             $nodeLngArr[$i] = $nodes[$i]->lng;
@@ -149,9 +147,9 @@ class DefaultController extends Controller
     {
         $newRoute = new PtmRoute();//adds a new route and stops from $newNode
         $newRouteNode = new PtmRouteNode();
-        
+
         $newNode = new PtmNode();//adds new nodes (stops)
-        
+
         $model = new PtmAuth();
 
         //newRoute : newID newDirectionID newTitle
@@ -171,8 +169,8 @@ class DefaultController extends Controller
 
         $admin = PtmAuth::find()
             ->where([
-                'login'=>$login,
-                'password'=>$password
+                'login' => $login,
+                'password' => $password
             ])
             ->all();
 
@@ -200,7 +198,7 @@ class DefaultController extends Controller
             ]);
         } else {
             return $this->render('adminPanel', [
-                'model'=>$model,
+                'model' => $model,
                 'error_message' => $error_message,
                 'newNode' => $newNode,
                 'newRoute' => $newRoute,
@@ -211,11 +209,15 @@ class DefaultController extends Controller
 
     public function actionAddRoute($nodeNamesReady, $nodeLatReady, $nodeLngReady, $routeDirection, $routeTitle)
     {
+        $lastRouteID = null;
+
         $message = 'Error';
 
-        $max = PtmNode::find()->max('id');
+        $maxNodeID = PtmNode::find()->max('id');
+        $maxRouteID = PtmRoute::find()->max('id');
 
-        //Yii::$app->db->createCommand("ALTER TABLE ptm_node AUTO_INCREMENT = 20");
+
+        //!! make a 'ALTER TABLE ptm_node AUTO_INCREMENT = $max' before inserts!!
 
 //now we have to insert ( route_id, node_id, node_interval ) into ptm_route_node for all the inputed nodes
         if (isset($nodeNamesReady) && isset($nodeLatReady) && isset($nodeLngReady) && isset($routeDirection) && isset($routeTitle)) {
@@ -223,23 +225,42 @@ class DefaultController extends Controller
             $namesArr = json_decode($nodeNamesReady);
             $latArr = json_decode($nodeLatReady);
             $lngArr = json_decode($nodeLngReady);
-            for ($i = 0; $i < count($namesArr); $i++)
-            {
+
+
+            Yii::$app->db->createCommand()->insert('ptm_route', [
+                'direction_id' => $routeDirection,
+                'title' => $routeTitle
+            ])->execute();
+
+            $lastRouteID = PtmRoute::find()
+                ->limit(1)
+                ->orderBy('id DESC')
+                ->all()[0]->id;//('SELECT  `id` FROM ptm_node ORDER BY id DESC LIMIT 1')
+
+            for ($i = 0; $i < count($namesArr); $i++) {
                 Yii::$app->db->createCommand()->insert('ptm_node', [
                     'name' => $namesArr[$i],
                     'lat' => $latArr[$i],
                     'lng' => $lngArr[$i]
                 ])->execute();
-            }
-            Yii::$app->db->createCommand()->insert('ptm_route', [
-                    'direction_id' => $routeDirection,
-                    'title' => $routeTitle
+
+                $lastNodeID = PtmNode::find()
+                    ->limit(1)
+                    ->orderBy('id DESC')
+                    ->all()[0]->id;
+
+                Yii::$app->db->createCommand()->insert('ptm_route_node', [
+                    'route_id' => $lastRouteID,
+                    'node_id' => $lastNodeID,
+                    'node_interval' => '14228'
                 ])->execute();
+            }
 
             $message = 'Success';
         } else {
             $message = 'Fill all the fields';
         }
+
         return $message;
     }
 }

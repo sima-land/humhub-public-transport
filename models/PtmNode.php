@@ -22,8 +22,8 @@ class PtmNode extends \yii\db\ActiveRecord
 
     public $newName;
     public $newLat;
-    public $newLng ;
-    public $names = [];
+    public $newLng;
+    public $newNodeInterval;
 
     public static function tableName()
     {
@@ -33,7 +33,7 @@ class PtmNode extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['newName', 'newLat', 'newLng'], 'required'],
+            [['newName', 'newLat', 'newLng', 'newNodeInterval'], 'required'],
             [['newLat', 'newLng'], 'number'],
             [['newName'], 'string', 'max' => 40],
         ];
