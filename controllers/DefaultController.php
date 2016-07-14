@@ -178,7 +178,7 @@ class DefaultController extends Controller
 
         if ($dataNode) {
             //$newNode->Clear();
-            return $this->render('adminPanelLogined', [
+            return $this->render('adminPanelLogged', [
                 'newNode' => $newNode,
                 'newRoute' => $newRoute,
                 'newRouteNode' => $newRouteNode,
@@ -190,7 +190,7 @@ class DefaultController extends Controller
 
         if ($dataAuth && $admin) {
             //$_SESSION['admin'] = $admin[0];
-            return $this->render('adminPanelLogined', [
+            return $this->render('adminPanelLogged', [
                 'model' => $model,
                 'admin' => $admin,
                 'newRoute' => $newRoute,
