@@ -33,9 +33,6 @@ var marker_old = [];
 
 var draw = function (nodeNameArr, loc, nodeLatArr, nodeLngArr) {
 
-    //alert('function draw');
-    //alert(loc);
-
     trigger = 1;
 
     control = L.Routing.control({
@@ -50,7 +47,6 @@ var draw = function (nodeNameArr, loc, nodeLatArr, nodeLngArr) {
     }).addTo(map);
 
     for (var q = 2; q < loc.length; q++) {
-        //alert('splice waypoint');
         control.spliceWaypoints(control.getWaypoints().length, 0, loc[q]);
     }
 
@@ -61,7 +57,6 @@ var draw = function (nodeNameArr, loc, nodeLatArr, nodeLngArr) {
 
 var start = function(nodeNameArr, nodeLatArr, nodeLngArr) {
     if (trigger == 1) {
-        //alert(nodeNameArr);
         location_old = loc;
         marker_old = marker;
 

@@ -98,7 +98,7 @@ class DefaultController extends Controller
            ->where(['ptm_route_node.route_id'=>$schedule[$id]->route_id])
            ->orderBy('node_interval ASC')
            ->all();
-       $routeNode = PtmRouteNode::find()//========================================================
+       $routeNode = PtmRouteNode::find()
            ->where(['ptm_route_node.route_id'=>$schedule[$id]->route_id])
            ->orderBy('node_interval ASC')
            ->all();
@@ -154,10 +154,6 @@ class DefaultController extends Controller
         
         $model = new PtmAuth();
 
-        //$this->names[0] = null;
-
-        //here i need an array of parameters for making all checks before insert
-
         //newRoute : newID newDirectionID newTitle
         //newRouteNode : newRouteID newNodeID newNodeInterval
 
@@ -173,8 +169,6 @@ class DefaultController extends Controller
 
         if ($dataNode) $this->name = $newNode->getNewName();
 
-
-
         $admin = PtmAuth::find()
             ->where([
                 'login'=>$login,
@@ -183,12 +177,7 @@ class DefaultController extends Controller
             ->all();
 
         if ($dataNode) {
-            /*Yii::$app->db->createCommand()->insert('ptm_node', [
-                'name' => $newNode->getNewName(),
-                'lat' => $newNode->getNewLat(),
-                'lng' => $newNode->getNewLng()
-            ])->execute();*/
-            $newNode->Clear();
+            //$newNode->Clear();
             return $this->render('adminPanelLogined', [
                 'newNode' => $newNode,
                 'newRoute' => $newRoute,
@@ -220,22 +209,37 @@ class DefaultController extends Controller
         }
     }
 
-    public function actionAdminPanelLogined()
+    public function actionAddRoute($nodeNamesReady, $nodeLatReady, $nodeLngReady, $routeDirection, $routeTitle)
     {
-        var_dump("f"); exit();
-        //$newNode = new PtmNode();
+        $message = 'Error';
 
-        //$data = $newNode->load(Yii::$app->request->post());
+        $max = PtmNode::find()->max('id');
 
-        //$lat = $newNode->getNewLat();
-        //$lng = $newNode->getNewLng();
-        $name = 5;
+        //Yii::$app->db->createCommand("ALTER TABLE ptm_node AUTO_INCREMENT = 20");
 
-        //here will be queries to DB
+//now we have to insert ( route_id, node_id, node_interval ) into ptm_route_node for all the inputed nodes
+        if (isset($nodeNamesReady) && isset($nodeLatReady) && isset($nodeLngReady) && isset($routeDirection) && isset($routeTitle)) {
 
-        return $this->render('adminPanelLogined', [
-            'f' => '77'
-        ]);
+            $namesArr = json_decode($nodeNamesReady);
+            $latArr = json_decode($nodeLatReady);
+            $lngArr = json_decode($nodeLngReady);
+            for ($i = 0; $i < count($namesArr); $i++)
+            {
+                Yii::$app->db->createCommand()->insert('ptm_node', [
+                    'name' => $namesArr[$i],
+                    'lat' => $latArr[$i],
+                    'lng' => $lngArr[$i]
+                ])->execute();
+            }
+            Yii::$app->db->createCommand()->insert('ptm_route', [
+                    'direction_id' => $routeDirection,
+                    'title' => $routeTitle
+                ])->execute();
+
+            $message = 'Success';
+        } else {
+            $message = 'Fill all the fields';
+        }
+        return $message;
     }
-
 }

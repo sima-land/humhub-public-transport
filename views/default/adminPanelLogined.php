@@ -32,13 +32,15 @@ use yii\widgets\ActiveForm;
 
                 <?= Html::submitButton('Добавить остановку', ['class' => 'btn btn-primary']) ?>
 
-                <div id="delete-last">Удалить последнюю ( надо тестить )</div>
+                <div id="delete-last">Удалить все</div>
 
 
                 <?php
 
                 echo "<pre>";
-                var_dump($names);
+                var_dump($newNode->newName);
+                var_dump($newNode->newLat);
+                var_dump($newNode->newLng);
                 echo "</pre>";
 
                 if (!isset($names)) $names = '';
@@ -58,35 +60,21 @@ use yii\widgets\ActiveForm;
             <div class="col-lg-4">
                 <?php
                 $formRoute = ActiveForm::begin([
-                    'id' => 'login-form',
+                    'id' => 'route-form',
                     'options' => ['class' => 'form-horizontal']
                 ]);
                 ?>
 
                 <?= $formRoute->field($newRoute, 'newTitle')->textInput(); ?>
                 <?= $formRoute->field($newRoute, 'newDirectionID')->dropDownList([
-                    '1' => 'на работу',
-                    '2' => 'с работы'
-                ]); ?>
+                    '1' => 'На работу',
+                    '2' => 'С работы'
+                ])?>
 
-                <?= Html::submitButton('Добавить маршрут', ['class' => 'btn btn-primary']) ?>
+                <div class="btn btn-primary" id="add-route">Добавить маршрут</div>
 
-                <div style="color: indianred; margin-top: 20px;">Удалить ( пока не работает )</div>
-
-                <?php
-                ActiveForm::end();
-                ?>
+                <?php ActiveForm::end(); ?>
             </div>
-
-            <!--<div class="col-lg-3">
-                <form name="form-test" action="" method="post">
-                    <input name="routeName" type="text" />
-                    <select name="direction" id="direction-input">
-                        <option value="1">На работу</option>
-                        <option value="2">С работы</option>
-                    </select>
-                </form>
-            </div>-->
 
 
         </div>
@@ -94,47 +82,66 @@ use yii\widgets\ActiveForm;
     </div>
 
 
-    <div id="map-admin" class="map"></div>-->
+    <div id="map1" class="map1"></div>
 
 
     <script>
         $(document).ready(function () {
-            var newName = '';
-            newName = "<?=$names?>";
+            var newName = ''; newName = "<?=$newNode->newName?>";
+            var newLat = ''; newLat = "<?=$newNode->newLat?>";
+            var newLng = ''; newLng = "<?=$newNode->newLng?>";
+            var newNode = [newName, newLat, newLng];// Node
 
             if (newName != '' && newName != null) {//it collects names of new nodes
-                //alert('newName != null');
-                if (getItemFromLocalStorage('names').length != 0) {
-                    addItemToLocalStorage(newName, 'names');
+                if (getItemFromLocalStorage('nodes').length != 0) {
+                    addItemToLocalStorage(newNode, 'nodes');
                 } else {
-                    initLocalStorage('names');
-                    addItemToLocalStorage(newName, 'names');
+                    initLocalStorage('nodes');
+                    addItemToLocalStorage(newNode, 'nodes');
                 }
             }
             else {
-                //alert('init');
-                initLocalStorage('names');
+                initLocalStorage('nodes');
             }
 
-            //alert(getItemFromLocalStorage('names').length);
-
-            for (var i = 0; i < getItemFromLocalStorage('names').length; i++) {//show added node cards
-                //alert('k');
-                $('.node-cards').append("<div class='node-card-item'>" + getItemFromLocalStorage('names')[i] + "</div>")
+            for (var i = 0; i < getItemFromLocalStorage('nodes').length; i++) {//show added node cards
+                $('.node-cards').append("<div class='node-card-item'>" + getItemFromLocalStorage('nodes')[i][0] + "</div>")
             }
         });
+//request to controller for adding to DB
+        $('#add-route').on('click', function () {
 
-        $('#delete-last').on('click', function () {//now it will delete all cards
-            initLocalStorage('names');
+            var newNameArray = []; var newLatArray = []; var newLngArray = [];
+            var newDirection = $('#ptmroute-newdirectionid').val();
+            var newTitle = $('#ptmroute-newtitle').val();
+
+            for (var i = 0; i < getItemFromLocalStorage('nodes').length; i++) {
+                newNameArray.push(getItemFromLocalStorage('nodes')[i][0]);
+                newLatArray.push(getItemFromLocalStorage('nodes')[i][1]);
+                newLngArray.push(getItemFromLocalStorage('nodes')[i][2]);
+            }
+
+            alert(newNameArray[0]   );
+
+            $.ajax({
+                type: 'GET',
+                url: 'index.php?r=public_transport_map%2Fdefault%2Fadd-route&nodeNamesReady=' + JSON.stringify(newNameArray) + '&nodeLatReady=' + JSON.stringify(newLatArray) + '&nodeLngReady=' + JSON.stringify(newLngArray) + '&routeDirection=' + newDirection + '&routeTitle=' + newTitle,
+                success: function (data) {
+                    alert(data);
+                },
+                error: function () {
+                    alert('Ошибка. Данные не отправлены.');
+                }
+            })
+        });
+
+        $('#delete-last').on('click', function () {//now it deletes all cards
+            initLocalStorage('nodes');
 
             $('.node-card-item').remove();
         });
-
-        $('&times').on('click', function () {
-            alert('l');
-        });
-
-        var adminMap = L.map('map-admin', {
+//map script
+        var adminMap = L.map('map1', {
             center: [56.838287, 60.601628],
             zoom: 13
         });
@@ -160,15 +167,16 @@ use yii\widgets\ActiveForm;
             ]
         }).addTo(adminMap);
 
-        function addItemToLocalStorage(item, index) {
+//here we need a local storage to collect all nodes ( it gives an opportunity to delete garbage nodes for admin )
+        function addItemToLocalStorage(itemName, index) {
             var temp = JSON.parse(localStorage.getItem(index));
             if (temp == '') {
                 localStorage.setItem(index, JSON.stringify([]));
-                temp.push(item);
+                temp.push(itemName);
                 var tempItem = JSON.stringify(temp);
                 localStorage.setItem(index, tempItem);
             } else {
-                temp.push(item);
+                temp.push(itemName);
                 var tempItem = JSON.stringify(temp);
                 localStorage.setItem(index, tempItem);
             }

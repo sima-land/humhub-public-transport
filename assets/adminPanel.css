@@ -30,9 +30,12 @@
     color: indianred;
 }
 
-#map-admin {
+#map1 {
     height: 600px;
+    width: 100%;
     cursor: crosshair;
+    border: solid 1px;
+    margin-top: 10px;
 }
 
 .node-cards {
