@@ -31,6 +31,7 @@
 }
 
 #map1 {
+    display: inline-block;
     height: 600px;
     width: 100%;
     cursor: crosshair;
@@ -57,4 +58,24 @@
     color: indianred;
     margin-top: 20px;
     margin-bottom: 10px;
+}
+
+.schedule-item {
+    display: inline-block;
+    padding: 10px;
+    margin: 10px 2px 10px 2px;
+    background-color: #dddddd;
+}
+
+.schedule-item:hover {
+    background-color: #ededed;
+}
+
+input {
+    width: 90% !important;
+}
+
+select {
+    width: 90% !important;
+    margin: 10px !important;
 }

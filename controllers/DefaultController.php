@@ -158,22 +158,13 @@ class DefaultController extends Controller
 
         //newDirectionID = INPUT | newTitle = INPUT | newID:AUTO_INCREMENT
         //newRouteID = newID | newNodeID = (here will be array of nodes) | newNodeInterval = ( ! INPUT )
-
+        
+        $schedule = PtmSchedule::find()
+            ->all();
 
         $dataNode = $newNode->load(Yii::$app->request->post());
-        $dataAuth = $model->load(Yii::$app->request->post());
-
-        $login = $model->getLogin();
-        $password = $model->getPassword();
 
         if ($dataNode) $this->name = $newNode->getNewName();
-
-        $admin = PtmAuth::find()
-            ->where([
-                'login' => $login,
-                'password' => $password
-            ])
-            ->all();
 
         $currentUserID = Yii::$app->user->id;
         $userGroup = User::findOne($currentUserID)->group->name;
@@ -188,7 +179,8 @@ class DefaultController extends Controller
                 'newNode' => $newNode,
                 'newRoute' => $newRoute,
                 'newRouteNode' => $newRouteNode,
-                'names' => $this->name
+                'names' => $this->name,
+                'schedule' => $schedule
             ]);
         }
 
@@ -202,7 +194,8 @@ class DefaultController extends Controller
                 'newRoute' => $newRoute,
                 'newRouteNode' => $newRouteNode,
                 'newNode' => $newNode,
-                'names' => $this->name
+                'names' => $this->name,
+                'schedule' => $schedule
             ]);
         } else {
             return $this->render('adminPanel', [
@@ -210,7 +203,8 @@ class DefaultController extends Controller
                 'error_message' => $error_message,
                 'newNode' => $newNode,
                 'newRoute' => $newRoute,
-                'newRouteNode' => $newRouteNode
+                'newRouteNode' => $newRouteNode,
+                'schedule' => $schedule
             ]);
         }
     }

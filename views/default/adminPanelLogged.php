@@ -2,6 +2,7 @@
 humhub\modules\public_transport_map\Assets::register($this);
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use humhub\modules\user\models\User;
 
 ?>
 <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css"/>
@@ -10,11 +11,11 @@ use yii\widgets\ActiveForm;
 
 <div class="admin-panel container">
     <div class="col-lg-12">
-        <h2>Добро пожаловать!</h2><a id='exit-button' href="index.php?r=public_transport_map%2Fdefault%2Fadmin-panel">Выйти</a>
+        <h2>Добро пожаловать <?= User::findOne(Yii::$app->user->id)->username; ?>!</h2><a id='exit-button' href="index.php?r=public_transport_map%2Fdefault%2Fadmin-panel">Выйти</a>
 
 
         <div class="row">
-            <div class="col-lg-4">
+            <div class="col-lg-3">
 
 
 
@@ -40,13 +41,6 @@ use yii\widgets\ActiveForm;
                 ActiveForm::end();
                 ?>
                 <?php
-
-                echo "<pre>";
-                var_dump($newNode->newName);
-                var_dump($newNode->newLat);
-                var_dump($newNode->newLng);
-                echo "</pre>";
-
                 if (!isset($names)) $names = '';
                 ?>
                 <div id="delete-last">Удалить все</div>
@@ -56,7 +50,7 @@ use yii\widgets\ActiveForm;
 
             <div class="col-lg-1"></div>
 
-            <div class="col-lg-4">
+            <div class="col-lg-3">
                 <?php
                 $formRoute = ActiveForm::begin([
                     'id' => 'route-form',
@@ -76,12 +70,36 @@ use yii\widgets\ActiveForm;
             </div>
 
 
+            <div class="col-lg-1"></div>
+
+            <div class="col-lg-4">
+                <label class="control-label" style="padding-top: 7px; margin-bottom: 0px;">Содержимое расписания</label>
+                <div class="row">
+                    <div class='schedule-item'>id</div>
+                    <div class='schedule-item'>start_at</div>
+                    <div class='schedule-item'>route_id</div>
+                    <div class='schedule-item'>comment</div>
+                </div>
+                <?php
+                foreach ($schedule as $item) {
+                    echo "<div class='row'>";
+                    echo "<div class='schedule-item'>$item->id</div>";
+                    echo "<div class='schedule-item'>$item->start_at</div>";
+                    echo "<div class='schedule-item'>$item->route_id</div>";
+                    echo "<div class='schedule-item'>$item->comment</div>";
+                    echo "</div>";
+                }
+                ?>
+            </div>
+
         </div>
 
     </div>
 
 
     <div id="map1" class="map1"></div>
+
+
 
 
     <script>
