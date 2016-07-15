@@ -1,5 +1,8 @@
 <?php
+use humhub\modules\user\models\User;
+
 humhub\modules\public_transport_map\Assets::register($this);
+
 
 /**
   Main view.
@@ -60,7 +63,9 @@ humhub\modules\public_transport_map\Assets::register($this);
                     </div>
                     
                     <?php
-                    echo $this->render('nodes', array(
+
+
+                    echo $this->render('nodes', [
                         'nodes'=>$nodes,
                         'schedule'=>$schedule,
                         'id'=>$id,
@@ -68,12 +73,9 @@ humhub\modules\public_transport_map\Assets::register($this);
                         'nodeNameArr'=>$nodeNameArr,
                         'nodeLatArr'=>$nodeLatArr,
                         'nodeLngArr'=>$nodeLngArr
-                    ));
+                    ]);
 
                     echo $this->render('mapCreate');
-
-                    echo "<a href='index.php?r=public_transport_map%2Fdefault%2Fadmin-panel'>Go to admin panel</a>"
-
                     ?>
 
                     <script>
@@ -93,14 +95,12 @@ humhub\modules\public_transport_map\Assets::register($this);
                          */
                         $("#tabs").on('shown.bs.tab', function(event)
                         {
-                            //дописать чтоб при перевыборе вкладки менялся и id, который передается в showNodes
                             $('#routes').empty();
                             $.ajax({
                                 type: 'POST',
                                 url: 'index.php?r=public_transport_map%2Fdefault%2Flist-generator&date=' + $('.nav-tabs .active a').attr('href'),
                                 success: function (data) {
                                     var parsedJSON = JSON.parse(data);
-                                    //alert(parsedJSON);
                                     $.each(parsedJSON[0], function(i) {
                                         $('#routes').append($("<option></option>").attr("value", i).text(parsedJSON[1][i]+': '+parsedJSON[0][i]));
                                     })
@@ -117,7 +117,6 @@ humhub\modules\public_transport_map\Assets::register($this);
                         {
                             clickFlagForJsonRequests++;
                             if (clickFlagForJsonRequests < 2) {
-                                //alert('select was changed');
                                 var id = $('#routes').val();
                                 showNodes(id, true);
                             }
@@ -129,11 +128,8 @@ humhub\modules\public_transport_map\Assets::register($this);
                         function showNodes(str, firstCall)
                         {
                             if (str === null) str = '0';
-                            //alert(str + ' ' + firstCall);
-                            //alert('shownodes was called');
                             if (str == "")
                             {
-                                //alert('select is empty');
                                 document.getElementById("nodes").innerHTML = "";
                                 return;
                             } else
@@ -154,17 +150,13 @@ humhub\modules\public_transport_map\Assets::register($this);
                                     }
                                 };
                                 if (firstCall) {
-                                    //alert('firstCall');
                                     xmlhttp.open("GET","index.php?r=public_transport_map%2Fdefault%2Fnodes-collection&id=" + str + '&current_date=' + $('.nav-tabs .active a').attr('href'),true);
                                     xmlhttp.send();
                                 }
                                 else {
-                                    //alert('notFirst');// alert(str);
                                     //отрисовка табличек с названиями остановок
                                     xmlhttp.open("GET","index.php?r=public_transport_map%2Fdefault%2Fnodes-collection&id=" + str + '&current_date=' + $('.nav-tabs .active a').attr('href'),true);
                                     xmlhttp.send();
-
-
                                     //запрс для получения информации и последующей отрисовки карты
                                     $.ajax({
                                         type: 'POST',
@@ -172,7 +164,6 @@ humhub\modules\public_transport_map\Assets::register($this);
                                         success: function (data) {
                                             //получаем всю информацию о точках чтоб поставить их на карту
                                             var parsedJSON = JSON.parse(data);
-                                            //alert(parsedJSON[1][1] + ' ' + parsedJSON[2][1]);
                                             //здесь надо написать функцию по установке точек и прокладке маршрута
                                             start(parsedJSON[0], parsedJSON[1], parsedJSON[2])
                                         },
@@ -180,7 +171,6 @@ humhub\modules\public_transport_map\Assets::register($this);
                                             alert('error in map ajax request')
                                         }
                                     });
-                                    //alert('request was sent');
                                 }
                             }
                         }

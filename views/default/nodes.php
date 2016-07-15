@@ -2,16 +2,16 @@
 humhub\modules\public_transport_map\Assets::register($this);
 
 /**
- * Displaying route nodes and zooming on click.
+ * Displays route nodes and zooming on click.
  */
 ?>
 <script>
-    function mapZoom(id)
+    /*function mapZoom(id)
     {
         map.setView([nodeLatArr[id],nodeLngArr[id]], 13);
         marker[id].openPopup();
         return;
-    }
+    }*/
 </script>
 
 <div id="nodes">
@@ -22,11 +22,11 @@ humhub\modules\public_transport_map\Assets::register($this);
         {
             if ($i > 0)
             {
-                $interval = $routeNode[$id]->node_interval;
+                $interval = $routeNode[$i]->node_interval;
                 $nodeTime->modify('+'.$interval.' minutes');
-                echo "<button id=".$i." class='btn btn-primary' style='display:inline-block; margin: 5px 5px 5px 0px;padding: 5px 10px 5px 10px;' onclick='mapZoom(".$i.")'>".$nodes[$i]->name." - ".$nodeTime->format('H:i')."</button>";
+                echo "<button id=".$i." class='btn btn-primary' style='display:inline-block; margin: 5px 5px 5px 0px;padding: 5px 10px 5px 10px;' onclick='mapZoom(".$i.','.$nodeLatArr[$i].','.$nodeLngArr[$i].")'>".$nodes[$i]->name." - ".$nodeTime->format('H:i')."</button>";
             }else{
-                echo "<button id=".$i." class='btn btn-primary' style='display:inline-block;margin: 5px 5px 5px 0px;padding: 5px 10px 5px 10px;' onclick='mapZoom(".$i.")'>".$nodes[$i]->name." - ".$startTime->format('H:i')."</button>";
+                echo "<button id=".$i." class='btn btn-primary' style='display:inline-block; margin: 5px 5px 5px 0px;padding: 5px 10px 5px 10px;' onclick='mapZoom(".$i.','.$nodeLatArr[$i].','.$nodeLngArr[$i].")'>".$nodes[$i]->name." - ".$startTime->format('H:i')."</button>";
             }
         }
         echo $this->render('routesOnMap', [
@@ -34,7 +34,5 @@ humhub\modules\public_transport_map\Assets::register($this);
             'nodeLatArr'=>json_encode($nodeLatArr),
             'nodeLngArr'=>json_encode($nodeLngArr)
         ]);
-    //var_dump($nodeNameArr);
     ?>
-    <script>//alert('nodes.php');</script>
 </div>

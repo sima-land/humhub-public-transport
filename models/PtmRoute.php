@@ -18,65 +18,53 @@ use Yii;
  */
 class PtmRoute extends \yii\db\ActiveRecord
 {
-    /**
-     * @inheritdoc
-     */
+
+    public $newID;
+    public $newDirectionID;
+    public $newTitle;
+
     public static function tableName()
     {
         return 'ptm_route';
     }
 
-    /**
-     * @inheritdoc
-     */
     public function rules()
     {
         return [
+            [['newTitle', 'newDirectionID'], 'required'],
             [['direction_id'], 'integer'],
             [['title'], 'string', 'max' => 50],
             [['direction_id'], 'exist', 'skipOnError' => true, 'targetClass' => PtmDirection::className(), 'targetAttribute' => ['direction_id' => 'id']],
         ];
     }
-
-    /**
-     * @inheritdoc
-     */
+    
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('PublicTransportMapModule', 'ID'),
+            /*'id' => Yii::t('PublicTransportMapModule', 'ID'),
             'direction_id' => Yii::t('PublicTransportMapModule', 'Direction ID'),
             'title' => Yii::t('PublicTransportMapModule', 'Title'),
+            'newID' => Yii::t('PublicTransportMapModule', 'Новый ID'),*/
+            'newDirectionID' => 'Направление',
+            'newTitle' => 'Описание'
         ];
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
     public function getDirection()
     {
         return $this->hasOne(PtmDirection::className(), ['id' => 'direction_id']);
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
     public function getPtmRouteNodes()
     {
         return $this->hasMany(PtmRouteNode::className(), ['route_id' => 'id']);
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
     public function getNodes()
     {
         return $this->hasMany(PtmNode::className(), ['id' => 'node_id'])->viaTable('ptm_route_node', ['route_id' => 'id']);
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
     public function getPtmSchedules()
     {
         return $this->hasMany(PtmSchedule::className(), ['route_id' => 'id']);

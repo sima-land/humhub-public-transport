@@ -11,12 +11,9 @@ var nodeNameArr = JSON.parse(<?php echo $nodeNameArr ?>);
 var nodeLatArr = JSON.parse(<?php echo $nodeLatArr ?>);
 var nodeLngArr = JSON.parse(<?php echo $nodeLngArr ?>);
 
-//alert('routesOnMap.php  ');
+//alert('routesOnMap.php  ' + nodeNameArr);
 
 $(function () {
-    start(nodeNameArr, nodeLatArr, nodeLngArr);
-    map.on('click', function(e) {
-        L.marker(e.latlng).addTo(map);
-    });
+    start(nodeNameArr, nodeLatArr, nodeLngArr, false)
 })
 </script>

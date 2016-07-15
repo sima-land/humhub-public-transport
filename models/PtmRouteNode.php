@@ -16,17 +16,18 @@ use Yii;
  */
 class PtmRouteNode extends \yii\db\ActiveRecord
 {
-    /**
-     * @inheritdoc
-     */
+
+    public $newRouteID;
+    public $newNodeID;
+    public $newNodeInterval;
+
+
+
     public static function tableName()
     {
         return 'ptm_route_node';
     }
 
-    /**
-     * @inheritdoc
-     */
     public function rules()
     {
         return [
@@ -38,9 +39,6 @@ class PtmRouteNode extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
     public function attributeLabels()
     {
         return [
@@ -50,17 +48,11 @@ class PtmRouteNode extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
     public function getNode()
     {
         return $this->hasOne(PtmNode::className(), ['id' => 'node_id']);
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
     public function getRoute()
     {
         return $this->hasOne(PtmRoute::className(), ['id' => 'route_id']);

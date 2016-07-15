@@ -3,6 +3,7 @@
     width: auto;
     height: 700px;
     margin: 10px 0px 0px 0px;
+    cursor: pointer;
 }
 
 .leaflet-routing-container, .leaflet-routing-error {

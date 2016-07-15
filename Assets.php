@@ -16,6 +16,7 @@ class Assets extends AssetBundle
     ];
     public $js = [
         'map_script.js',
+        'jquery.maskedinput.min.js'
     ];
     public function init()
     {

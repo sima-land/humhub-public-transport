@@ -17,51 +17,71 @@ use Yii;
  */
 class PtmNode extends \yii\db\ActiveRecord
 {
-    /**
-     * @inheritdoc
-     */
+    const STATUS_INACTIVE = 0;
+    const STATUS_ACTIVE = 1;
+
+    public $newName;
+    public $newLat;
+    public $newLng;
+    public $newNodeInterval;
+
     public static function tableName()
     {
         return 'ptm_node';
     }
 
-    /**
-     * @inheritdoc
-     */
     public function rules()
     {
         return [
-            [['lat', 'lng'], 'number'],
-            [['name'], 'string', 'max' => 40],
+            [['newName', 'newLat', 'newLng', 'newNodeInterval'], 'required'],
+            [['newLat', 'newLng'], 'number'],
+            [['newName'], 'string', 'max' => 40],
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('PublicTransportMapModule', 'ID'),
+            /*'id' => Yii::t('', 'ID'),
             'name' => Yii::t('PublicTransportMapModule', 'Name'),
             'lat' => Yii::t('PublicTransportMapModule', 'Lat'),
-            'lng' => Yii::t('PublicTransportMapModule', 'Lng'),
+            'lng' => Yii::t('PublicTransportMapModule', 'Lng'),*/
+            'newName' => 'Название',
+            'newLat' => 'Широта',
+            'newLng' => 'Долгота',
+            'newNodeInterval' => 'Время'
         ];
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
     public function getPtmRouteNodes()
     {
         return $this->hasMany(PtmRouteNode::className(), ['node_id' => 'id']);
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
     public function getRoutes()
     {
         return $this->hasMany(PtmRoute::className(), ['id' => 'route_id'])->viaTable('ptm_route_node', ['node_id' => 'id']);
+    }
+
+    public function getNewName()
+    {
+        return $this->newName;
+    }
+
+    public function getNewLat()
+    {
+        return $this->newLat;
+    }
+
+    public function getNewLng()
+    {
+        return $this->newLng;
+    }
+
+    public function Clear()
+    {
+        $this->newName = '';
+        $this->newLat = '';
+        $this->newLng = '';
     }
 }
