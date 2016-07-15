@@ -38,18 +38,18 @@ class PtmRoute extends \yii\db\ActiveRecord
         ];
     }
     
-    /*public function attributeLabels()
+    public function attributeLabels()
     {
         return [
-            'id' => Yii::t('PublicTransportMapModule', 'ID'),
+            /*'id' => Yii::t('PublicTransportMapModule', 'ID'),
             'direction_id' => Yii::t('PublicTransportMapModule', 'Direction ID'),
             'title' => Yii::t('PublicTransportMapModule', 'Title'),
-            'newID' => Yii::t('PublicTransportMapModule', 'Новый ID'),
-            'newDirectionID' => Yii::t('PublicTransportMapModule', 'Направление'),
-            'newTitle' => Yii::t('PublicTransportMapModule', 'Описание')
+            'newID' => Yii::t('PublicTransportMapModule', 'Новый ID'),*/
+            'newDirectionID' => 'Направление',
+            'newTitle' => 'Описание'
         ];
     }
-*/
+
     public function getDirection()
     {
         return $this->hasOne(PtmDirection::className(), ['id' => 'direction_id']);

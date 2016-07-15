@@ -14,6 +14,6 @@ var nodeLngArr = JSON.parse(<?php echo $nodeLngArr ?>);
 //alert('routesOnMap.php  ' + nodeNameArr);
 
 $(function () {
-    start(nodeNameArr, nodeLatArr, nodeLngArr)
+    start(nodeNameArr, nodeLatArr, nodeLngArr, false)
 })
 </script>

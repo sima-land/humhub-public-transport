@@ -39,15 +39,19 @@ class PtmNode extends \yii\db\ActiveRecord
         ];
     }
 
-    /*public function attributeLabels()
+    public function attributeLabels()
     {
         return [
-            'id' => Yii::t('PublicTransportMapModule', 'ID'),
+            /*'id' => Yii::t('PublicTransportMapModule', 'ID'),
             'name' => Yii::t('PublicTransportMapModule', 'Name'),
             'lat' => Yii::t('PublicTransportMapModule', 'Lat'),
-            'lng' => Yii::t('PublicTransportMapModule', 'Lng'),
+            'lng' => Yii::t('PublicTransportMapModule', 'Lng'),*/
+            'newName' => 'Название',
+            'newLat' => 'Широта',
+            'newLng' => 'Долгота',
+            'newNodeInterval' => 'Время'
         ];
-    }*/
+    }
 
     public function getPtmRouteNodes()
     {

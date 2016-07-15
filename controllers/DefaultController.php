@@ -207,7 +207,7 @@ class DefaultController extends Controller
         }
     }
 
-    public function actionAddRoute($nodeNamesReady, $nodeLatReady, $nodeLngReady, $routeDirection, $routeTitle)
+    public function actionAddRoute($nodeNamesReady, $nodeLatReady, $nodeLngReady, $nodeTimeReady, $routeDirection, $routeTitle)
     {
         $lastRouteID = null;
 
@@ -220,12 +220,12 @@ class DefaultController extends Controller
         //!! make a 'ALTER TABLE ptm_node AUTO_INCREMENT = $max' before inserts!!
 
 //now we have to insert ( route_id, node_id, node_interval ) into ptm_route_node for all the inputed nodes
-        if (isset($nodeNamesReady) && isset($nodeLatReady) && isset($nodeLngReady) && isset($routeDirection) && isset($routeTitle)) {
+        if (isset($nodeNamesReady) && isset($nodeLatReady) && isset($nodeLngReady) && isset($nodeTimeReady) && isset($routeDirection) && isset($routeTitle)) {
 
             $namesArr = json_decode($nodeNamesReady);
             $latArr = json_decode($nodeLatReady);
             $lngArr = json_decode($nodeLngReady);
-
+            $timeArr = json_decode($nodeTimeReady);
 
             Yii::$app->db->createCommand()->insert('ptm_route', [
                 'direction_id' => $routeDirection,
@@ -252,7 +252,7 @@ class DefaultController extends Controller
                 Yii::$app->db->createCommand()->insert('ptm_route_node', [
                     'route_id' => $lastRouteID,
                     'node_id' => $lastNodeID,
-                    'node_interval' => '14228'
+                    'node_interval' => $timeArr[$i]
                 ])->execute();
             }
 
