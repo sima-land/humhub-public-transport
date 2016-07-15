@@ -42,7 +42,7 @@ class PtmNode extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            /*'id' => Yii::t('PublicTransportMapModule', 'ID'),
+            /*'id' => Yii::t('', 'ID'),
             'name' => Yii::t('PublicTransportMapModule', 'Name'),
             'lat' => Yii::t('PublicTransportMapModule', 'Lat'),
             'lng' => Yii::t('PublicTransportMapModule', 'Lng'),*/

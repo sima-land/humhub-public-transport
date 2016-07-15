@@ -1,5 +1,8 @@
 <?php
+use humhub\modules\user\models\User;
+
 humhub\modules\public_transport_map\Assets::register($this);
+
 
 /**
   Main view.
@@ -60,6 +63,8 @@ humhub\modules\public_transport_map\Assets::register($this);
                     </div>
                     
                     <?php
+
+
                     echo $this->render('nodes', [
                         'nodes'=>$nodes,
                         'schedule'=>$schedule,

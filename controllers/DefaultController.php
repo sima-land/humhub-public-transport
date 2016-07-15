@@ -12,6 +12,7 @@ use yii\db\ActiveRecord;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
 use Yii;
+use humhub\modules\user\models\User;
 
 /**
  * Default controller for the `Public transport map` module
@@ -174,6 +175,13 @@ class DefaultController extends Controller
             ])
             ->all();
 
+        $currentUserID = Yii::$app->user->id;
+        $userGroup = User::findOne($currentUserID)->group->name;
+
+        if ($userGroup == 'PublicTransportMap') $admin = true;
+        else $admin = false;
+
+
         if ($dataNode) {
             //$newNode->Clear();
             return $this->render('adminPanelLogged', [
@@ -186,7 +194,7 @@ class DefaultController extends Controller
 
         if (!$admin) $error_message = 'login and password do not match';
 
-        if ($dataAuth && $admin) {
+        if ($admin) {
             //$_SESSION['admin'] = $admin[0];
             return $this->render('adminPanelLogged', [
                 'model' => $model,

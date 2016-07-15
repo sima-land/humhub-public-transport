@@ -4,8 +4,14 @@ use yii\db\Migration;
 
 class m160715_072111_insert_new_group extends Migration
 {
-    public function up()
+    public function safeUp()
     {
+
+        $this->insert('group', [
+            'name' => 'PublicTransportMap',
+            'description' => 'Group for admins of the project'
+        ]);
+
 
     }
 
