@@ -6,7 +6,7 @@
 var map = L.map('map');
 
 L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiYXNhbmgiLCJhIjoiY2lweHZzN2E1MDA3cmh4bm83a3BqeTFhYSJ9._Nf0tZAU-7JSwX8zcUnELA', {
-    attribution: "<a href='index.php?r=public_transport_map%2Fdefault%2Fadmin-panel'>Go to admin panel</a>",
+    attribution: "<a href='index.php?r=public_transport_map%2Fdefault%2Fadmin-panel&adminDBPanel=false'>Go to admin panel</a>",
     maxZoom: 18,
     minZoom: 4,
     id: 'asanh.0god5b4e',

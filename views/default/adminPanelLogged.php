@@ -11,16 +11,15 @@ use humhub\modules\user\models\User;
 
 <div class="admin-panel container">
     <div class="col-lg-12">
-        <h2>Добро пожаловать <?= User::findOne(Yii::$app->user->id)->username; ?>!</h2><a id='exit-button' href="index.php?r=public_transport_map%2Fdefault%2Fadmin-panel">Выйти</a>
+        <h2 style="margin-left: 10%; margin-bottom: 20px; ">Добро пожаловать <?= User::findOne(Yii::$app->user->id)->username; ?>!</h2><a id='exit-button' href="index.php?r=public_transport_map%2Fdefault%2Findex">Выйти</a>
 
 
         <div class="row">
-            <div class="col-lg-3">
 
+            <div class="col-lg-1"></div>
 
+            <div class="col-lg-4">
 
-                
-                
                 <?php
                 $formNode = ActiveForm::begin([
                     'id' => 'login-form',
@@ -50,7 +49,7 @@ use humhub\modules\user\models\User;
 
             <div class="col-lg-1"></div>
 
-            <div class="col-lg-3">
+            <div class="col-lg-4">
                 <?php
                 $formRoute = ActiveForm::begin([
                     'id' => 'route-form',
@@ -70,32 +69,16 @@ use humhub\modules\user\models\User;
             </div>
 
 
-            <div class="col-lg-1"></div>
+            <div class="col-lg-2"></div>
 
-            <div class="col-lg-4">
-                <label class="control-label" style="padding-top: 7px; margin-bottom: 0px;">Содержимое расписания</label>
-                <div class="row">
-                    <div class='schedule-item'>id</div>
-                    <div class='schedule-item'>start_at</div>
-                    <div class='schedule-item'>route_id</div>
-                    <div class='schedule-item'>comment</div>
-                </div>
-                <?php
-                foreach ($schedule as $item) {
-                    echo "<div class='row'>";
-                    echo "<div class='schedule-item'>$item->id</div>";
-                    echo "<div class='schedule-item'>$item->start_at</div>";
-                    echo "<div class='schedule-item'>$item->route_id</div>";
-                    echo "<div class='schedule-item'>$item->comment</div>";
-                    echo "</div>";
-                }
-                ?>
-            </div>
+
 
         </div>
 
     </div>
 
+
+    <div class="row"><div class="col-lg-12"><a href="index.php?r=public_transport_map%2Fdefault%2Fadmin-panel&adminDBPanel=true" target="_blank">Перейти к редактированию таблиц.</a></div></div>
 
     <div id="map1" class="map1"></div>
 

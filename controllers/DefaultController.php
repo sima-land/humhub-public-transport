@@ -144,68 +144,86 @@ class DefaultController extends Controller
         return json_encode([$nodeNameArr, $nodeLatArr, $nodeLngArr]);
     }
 
-    public function actionAdminPanel()
+    public function actionAdminPanel($adminDBPanel = false)
     {
-        $newRoute = new PtmRoute();//adds a new route and stops from $newNode
-        $newRouteNode = new PtmRouteNode();
+        if ($adminDBPanel == 'true') {//!!!!----here is a problem----!!!!
 
-        $newNode = new PtmNode();//adds new nodes (stops)
+            $schedule = PtmSchedule::find()
+                ->all();
 
-        $model = new PtmAuth();
+            $routes = PtmRoute::find()
+                ->all();
 
-        //newRoute : newID newDirectionID newTitle
-        //newRouteNode : newRouteID newNodeID newNodeInterval
+            $nodes = PtmNode::find()
+                ->all();
 
-        //newDirectionID = INPUT | newTitle = INPUT | newID:AUTO_INCREMENT
-        //newRouteID = newID | newNodeID = (here will be array of nodes) | newNodeInterval = ( ! INPUT )
-        
-        $schedule = PtmSchedule::find()
-            ->all();
+            $routeNodes = PtmRouteNode::find()
+                ->all();
 
-        $dataNode = $newNode->load(Yii::$app->request->post());
-
-        if ($dataNode) $this->name = $newNode->getNewName();
-
-        $currentUserID = Yii::$app->user->id;
-        $userGroup = User::findOne($currentUserID)->group->name;
-
-        if ($userGroup == 'PublicTransportMap') $admin = true;
-        else $admin = false;
-
-
-        if ($dataNode) {
-            //$newNode->Clear();
-            return $this->render('adminPanelLogged', [
-                'newNode' => $newNode,
-                'newRoute' => $newRoute,
-                'newRouteNode' => $newRouteNode,
-                'names' => $this->name,
-                'schedule' => $schedule
+            return $this->render('adminDBPanel', [
+                'schedule' => $schedule,
+                'routes' => $routes,
+                'nodes' => $nodes,
+                'routeNodes' => $routeNodes
             ]);
-        }
 
-        if (!$admin) $error_message = 'login and password do not match';
-
-        if ($admin) {
-            //$_SESSION['admin'] = $admin[0];
-            return $this->render('adminPanelLogged', [
-                'model' => $model,
-                'admin' => $admin,
-                'newRoute' => $newRoute,
-                'newRouteNode' => $newRouteNode,
-                'newNode' => $newNode,
-                'names' => $this->name,
-                'schedule' => $schedule
-            ]);
         } else {
-            return $this->render('adminPanel', [
-                'model' => $model,
-                'error_message' => $error_message,
-                'newNode' => $newNode,
-                'newRoute' => $newRoute,
-                'newRouteNode' => $newRouteNode,
-                'schedule' => $schedule
-            ]);
+            $newRoute = new PtmRoute();//adds a new route and stops from $newNode
+            $newRouteNode = new PtmRouteNode();
+
+            $newNode = new PtmNode();//adds new nodes (stops)
+
+            $model = new PtmAuth();
+
+            //newRoute : newID newDirectionID newTitle
+            //newRouteNode : newRouteID newNodeID newNodeInterval
+
+            //newDirectionID = INPUT | newTitle = INPUT | newID:AUTO_INCREMENT
+            //newRouteID = newID | newNodeID = (here will be array of nodes) | newNodeInterval = ( ! INPUT )
+
+
+
+            $dataNode = $newNode->load(Yii::$app->request->post());
+
+            if ($dataNode) $this->name = $newNode->getNewName();
+
+            $currentUserID = Yii::$app->user->id;
+            $userGroup = User::findOne($currentUserID)->group->name;
+
+            if ($userGroup == 'PublicTransportMap') $admin = true;
+            else $admin = false;
+
+
+            if ($dataNode) {
+                //$newNode->Clear();
+                return $this->render('adminPanelLogged', [
+                    'newNode' => $newNode,
+                    'newRoute' => $newRoute,
+                    'newRouteNode' => $newRouteNode,
+                    'names' => $this->name
+                ]);
+            }
+
+            if (!$admin) $error_message = 'login and password do not match';
+
+            if ($admin) {
+                return $this->render('adminPanelLogged', [
+                    'model' => $model,
+                    'admin' => $admin,
+                    'newRoute' => $newRoute,
+                    'newRouteNode' => $newRouteNode,
+                    'newNode' => $newNode,
+                    'names' => $this->name
+                ]);
+            } else {
+                return $this->render('adminPanel', [
+                    'model' => $model,
+                    'error_message' => $error_message,
+                    'newNode' => $newNode,
+                    'newRoute' => $newRoute,
+                    'newRouteNode' => $newRouteNode
+                ]);
+            }
         }
     }
 

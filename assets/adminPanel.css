@@ -60,14 +60,26 @@
     margin-bottom: 10px;
 }
 
-.schedule-item {
-    display: inline-block;
+.table-table {
+    display: table;
+    margin-left: 20px;
+}
+
+.table-head {
+    display: table-caption;
+}
+
+.table-row {
+    display: table-row;
+}
+
+.table-item {
+    display: table-cell;
     padding: 10px;
-    margin: 10px 2px 10px 2px;
     background-color: #dddddd;
 }
 
-.schedule-item:hover {
+.table-item:hover {
     background-color: #ededed;
 }
 

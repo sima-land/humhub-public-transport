@@ -12,9 +12,7 @@ use yii\widgets\ActiveForm;
     <div class="form-group">
         <div class="col-lg-6">
 
-
             <div style="color: indianred; margin-top: 20px;"><?= $error_message ?></div>
-
 
         </div>
     </div>
