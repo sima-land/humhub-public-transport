@@ -327,6 +327,12 @@ class DefaultController extends Controller
 
             for ($j = 0; $j < count($routesID); $j++) {
 
+/*                $r = Yii::$app->db->createCommand('SELECT * FROM ptm_route WHERE ')
+                    ->select('*')
+                    ->from('ptm_route')
+                    ->where(['ptm_route.id' => $routesID[0]])
+                    ->queryAll();*/
+
                 $route = PtmRoute::find()
                     ->where(['ptm_route.id' => $routesID[0]])
                     ->all();
@@ -339,14 +345,12 @@ class DefaultController extends Controller
                     ->joinWith('ptmRouteNodes')
                     ->where(['ptm_route_node.route_id' => $route[0]->id])
                     ->all();
-
-                //Yii::$app->db->createCommand()->delete()
-
+//запросы не обрабатываются, проблема вроде в модели , делается неправильная выборка из-за непонятно чего. $routeNode содержит поля модели равные null и глубоко внутри там закопаны искомые данные, но их не досать
                 //$routeNode->delete();
                 //$route->delete();
                 //$node->delete();
 
-                var_dump($node[1]->getAttributes()); die;
+                //var_dump($r); die;
                 //return json_encode($node[0]->attributes());
 
             }
