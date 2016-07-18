@@ -92,6 +92,20 @@
     background-color: indianred;
 }
 
+#delete-rows:active {
+    transition: linear 5s;
+}
+
+#delete-row-item {
+    background-color: lightskyblue;
+    display: inline-block;
+    padding: 5px;
+    margin: 5px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border-radius: 2px;
+}
+
 input {
     width: 90% !important;
 }

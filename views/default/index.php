@@ -98,7 +98,7 @@ humhub\modules\public_transport_map\Assets::register($this);
                             $('#routes').empty();
                             $.ajax({
                                 type: 'POST',
-                                url: 'index.php?r=public_transport_map%2Fdefault%2Flist-generator&date=' + $('.nav-tabs .active a').attr('href'),
+                                    url: 'index.php?r=public_transport_map%2Fdefault%2Flist-generator&date=' + $('.nav-tabs .active a').attr('href'),
                                 success: function (data) {
                                     var parsedJSON = JSON.parse(data);
                                     $.each(parsedJSON[0], function(i) {

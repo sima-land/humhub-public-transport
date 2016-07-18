@@ -182,7 +182,6 @@ class DefaultController extends Controller
             //newRouteID = newID | newNodeID = (here will be array of nodes) | newNodeInterval = ( ! INPUT )
 
 
-
             $dataNode = $newNode->load(Yii::$app->request->post());
 
             if ($dataNode) $this->name = $newNode->getNewName();
@@ -283,4 +282,77 @@ class DefaultController extends Controller
 
         return $message;
     }
+
+    public function actionDeleteRows($scheduleIDs, $nodesIDs, $routesIDs)
+    {
+
+        $routeNode = [];
+        $node = [];
+
+        if (isset($scheduleIDs)) {
+
+        }
+        if (isset($nodesIDs)) {
+/*
+            $nodesID = json_decode($nodesIDs);
+
+
+            for ($i = 0; $i < count($nodesID); $i++) {
+
+                //in case of node deleting it deletes also related route and rote_nodes
+                $node = PtmNode::find()
+                    ->where(['ptm_node.id' => $nodesID[0]])
+                    ->all();
+
+                $routeNode = PtmRouteNode::find()
+                    ->where(['ptm_route_node.node_id' => $node[0]->id])
+                    ->all();
+
+                //$routeNode->delete();
+                //$node->delete();
+            }
+
+            $route = PtmRoute::find()
+                ->where(['ptm_route.id' => $routeNode[0]->route_id])
+                ->all();
+
+            //$route->delete();
+
+            return $routeNode[0]->node_id;*/
+        }
+        if (isset($routesIDs)) {
+
+            $routesID = json_decode($routesIDs);
+
+
+            for ($j = 0; $j < count($routesID); $j++) {
+
+                $route = PtmRoute::find()
+                    ->where(['ptm_route.id' => $routesID[0]])
+                    ->all();
+
+                $routeNode = PtmRouteNode::find()
+                    ->where(['ptm_route_node.route_id' => $route[0]->id])
+                    ->all();
+
+                $node = PtmNode::find()
+                    ->joinWith('ptmRouteNodes')
+                    ->where(['ptm_route_node.route_id' => $route[0]->id])
+                    ->all();
+
+                //Yii::$app->db->createCommand()->delete()
+
+                //$routeNode->delete();
+                //$route->delete();
+                //$node->delete();
+
+                var_dump($node[1]->getAttributes()); die;
+                //return json_encode($node[0]->attributes());
+
+            }
+
+        }
+        return 'error';
+    }
+
 }

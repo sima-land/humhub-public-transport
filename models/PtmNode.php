@@ -25,6 +25,12 @@ class PtmNode extends \yii\db\ActiveRecord
     public $newLng;
     public $newNodeInterval;
 
+    
+    public static function delete()
+    {
+        
+    }    
+
     public static function tableName()
     {
         return 'ptm_node';

@@ -1,7 +1,10 @@
 <?php
 humhub\modules\public_transport_map\Assets::register($this);
+use yii\helpers\Html;
+use yii\widgets\ActiveForm;
 
 ?>
+
 <div class="row">
     <div class="col-lg-2"></div>
     <div class="col-lg-4">
@@ -15,7 +18,7 @@ humhub\modules\public_transport_map\Assets::register($this);
                 foreach ($schedule as $item) {
                     echo "<div class='table-row'>";
                     echo "<div id='$counter' class='table-item table-delete-row' table-type='schedule'>X</div>";
-                    echo "<div class='table-item'>$item->id</div>";
+                    echo "<div class='table-item' id='id'>$item->id</div>";
                     echo "<div class='table-item'>$item->start_at</div>";
                     echo "<div class='table-item'>$item->route_id</div>";
                     echo "<div class='table-item'>$item->comment</div>";
@@ -27,6 +30,7 @@ humhub\modules\public_transport_map\Assets::register($this);
             </div>
         </div>
     </div>
+
     <div class="col-lg-4">
         <div class="row">
             <div class="table-table">
@@ -38,7 +42,7 @@ humhub\modules\public_transport_map\Assets::register($this);
                 foreach ($nodes as $item) {
                     echo "<div class='table-row'>";
                     echo "<div id='$counter' class='table-item table-delete-row' table-type='nodes'>X</div>";
-                    echo "<div class='table-item'>$item->id</div>";
+                    echo "<div class='table-item' id='id'>$item->id</div>";
                     echo "<div class='table-item'>$item->name</div>";
                     echo "<div class='table-item'>$item->lat</div>";
                     echo "<div class='table-item'>$item->lng</div>";
@@ -53,6 +57,7 @@ humhub\modules\public_transport_map\Assets::register($this);
     <div class="col-lg-2"></div>
 </div>
 
+
 <div class="row">
     <div class="col-lg-2"></div>
     <div class="col-lg-4">
@@ -66,7 +71,7 @@ humhub\modules\public_transport_map\Assets::register($this);
                 foreach ($routes as $item) {
                     echo "<div class='table-row'>";
                     echo "<div id='$counter' class='table-item table-delete-row' table-type='routes'>X</div>";
-                    echo "<div class='table-item'>$item->id</div>";
+                    echo "<div class='table-item' id='id'>$item->id</div>";
                     echo "<div class='table-item'>$item->direction_id</div>";
                     echo "<div class='table-item'>$item->title</div>";
                     echo "</div>";
@@ -77,6 +82,7 @@ humhub\modules\public_transport_map\Assets::register($this);
             </div>
         </div>
     </div>
+
     <div class="col-lg-4">
         <div class="row">
             <div class="table-table">
@@ -103,36 +109,113 @@ humhub\modules\public_transport_map\Assets::register($this);
 </div>
 
 
+<div class="row">
+    <div class="col-lg-2"></div>
+    <div class="col-lg-8">
+        <div id="delete-last">Очистить</div>
+        <div id="delete-rows" table-type="schedule"></div>
+    </div>
+    <div class="col-lg-2"></div>
+</div>
+
+
+<div class="row">
+    <div class="col-lg-2"></div>
+    <div class="col-lg-8">
+
+        <div class="btn btn-primary" id="delete-request">Удалить выбранные строки</div>
+
+    </div>
+    <div class="col-lg-2"></div>
+</div>
+
+
 <script>
 
     var itemsToDelete = [];
 
     $(document).ready(function () {
-        //alert('Внимание! \r\rВы не сможете отменить действия, сделанные на этой странице.');
+        //alert('Внимание! \r\rВы не сможете отменить действия, совершенные на этой странице.');
     });
 
     $('body').click( function (event) {
-        var id = $(event.target).attr('id');
-        var tableType = $(event.target).attr('table-type');
-        console.log(id);
-        console.log(tableType);
+
+        if ($(event.target).attr('id') == 'delete-last') {
+            itemsToDelete = [];
+            console.log(itemsToDelete);
+            drawTabs();
+            return 0;
+        }
+
+        if ($(event.target).attr('id') == 'delete-request') {
+
+            var schedule = []; var nodes = []; var routeNodes = []; var routes = [];
+
+            for (var i = 0; i < itemsToDelete.length; i++) {
+                if (itemsToDelete[i].table == 'schedule') {
+                    schedule.push(itemsToDelete[i].id);
+                } else if (itemsToDelete[i].table == 'nodes') {
+                    nodes.push(itemsToDelete[i].id);
+                } else if (itemsToDelete[i].table == 'routeNodes') {
+                    routeNodes.push(itemsToDelete[i].row);
+                } else if (itemsToDelete[i].table == 'routes') {
+                    routes.push(itemsToDelete[i].id);
+                } else {
+                    alert('unable table');
+                }
+            }
+
+            console.log(nodes);
+
+
+            $.ajax({
+                type: 'GET',
+                url: 'index.php?r=public_transport_map%2Fdefault%2Fdelete-rows&scheduleIDs=' + JSON.stringify(schedule) + '&nodesIDs=' + JSON.stringify(nodes) + '&routesIDs=' + JSON.stringify(routes),//table id
+                success: function(data) {
+                    alert('Удалено');
+                    console.log('Controller returned:' + data);
+                },
+                error: function(data) {
+                    alert('Произошла ошибка при отправке запроса');
+                    console.log(data);
+                }
+            })
+        }
 
         var deleteItem = new Object();
 
-        deleteItem.table = tableType;
-        deleteItem.row = id;
+        deleteItem.table = $(event.target).attr('table-type');
+        deleteItem.row = $(event.target).attr('id');
+        deleteItem.id = $(event.target).next().text();
 
-        itemsToDelete.push(deleteItem);
+        if (typeof deleteItem.table == 'undefined') deleteItem.table = null;
 
-        /*if (typeof tableType != 'undefined') {
-            if (getItemFromLocalStorage(tableType).length != 0) {
-                addItemToLocalStorage(id, tableType);
-            } else {
+        if (!existsInArray(deleteItem, itemsToDelete) && !(deleteItem.table === null)) itemsToDelete.push(deleteItem);
 
-                initLocalStorage(tableType);
-            }
-        }*/
+        drawTabs();
+        
     });
+
+    function existsInArray(object, array) {
+        var i = 0;
+        for (i = 0; i < array.length; i++) {
+            if ((array[i].row == object.row) && (array[i].table == object.table)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    function drawTabs() {
+
+        var k;
+
+        document.getElementById('delete-rows').innerHTML = '';
+
+        for (k = 0; k < itemsToDelete.length; k++) {
+            $('#delete-rows').append("<div id='delete-row-item'>" + 'table = ' + itemsToDelete[k].table + ' : row = ' + itemsToDelete[k].row + "</div>");
+        }
+    }
 
 
 </script>
