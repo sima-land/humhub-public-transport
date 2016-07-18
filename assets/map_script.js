@@ -123,7 +123,7 @@ function start(nodeNameArr, nodeLatArr, nodeLngArr, adminPage) {
             draw(nodeNameArr, loc, nodeLatArr, nodeLngArr, true);
         }
     }
-
+    
 }
 
 function mapZoom(id, nodeLat, nodeLng) {
@@ -131,4 +131,3 @@ function mapZoom(id, nodeLat, nodeLng) {
     marker[id].openPopup();
     return;
 }
-

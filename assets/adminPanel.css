@@ -77,10 +77,19 @@
     display: table-cell;
     padding: 10px;
     background-color: #dddddd;
+    text-align: center;
 }
 
 .table-item:hover {
     background-color: #ededed;
+}
+
+.table-delete-row {
+    cursor: pointer;
+}
+
+.table-delete-row:hover {
+    background-color: indianred;
 }
 
 input {
