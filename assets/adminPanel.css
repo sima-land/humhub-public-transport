@@ -103,8 +103,26 @@
     transition: linear 0.2s;
 }
 
-.popup {
+.b-popup{
+    width:100%;
+    min-height:100%;
+    background-color: rgba(0,0,0,0.5);
+    overflow:hidden;
+    position:fixed;
+    top:0px;
+    z-index: 100;
+}
 
+.b-popup .b-popup-content{
+    margin: 300px auto 0px auto;
+    width: 300px;
+    height: auto;
+    padding: 20px;
+    background-color: #c5c5c5;
+    border-radius: 2px;
+    box-shadow: 0px 0px 0px #000;
+    z-index: 101;
+    text-align: center;
 }
 
 #caution {
@@ -119,6 +137,10 @@
 #add-item:hover {
     background-color: mediumseagreen;
     transition: linear 0.2s;
+}
+
+#delete-rows {
+    transition: linear 5s;
 }
 
 #delete-rows:active {

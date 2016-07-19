@@ -6,8 +6,11 @@ use yii\widgets\ActiveForm;
 ?>
 
 <!--i think it will be better to make popups with messages instead of alert()-->
-<div class="popup"></div>
+<div class="b-popup" id="popup1">
+    <div class="b-popup-content" id="popup-content">
 
+    </div>
+</div>
 
 <div class="row">
     <div class="col-lg-2"></div>
@@ -148,7 +151,8 @@ use yii\widgets\ActiveForm;
     var itemsToDelete = [];
 
     $(document).ready(function () {
-        $('#date').mask("9999-99-99 99:99" , {placeholder:"yyyy-mm-dd hh:mm"});
+        PopUpHide();
+        $('#date').mask("9999-99-99 99:99" , { placeholder: "yyyy-mm-dd hh:mm" });
     });
 
     $('#add-item').on('click', function () {
@@ -156,34 +160,57 @@ use yii\widgets\ActiveForm;
         var date = $('input#date').val();
         var route = $('input#route').val();
         var comment = $('input#comment').val();
-        date = date + ':00';//it is necessary to add seconds for correct format (format of DB)
 
-        alert(date);
+        if (parseInt(date.substr(0, 4)) < 2016 || parseInt(date.substr(5, 2)) > 12 || parseInt(date.substr(8, 2)) > 31
+            || parseInt(date.substr(11, 2)) > 23 || parseInt(date.substr(14,2)) > 59 || date.length < 16) {
+            PopUpShow('Please input correct date');
+            return;
+        }
+
+        if (route.length < 1) {
+            PopUpShow('Fill route id');
+            return;
+        }
+
+        date = date + ':00';//it is necessary to add seconds for correct format (format of DB)
 
         $.ajax({
             type: 'GET',
             url: 'index.php?r=public_transport_map%2Fdefault%2Fadd-schedule&date=' + JSON.stringify(date) + '&route=' + JSON.stringify(route) + '&comment=' + JSON.stringify(comment),
             success: function (data) {
-                if (data = 1) alert('success'); else alert('something wrong');
+                if (data = 1) {
+                    PopUpShow('success');
+                    $('#popup1').on('click', function () {
+                        location.reload();
+                    });
+                } else {
+                    PopUpShow('something wrong');
+                        location.reload();
+                }
             },
             error: function () {
-                alert('Request was not sent')
+                PopUpShow('Request was not sent');
             }
         });
 
     });
 
     $('.table-row-info').on('click', function () {
-        alert('С этой таблицей связана другая таблица.\r\rУдаляйте из нее.');
+        PopUpShow('С этой таблицей связана другая таблица. Удаляйте из нее.');
     });
 
     $('body').click( function (event) {
 
-        if ($(event.target).attr('id') == 'delete-last') {
+        if ($(event.target).attr('id') == 'delete-all') {
             itemsToDelete = [];
             console.log(itemsToDelete);
             drawTabs();
             return 0;
+        }
+
+        if ($(event.target).attr('id') == 'popup1') {
+            $('.b-popup-content').on('click', function () {});
+            PopUpHide();
         }
 
         if ($(event.target).attr('id') == 'delete-request') {
@@ -200,35 +227,33 @@ use yii\widgets\ActiveForm;
                 } else if (itemsToDelete[i].table == 'routes') {
                     routes.push(itemsToDelete[i].id);
                 } else {
-                    alert('unable table');
+                    PopUpShow('unable table');
                 }
             }
 
-            console.log(nodes);
-
+            console.log(schedule);
 
             $.ajax({
                 type: 'GET',
                 url: 'index.php?r=public_transport_map%2Fdefault%2Fdelete-rows&scheduleIDs=' + JSON.stringify(schedule) + '&routesIDs=' + JSON.stringify(routes),//table id
                 success: function(data) {
-                    alert('Удалено');
+                    PopUpShow('Удалено');
                     console.log('Controller returned:' + data);
+                    location.reload();
                 },
                 error: function(data) {
-                    alert('Произошла ошибка при отправке запроса');
+                    PopUpShow('Произошла ошибка при отправке запроса');
                     console.log(data);
                 }
             });
 
-            location.reload();
-
         }
 
-
         /**
-         * array of items wich wer selected to delete.
+         * array of items which wer selected to delete.
          * we need it for showing tabs at the bottom of page
          */
+
         var deleteItem = new Object();
 
         deleteItem.table = $(event.target).attr('table-type');
@@ -263,6 +288,16 @@ use yii\widgets\ActiveForm;
             $('#delete-rows').append("<div id='delete-row-item'>" + 'table = ' + itemsToDelete[k].table + ' : row = ' + itemsToDelete[k].row + "</div>");
         }
     }
+    function PopUpShow(content = null){
 
+        document.getElementById('popup-content').innerHTML = '';
+
+        $(".b-popup-content").append(content);
+        $("#popup1").show();
+
+    }
+    function PopUpHide(){
+        $("#popup1").hide();
+    }
 
 </script>

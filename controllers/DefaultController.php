@@ -377,17 +377,24 @@ class DefaultController extends Controller
     public function actionAddSchedule($date, $route, $comment)
     {
 
-        $date = json_decode($date);
-        $route = json_decode($route);
-        $comment = json_decode($comment);
+        if (isset($date) && isset($route) && isset($comment)) {
 
-        $success = Yii::$app->db->createCommand()->insert('ptm_schedule', [
-            'start_at' => $date,
-            'route_id' => $route,
-            'comment' => $comment
-        ])->execute();
+            $date = json_decode($date);
+            $route = json_decode($route);
+            $comment = json_decode($comment);
 
-        return $success;
+            $success = Yii::$app->db->createCommand()->insert('ptm_schedule', [
+                'start_at' => $date,
+                'route_id' => $route,
+                'comment' => $comment
+            ])->execute();
+
+            return $success;
+
+        } else {
+            return 0;
+        }
+
     }
 
 }
