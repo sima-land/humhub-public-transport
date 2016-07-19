@@ -5,13 +5,19 @@ use yii\widgets\ActiveForm;
 
 ?>
 
-
+<!--i think it will be better to make popups with messages instead of alert()-->
 <div class="popup"></div>
 
 
 <div class="row">
     <div class="col-lg-2"></div>
-    <div class="col-lg-4">
+    <div class="col-lg-8" id="caution"><h2>Внимание! Вы не сможете отменить действия, совершенные на этой странице.</h2></div>
+</div>
+
+
+<div class="row">
+    <div class="col-lg-1"></div>
+    <div class="col-lg-5">
         <div class="row">
             <div class="table-table">
                 <?php
@@ -21,7 +27,7 @@ use yii\widgets\ActiveForm;
                 $counter = 0;
                 foreach ($schedule as $item) {
                     echo "<div class='table-row'>";
-                    echo "<div id='$counter' class='table-item table-row-info' table-type='schedule'>?</div>";
+                    echo "<div id='$counter' class='table-item table-delete-row' table-type='schedule'>X</div>";
                     echo "<div class='table-item' id='id'>$item->id</div>";
                     echo "<div class='table-item'>$item->start_at</div>";
                     echo "<div class='table-item'>$item->route_id</div>";
@@ -29,13 +35,20 @@ use yii\widgets\ActiveForm;
                     echo "</div>";
                     $counter++;
                 }
+                    echo "<div class='table-row'>";
+                        echo "<div class='table-item' id='add-item'>Add</div>";
+                        echo "<div class='table-item'>auto</div>";
+                        echo "<div class='table-item' style='padding: 0px;'><input type='text' id='date' required></div>";
+                        echo "<div class='table-item'><input type='text' id='route' required></div>";
+                        echo "<div class='table-item'><input type='text' id='comment' required></div>";
+                    echo "</div>";
                 echo "</div>";
                 ?>
             </div>
         </div>
     </div>
 
-    <div class="col-lg-4">
+    <div class="col-lg-5">
         <div class="row">
             <div class="table-table">
                 <?php
@@ -58,7 +71,6 @@ use yii\widgets\ActiveForm;
             </div>
         </div>
     </div>
-    <div class="col-lg-2"></div>
 </div>
 
 
@@ -109,17 +121,15 @@ use yii\widgets\ActiveForm;
             </div>
         </div>
     </div>
-    <div class="col-lg-2"></div>
 </div>
 
 
 <div class="row">
     <div class="col-lg-2"></div>
     <div class="col-lg-8">
-        <div id="delete-last">Очистить</div>
+        <div id="delete-all">Очистить</div>
         <div id="delete-rows" table-type="schedule"></div>
     </div>
-    <div class="col-lg-2"></div>
 </div>
 
 
@@ -130,7 +140,6 @@ use yii\widgets\ActiveForm;
         <div class="btn btn-primary" id="delete-request">Удалить выбранные строки</div>
 
     </div>
-    <div class="col-lg-2"></div>
 </div>
 
 
@@ -139,11 +148,33 @@ use yii\widgets\ActiveForm;
     var itemsToDelete = [];
 
     $(document).ready(function () {
-        //alert('Внимание! \r\rВы не сможете отменить действия, совершенные на этой странице.');
+        $('#date').mask("9999-99-99 99:99" , {placeholder:"yyyy-mm-dd hh:mm"});
+    });
+
+    $('#add-item').on('click', function () {
+
+        var date = $('input#date').val();
+        var route = $('input#route').val();
+        var comment = $('input#comment').val();
+        date = date + ':00';//it is necessary to add seconds for correct format (format of DB)
+
+        alert(date);
+
+        $.ajax({
+            type: 'GET',
+            url: 'index.php?r=public_transport_map%2Fdefault%2Fadd-schedule&date=' + JSON.stringify(date) + '&route=' + JSON.stringify(route) + '&comment=' + JSON.stringify(comment),
+            success: function (data) {
+                if (data = 1) alert('success'); else alert('something wrong');
+            },
+            error: function () {
+                alert('Request was not sent')
+            }
+        });
+
     });
 
     $('.table-row-info').on('click', function () {
-
+        alert('С этой таблицей связана другая таблица.\r\rУдаляйте из нее.');
     });
 
     $('body').click( function (event) {
@@ -187,9 +218,17 @@ use yii\widgets\ActiveForm;
                     alert('Произошла ошибка при отправке запроса');
                     console.log(data);
                 }
-            })
+            });
+
+            location.reload();
+
         }
 
+
+        /**
+         * array of items wich wer selected to delete.
+         * we need it for showing tabs at the bottom of page
+         */
         var deleteItem = new Object();
 
         deleteItem.table = $(event.target).attr('table-type');
@@ -198,7 +237,7 @@ use yii\widgets\ActiveForm;
 
         if (typeof deleteItem.table == 'undefined') deleteItem.table = null;
 
-        if (!existsInArray(deleteItem, itemsToDelete) && !(deleteItem.table === null) && (deleteItem.table == 'routes')) itemsToDelete.push(deleteItem);
+        if (!existsInArray(deleteItem, itemsToDelete) && !(deleteItem.table === null) && ((deleteItem.table == 'routes') || (deleteItem.table == 'schedule'))) itemsToDelete.push(deleteItem);
 
         drawTabs();
         

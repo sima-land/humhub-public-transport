@@ -1,7 +1,6 @@
 <?php
 namespace humhub\modules\public_transport_map\controllers;
 
-use humhub\modules\public_transport_map\models\PtmAuth;
 use humhub\modules\public_transport_map\models\PtmNode;
 use humhub\modules\public_transport_map\models\PtmRoute;
 use humhub\modules\public_transport_map\models\PtmRouteNode;
@@ -28,8 +27,6 @@ use humhub\modules\user\models\User;
 class DefaultController extends Controller
 {
 
-    private $name;
-
 
     public function actionIndex()
     {
@@ -41,12 +38,27 @@ class DefaultController extends Controller
 
         $schedule = PtmSchedule::find()
             ->where(['date(start_at)' => $current_date])
+            ->orderBy('date(start_at) DESC')
             ->all();
+
+        //it is possible to add schedules automatically
+        //firstly: check interval between now and the latest date in table schedule
+        //secondary: refill the table if interval is lesser then 2 weeks
+        //i did not have time for code it
+
+        /*
+        $maxDate = date_create_from_format('Y-m-d', PtmSchedule::find()->max('date(start_at)'));
+
+        if (date_create_from_format('Y-m-d', date('Y-m-d')) < $maxDate) var_dump(date_diff(($maxDate), date_create_from_format('Y-m-d', date('Y-m-d')))->format('%d days'));
+        */
+        //end of auto filling schedule table
+
         $nodes = PtmNode::find()
             ->joinWith('ptmRouteNodes')
             ->where(['ptm_route_node.route_id' => $schedule[$id]->route_id])
             ->orderBy('node_interval ASC')
             ->all();
+
         $routeNode = PtmRouteNode::find()
             ->where(['ptm_route_node.route_id' => $schedule[$id]->route_id])
             ->orderBy('node_interval ASC')
@@ -57,6 +69,7 @@ class DefaultController extends Controller
             $nodeLatArr[$i] = $nodes[$i]->lat;
             $nodeLngArr[$i] = $nodes[$i]->lng;
         }
+
         $nodeNameArr = json_encode($nodeNameArr);
         $nodeLatArr = json_encode($nodeLatArr);
         $nodeLngArr = json_encode($nodeLngArr);
@@ -98,11 +111,13 @@ class DefaultController extends Controller
         $schedule = PtmSchedule::find()
             ->where(['date(start_at)' => $current_date])
             ->all();
+
         $nodes = PtmNode::find()
             ->joinWith('ptmRouteNodes')
             ->where(['ptm_route_node.route_id' => $schedule[$id]->route_id])
             ->orderBy('node_interval ASC')
             ->all();
+
         $routeNode = PtmRouteNode::find()
             ->where(['ptm_route_node.route_id' => $schedule[$id]->route_id])
             ->orderBy('node_interval ASC')
@@ -125,7 +140,7 @@ class DefaultController extends Controller
         ]);
     }
 
-    public function actionRouteRefresh($id, $current_date)//для ajax запросов от index
+    public function actionRouteRefresh($id, $current_date)//for ajax request from index
     {
         $nodeNameArr = [];
         $nodeLatArr = [];
@@ -150,7 +165,7 @@ class DefaultController extends Controller
 
     public function actionAdminPanel($adminDBPanel = false)
     {
-        if ($adminDBPanel == 'true') {//!!!!----here is a problem----!!!!
+        if ($adminDBPanel == 'true') {
 
             $schedule = PtmSchedule::find()
                 ->all();
@@ -177,12 +192,11 @@ class DefaultController extends Controller
 
             $newNode = new PtmNode();//adds new nodes (stops)
 
-            $model = new PtmAuth();
 
             //newRoute : newID newDirectionID newTitle
             //newRouteNode : newRouteID newNodeID newNodeInterval
 
-            //newDirectionID = INPUT | newTitle = INPUT | newID:AUTO_INCREMENT
+            //newDirectionID = INPUT | newTitle = INPUT | newID:AUTO_INCREMENT(??)
             //newRouteID = newID | newNodeID = (here will be array of nodes) | newNodeInterval = ( ! INPUT )
 
 
@@ -211,7 +225,6 @@ class DefaultController extends Controller
 
             if ($admin) {
                 return $this->render('adminPanelLogged', [
-                    'model' => $model,
                     'admin' => $admin,
                     'newRoute' => $newRoute,
                     'newRouteNode' => $newRouteNode,
@@ -220,7 +233,6 @@ class DefaultController extends Controller
                 ]);
             } else {
                 return $this->render('adminPanel', [
-                    'model' => $model,
                     'error_message' => $error_message,
                     'newNode' => $newNode,
                     'newRoute' => $newRoute,
@@ -241,8 +253,9 @@ class DefaultController extends Controller
 
 
         //!! make a 'ALTER TABLE ptm_node AUTO_INCREMENT = $max' before inserts!!
+        //I could not do it. without AUTO_INCREMENT IDs will sets not in order
 
-//now we have to insert ( route_id, node_id, node_interval ) into ptm_route_node for all the inputed nodes
+//here we have to insert ( route_id, node_id, node_interval ) into ptm_route_node for all the inputed nodes
         if (isset($nodeNamesReady) && isset($nodeLatReady) && isset($nodeLngReady) && isset($nodeTimeReady) && isset($routeDirection) && isset($routeTitle)) {
 
             $namesArr = json_decode($nodeNamesReady);
@@ -290,59 +303,91 @@ class DefaultController extends Controller
     public function actionDeleteRows($scheduleIDs, $routesIDs)
     {
 
-        if (isset($scheduleIDs)) {
+        if (isset($routesIDs) || isset($scheduleIDs)) {
 
-            $scheduleID = json_decode($scheduleIDs);
-            
+            if (isset($scheduleIDs)) {
 
-        }
+                $scheduleID = json_decode($scheduleIDs);
 
-        if (isset($routesIDs)) {
-
-            $routesID = json_decode($routesIDs);
-
-
-            for ($j = 0; $j < count($routesID); $j++) {
-
-                $route = PtmRoute::find()
-                    ->where(['ptm_route.id' => $routesID[$j]])
-                    ->all();
-
-
-                $routeNode = PtmRouteNode::find()
-                    ->where(['ptm_route_node.route_id' => $route[0]->id])
-                    ->all();
-
-                $routeNodeID = [];
                 $i = 0;
 
-                foreach ($routeNode as $item) {
-                    $routeNodeID[$i] = $item->node_id;
-                    $i++;
-                }
+                for ($i = 0; $i < count($scheduleID); $i++) {
 
-                foreach ($routesID as $item) {
+                    $schedule = PtmSchedule::find()
+                        ->where(['ptm_schedule.id' => $scheduleID[$i]])
+                        ->all();
+
                     Yii::$app->db->createCommand()
-                        ->delete('ptm_route_node', ['route_id' => $item])
+                        ->delete('ptm_schedule', ['id' => $schedule[0]->id])
                         ->execute();
+
                 }
-
-                foreach ($routeNodeID as $item) {
-                    Yii::$app->db->createCommand()
-                        ->delete('ptm_node', ['id' => $item])
-                        ->execute();
-                }
-
-                Yii::$app->db->createCommand()
-                    ->delete('ptm_route', ['id' => $routesID[$j]])
-                    ->execute();
-
-                return 'success';
 
             }
+
+            if (isset($routesIDs)) {
+
+                $routesID = json_decode($routesIDs);
+
+
+                for ($j = 0; $j < count($routesID); $j++) {
+
+                    $route = PtmRoute::find()
+                        ->where(['ptm_route.id' => $routesID[$j]])
+                        ->all();
+
+
+                    $routeNode = PtmRouteNode::find()
+                        ->where(['ptm_route_node.route_id' => $route[0]->id])
+                        ->all();
+
+                    $routeNodeID = [];
+                    $i = 0;
+
+                    foreach ($routeNode as $item) {
+                        $routeNodeID[$i] = $item->node_id;
+                        $i++;
+                    }
+
+                    foreach ($routesID as $item) {
+                        Yii::$app->db->createCommand()
+                            ->delete('ptm_route_node', ['route_id' => $item])
+                            ->execute();
+                    }
+
+                    foreach ($routeNodeID as $item) {
+                        Yii::$app->db->createCommand()
+                            ->delete('ptm_node', ['id' => $item])
+                            ->execute();
+                    }
+
+                    Yii::$app->db->createCommand()
+                        ->delete('ptm_route', ['id' => $routesID[$j]])
+                        ->execute();
+
+                }
+            }
+
+            return 'success';
         }
 
         return 'error';
+    }
+
+    public function actionAddSchedule($date, $route, $comment)
+    {
+
+        $date = json_decode($date);
+        $route = json_decode($route);
+        $comment = json_decode($comment);
+
+        $success = Yii::$app->db->createCommand()->insert('ptm_schedule', [
+            'start_at' => $date,
+            'route_id' => $route,
+            'comment' => $comment
+        ])->execute();
+
+        return $success;
     }
 
 }

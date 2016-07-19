@@ -53,7 +53,7 @@
     transition: ease 0.5s;
 }
 
-#delete-last {
+#delete-all {
     cursor: pointer;
     color: indianred;
     margin-top: 20px;
@@ -82,6 +82,7 @@
 
 .table-item:hover {
     background-color: #ededed;
+    transition: linear 0.2s;
 }
 
 .table-delete-row {
@@ -90,6 +91,7 @@
 
 .table-delete-row:hover {
     background-color: indianred;
+    transition: linear 0.2s;
 }
 
 .table-row-info {
@@ -98,6 +100,25 @@
 
 .table-row-info:hover {
     background-color: lightblue;
+    transition: linear 0.2s;
+}
+
+.popup {
+
+}
+
+#caution {
+    color: indianred !important;
+    margin: 20px;
+}
+
+#add-item {
+    cursor: pointer;
+}
+
+#add-item:hover {
+    background-color: mediumseagreen;
+    transition: linear 0.2s;
 }
 
 #delete-rows:active {

@@ -11,9 +11,8 @@ use humhub\modules\user\models\User;
 
 <div class="admin-panel container">
     <div class="col-lg-12">
-        <h2 style="margin-left: 10%; margin-bottom: 20px; ">Добро
-            пожаловать <?= User::findOne(Yii::$app->user->id)->username; ?>!</h2><a id='exit-button'
-                                                                                    href="index.php?r=public_transport_map%2Fdefault%2Findex">Выйти</a>
+        <h2 style="margin-left: 10%; margin-bottom: 20px; ">Добро пожаловать <?= User::findOne(Yii::$app->user->id)->username; ?>!</h2>
+        <a id='exit-button' href="index.php?r=public_transport_map%2Fdefault%2Findex">Выйти</a>
 
 
         <div class="row">
@@ -36,7 +35,7 @@ use humhub\modules\user\models\User;
 
                 <?= Html::submitButton('Добавить остановку', ['class' => 'btn btn-primary']) ?>
 
-
+                <!--On click this button we collect nodes (adding to DB happens in the next form) -->
 
                 <?php
                 ActiveForm::end();
@@ -44,7 +43,7 @@ use humhub\modules\user\models\User;
                 <?php
                 if (!isset($names)) $names = '';
                 ?>
-                <div id="delete-last">Удалить все</div>
+                <div id="delete-all">Удалить все</div>
                 <div class="node-cards"></div>
 
             </div>
@@ -67,6 +66,8 @@ use humhub\modules\user\models\User;
 
                 <div class="btn btn-primary" id="add-route">Добавить маршрут</div>
 
+                <!--On click of this button we make an ajax request for adding route to DB-->
+
                 <?php ActiveForm::end(); ?>
             </div>
 
@@ -80,8 +81,9 @@ use humhub\modules\user\models\User;
 
 
     <div class="row">
-        <div class="col-lg-12"><a href="index.php?r=public_transport_map%2Fdefault%2Fadmin-panel&adminDBPanel=true"
-                                  target="_blank">Перейти к редактированию таблиц.</a></div>
+        <div class="col-lg-12">
+            <a href="index.php?r=public_transport_map%2Fdefault%2Fadmin-panel&adminDBPanel=true" target="_blank">Перейти к редактированию таблиц.</a>
+        </div>
     </div>
 
     <div id="map1" class="map1"></div>
@@ -90,8 +92,6 @@ use humhub\modules\user\models\User;
     <script>
 
         $(document).ready(function () {
-
-            //$('input').val('');
 
             $('#ptmnode-newnodeinterval').mask("99:99");//it is a mask for the time input
 
@@ -109,7 +109,7 @@ use humhub\modules\user\models\User;
 
             var newNode = [newName, newLat, newLng, newTime];// Node
 
-            if (newName != '' && newName != null) {//it collects names of new nodes
+            if (newName != '' && newName != null) {//it collects new nodes
                 if (getItemFromLocalStorage('node').length != 0) {
                     addItemToLocalStorage(newNode, 'node');
                 } else {
@@ -121,7 +121,7 @@ use humhub\modules\user\models\User;
                 initLocalStorage('node');
             }
 
-            for (var i = 0; i < getItemFromLocalStorage('node').length; i++) {//show added node cards
+            for (var i = 0; i < getItemFromLocalStorage('node').length; i++) {//shows added node cards
                 $('.node-cards').append("<div class='node-card-item'>" + getItemFromLocalStorage('node')[i][0] + ' ' + getItemFromLocalStorage('node')[i][3] + "</div>")
             }
 
@@ -131,22 +131,16 @@ use humhub\modules\user\models\User;
             var lat = [];
             var lng = [];
 
+            //preparing nodes to show them at the admin map (when page refreshes)
+
             for (var j = 0; j < getItemFromLocalStorage('node').length; j++) {
                 name.push(getItemFromLocalStorage('node')[j][0]);
                 lat.push(getItemFromLocalStorage('node')[j][1]);
                 lng.push(getItemFromLocalStorage('node')[j][2]);
             }
 
-
             start(name, lat, lng, true);
 
-            /*
-             var marker1 = new L.FeatureGroup();
-             for (var k = 0; k < getItemFromLocalStorage('node').length; k++) {
-             var marker2 = new L.Marker([getItemFromLocalStorage('node')[k][1], getItemFromLocalStorage('node')[k][2]]).addTo(adminMap);
-             marker.addLayer(marker2);
-             }
-             adminMap.addLayer(marker);*/
         });
 
         //request to controller for adding to DB
@@ -165,15 +159,13 @@ use humhub\modules\user\models\User;
                 newLatArray.push(getItemFromLocalStorage('node')[i][1]);
                 newLngArray.push(getItemFromLocalStorage('node')[i][2]);
                 var interval = toMinutes(toDate(getItemFromLocalStorage('node')[i][3]) - toDate(getItemFromLocalStorage('node')[0][3]));
-                if (interval <= newTimeArray[i - 1]) {
+                if (interval <= newTimeArray[i - 1]) {//here we check interval for correct values (intervals have to increase)
                     initLocalStorage('node');
                     alert('Время введено неправильно (Скорее всего нарушено возрастание).');
                     return;
                 }
                 newTimeArray.push(interval);//here is an intervals between nodes interval of (0 -> x) = time2-time1, interval of 1st stop is 0
             }
-
-            //alert(newTimeArray);
 
             $.ajax({
                 type: 'GET',
@@ -188,7 +180,7 @@ use humhub\modules\user\models\User;
 
         });
 
-        $('#delete-last').on('click', function () {//now it deletes all cards
+        $('#delete-all').on('click', function () {//for the present it deletes all cards
 
             initLocalStorage('node');
 
@@ -232,6 +224,7 @@ use humhub\modules\user\models\User;
         function toMinutes(milliseconds) {
             return milliseconds / 1000 / 60;
         }
+        
         //========================
 
         var control;
