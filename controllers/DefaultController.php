@@ -17,12 +17,16 @@ use humhub\modules\user\models\User;
 /**
  * Default controller for the `Public transport map` module
  */
+
+/**
+ * Sometimes route not shows.
+ *
+ * The problem is in leaflet routing machine server. Sometimes it not works.
+ *
+ * You may check an error type at http://www.liedman.net/leaflet-routing-machine/
+ */
 class DefaultController extends Controller
 {
-    /**
-     * Renders the index view for the module
-     * @return string
-     */
 
     private $name;
 
@@ -283,43 +287,16 @@ class DefaultController extends Controller
         return $message;
     }
 
-    public function actionDeleteRows($scheduleIDs, $nodesIDs, $routesIDs)
+    public function actionDeleteRows($scheduleIDs, $routesIDs)
     {
-
-        $routeNode = [];
-        $node = [];
 
         if (isset($scheduleIDs)) {
 
+            $scheduleID = json_decode($scheduleIDs);
+            
+
         }
-        if (isset($nodesIDs)) {
-/*
-            $nodesID = json_decode($nodesIDs);
 
-
-            for ($i = 0; $i < count($nodesID); $i++) {
-
-                //in case of node deleting it deletes also related route and rote_nodes
-                $node = PtmNode::find()
-                    ->where(['ptm_node.id' => $nodesID[0]])
-                    ->all();
-
-                $routeNode = PtmRouteNode::find()
-                    ->where(['ptm_route_node.node_id' => $node[0]->id])
-                    ->all();
-
-                //$routeNode->delete();
-                //$node->delete();
-            }
-
-            $route = PtmRoute::find()
-                ->where(['ptm_route.id' => $routeNode[0]->route_id])
-                ->all();
-
-            //$route->delete();
-
-            return $routeNode[0]->node_id;*/
-        }
         if (isset($routesIDs)) {
 
             $routesID = json_decode($routesIDs);
@@ -327,35 +304,44 @@ class DefaultController extends Controller
 
             for ($j = 0; $j < count($routesID); $j++) {
 
-/*                $r = Yii::$app->db->createCommand('SELECT * FROM ptm_route WHERE ')
-                    ->select('*')
-                    ->from('ptm_route')
-                    ->where(['ptm_route.id' => $routesID[0]])
-                    ->queryAll();*/
-
                 $route = PtmRoute::find()
-                    ->where(['ptm_route.id' => $routesID[0]])
+                    ->where(['ptm_route.id' => $routesID[$j]])
                     ->all();
+
 
                 $routeNode = PtmRouteNode::find()
                     ->where(['ptm_route_node.route_id' => $route[0]->id])
                     ->all();
 
-                $node = PtmNode::find()
-                    ->joinWith('ptmRouteNodes')
-                    ->where(['ptm_route_node.route_id' => $route[0]->id])
-                    ->all();
-//запросы не обрабатываются, проблема вроде в модели , делается неправильная выборка из-за непонятно чего. $routeNode содержит поля модели равные null и глубоко внутри там закопаны искомые данные, но их не досать
-                //$routeNode->delete();
-                //$route->delete();
-                //$node->delete();
+                $routeNodeID = [];
+                $i = 0;
 
-                //var_dump($r); die;
-                //return json_encode($node[0]->attributes());
+                foreach ($routeNode as $item) {
+                    $routeNodeID[$i] = $item->node_id;
+                    $i++;
+                }
+
+                foreach ($routesID as $item) {
+                    Yii::$app->db->createCommand()
+                        ->delete('ptm_route_node', ['route_id' => $item])
+                        ->execute();
+                }
+
+                foreach ($routeNodeID as $item) {
+                    Yii::$app->db->createCommand()
+                        ->delete('ptm_node', ['id' => $item])
+                        ->execute();
+                }
+
+                Yii::$app->db->createCommand()
+                    ->delete('ptm_route', ['id' => $routesID[$j]])
+                    ->execute();
+
+                return 'success';
 
             }
-
         }
+
         return 'error';
     }
 

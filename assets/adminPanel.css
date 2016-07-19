@@ -92,6 +92,14 @@
     background-color: indianred;
 }
 
+.table-row-info {
+    cursor: pointer;
+}
+
+.table-row-info:hover {
+    background-color: lightblue;
+}
+
 #delete-rows:active {
     transition: linear 5s;
 }

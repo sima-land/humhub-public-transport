@@ -5,6 +5,10 @@ use yii\widgets\ActiveForm;
 
 ?>
 
+
+<div class="popup"></div>
+
+
 <div class="row">
     <div class="col-lg-2"></div>
     <div class="col-lg-4">
@@ -17,7 +21,7 @@ use yii\widgets\ActiveForm;
                 $counter = 0;
                 foreach ($schedule as $item) {
                     echo "<div class='table-row'>";
-                    echo "<div id='$counter' class='table-item table-delete-row' table-type='schedule'>X</div>";
+                    echo "<div id='$counter' class='table-item table-row-info' table-type='schedule'>?</div>";
                     echo "<div class='table-item' id='id'>$item->id</div>";
                     echo "<div class='table-item'>$item->start_at</div>";
                     echo "<div class='table-item'>$item->route_id</div>";
@@ -41,7 +45,7 @@ use yii\widgets\ActiveForm;
                 $counter = 0;
                 foreach ($nodes as $item) {
                     echo "<div class='table-row'>";
-                    echo "<div id='$counter' class='table-item table-delete-row' table-type='nodes'>X</div>";
+                    echo "<div id='$counter' class='table-item table-row-info' table-type='nodes'>?</div>";
                     echo "<div class='table-item' id='id'>$item->id</div>";
                     echo "<div class='table-item'>$item->name</div>";
                     echo "<div class='table-item'>$item->lat</div>";
@@ -93,7 +97,7 @@ use yii\widgets\ActiveForm;
                 $counter = 0;
                 foreach ($routeNodes as $item) {
                     echo "<div class='table-row'>";
-                    echo "<div id='$counter' class='table-item table-delete-row' table-type='routeNodes'>X</div>";
+                    echo "<div id='$counter' class='table-item table-row-info' table-type='routeNodes'>?</div>";
                     echo "<div class='table-item'>$item->route_id</div>";
                     echo "<div class='table-item'>$item->node_id</div>";
                     echo "<div class='table-item'>$item->node_interval</div>";
@@ -138,6 +142,10 @@ use yii\widgets\ActiveForm;
         //alert('Внимание! \r\rВы не сможете отменить действия, совершенные на этой странице.');
     });
 
+    $('.table-row-info').on('click', function () {
+
+    });
+
     $('body').click( function (event) {
 
         if ($(event.target).attr('id') == 'delete-last') {
@@ -170,7 +178,7 @@ use yii\widgets\ActiveForm;
 
             $.ajax({
                 type: 'GET',
-                url: 'index.php?r=public_transport_map%2Fdefault%2Fdelete-rows&scheduleIDs=' + JSON.stringify(schedule) + '&nodesIDs=' + JSON.stringify(nodes) + '&routesIDs=' + JSON.stringify(routes),//table id
+                url: 'index.php?r=public_transport_map%2Fdefault%2Fdelete-rows&scheduleIDs=' + JSON.stringify(schedule) + '&routesIDs=' + JSON.stringify(routes),//table id
                 success: function(data) {
                     alert('Удалено');
                     console.log('Controller returned:' + data);
@@ -190,7 +198,7 @@ use yii\widgets\ActiveForm;
 
         if (typeof deleteItem.table == 'undefined') deleteItem.table = null;
 
-        if (!existsInArray(deleteItem, itemsToDelete) && !(deleteItem.table === null)) itemsToDelete.push(deleteItem);
+        if (!existsInArray(deleteItem, itemsToDelete) && !(deleteItem.table === null) && (deleteItem.table == 'routes')) itemsToDelete.push(deleteItem);
 
         drawTabs();
         
