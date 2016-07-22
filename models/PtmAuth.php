@@ -4,7 +4,10 @@ namespace humhub\modules\public_transport_map\models;
 
 use yii;
 
-
+/**
+ * I do not know will it come useful or not
+ * This model is needed to auth admin
+ */
 class PtmAuth extends \yii\db\ActiveRecord
 {
 

@@ -24,7 +24,7 @@ class PtmNode extends \yii\db\ActiveRecord
     public $newLat;
     public $newLng;
     public $newNodeInterval;
-
+    
     public static function tableName()
     {
         return 'ptm_node';

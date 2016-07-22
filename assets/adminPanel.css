@@ -53,22 +53,108 @@
     transition: ease 0.5s;
 }
 
-#delete-last {
+#delete-all {
     cursor: pointer;
     color: indianred;
     margin-top: 20px;
     margin-bottom: 10px;
 }
 
-.schedule-item {
-    display: inline-block;
-    padding: 10px;
-    margin: 10px 2px 10px 2px;
-    background-color: #dddddd;
+.table-table {
+    display: table;
+    margin-left: 20px;
 }
 
-.schedule-item:hover {
+.table-head {
+    display: table-caption;
+}
+
+.table-row {
+    display: table-row;
+}
+
+.table-item {
+    display: table-cell;
+    padding: 10px;
+    background-color: #dddddd;
+    text-align: center;
+}
+
+.table-item:hover {
     background-color: #ededed;
+    transition: linear 0.2s;
+}
+
+.table-delete-row {
+    cursor: pointer;
+}
+
+.table-delete-row:hover {
+    background-color: indianred;
+    transition: linear 0.2s;
+}
+
+.table-row-info {
+    cursor: pointer;
+}
+
+.table-row-info:hover {
+    background-color: lightblue;
+    transition: linear 0.2s;
+}
+
+.b-popup{
+    width:100%;
+    min-height:100%;
+    background-color: rgba(0,0,0,0.5);
+    overflow:hidden;
+    position:fixed;
+    top:0px;
+    z-index: 100;
+}
+
+.b-popup .b-popup-content{
+    margin: 300px auto 0px auto;
+    width: 300px;
+    height: auto;
+    padding: 20px;
+    background-color: #c5c5c5;
+    border-radius: 2px;
+    box-shadow: 0px 0px 0px #000;
+    z-index: 101;
+    text-align: center;
+}
+
+#caution {
+    color: indianred !important;
+    margin: 20px;
+}
+
+#add-item {
+    cursor: pointer;
+}
+
+#add-item:hover {
+    background-color: mediumseagreen;
+    transition: linear 0.2s;
+}
+
+#delete-rows {
+    transition: linear 5s;
+}
+
+#delete-rows:active {
+    transition: linear 5s;
+}
+
+#delete-row-item {
+    background-color: lightskyblue;
+    display: inline-block;
+    padding: 5px;
+    margin: 5px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border-radius: 2px;
 }
 
 input {
