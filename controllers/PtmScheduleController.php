@@ -119,6 +119,7 @@ class PtmScheduleController extends AdminController
     public function actionDeleteNode($id)
     {
         PtmRouteNode::deleteAll(['route_id' => $this->id, 'node_id' => $id]);
+
         return $this->redirect(['view', 'id' => $this->id]);
     }
 

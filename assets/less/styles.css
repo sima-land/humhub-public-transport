@@ -1,3 +1,12 @@
-.active {
-  background-color: lightblue !important;
+.top {
+  margin-top: 15px;
+}
+.nav-pills li.colored {
+  padding-right: 5px;
+}
+.nav-pills li.colored a {
+  background-color: darkgray;
+}
+.nav-pills li.colored :hover {
+  background-color: grey;
 }

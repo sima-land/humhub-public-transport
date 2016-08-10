@@ -7,16 +7,17 @@ use yii\widgets\DetailView;
 /* @var $model humhub\modules\transport\models\PtmNode */
 
 $this->title = $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Ptm Nodes', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Остановки', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
+<?= $this->render('../layouts/breadcrumbs.php')?>
+<div class="container">
 <div class="ptm-node-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->id], [
+        <?= Html::a('Удалить', ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
                 'confirm' => 'Are you sure you want to delete this item?',
@@ -35,4 +36,5 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]) ?>
 
+</div>
 </div>

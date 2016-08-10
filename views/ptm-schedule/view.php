@@ -15,17 +15,6 @@ $this->params['breadcrumbs'][] = $this->title;
 
         <h1><?= Html::encode($this->title) ?></h1>
 
-        <p>
-            <?= Html::a('Изменить', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-            <?= Html::a('Удалить', ['delete', 'id' => $model->id], [
-                'class' => 'btn btn-danger',
-                'data'  => [
-                    'confirm' => 'Вы уверены, что хотите удалить этот элемент?',
-                    'method'  => 'post',
-                ],
-            ]) ?>
-        </p>
-
         <?= DetailView::widget([
             'model'=> $model,
             'attributes' => [
@@ -35,7 +24,6 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ]) ?>
 
-        <?= Html::a('Добавить остановку',['ptm-route/update', 'id' => $model->route->id] , ['class' => 'btn btn-success']) ?>
         <?= \yii\grid\GridView::widget([
             'dataProvider' => $nodesDataProvider,
             'columns' => [

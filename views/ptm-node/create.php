@@ -10,6 +10,8 @@ $this->title = 'Create Ptm Node';
 $this->params['breadcrumbs'][] = ['label' => 'Ptm Nodes', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
+<?= $this->render('../layouts/breadcrumbs.php')?>
+<div class="container">
 <div class="ptm-node-create">
 
     <h1><?= Html::encode($this->title) ?></h1>
@@ -18,4 +20,5 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
     ]) ?>
 
+</div>
 </div>

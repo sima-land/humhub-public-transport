@@ -6,10 +6,12 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model humhub\modules\transport\models\PtmRoute */
 
-$this->title = 'Create Ptm Route';
-$this->params['breadcrumbs'][] = ['label' => 'Ptm Routes', 'url' => ['index']];
+$this->title = 'Создать маршрут';
+$this->params['breadcrumbs'][] = ['label' => 'Маршруты', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
+<?= $this->render('../layouts/breadcrumbs.php')?>
+<div class="container">
 <div class="ptm-route-create">
 
     <h1><?= Html::encode($this->title) ?></h1>
@@ -18,4 +20,5 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
     ]) ?>
 
+</div>
 </div>

@@ -6,7 +6,6 @@ use humhub\modules\transport\models\PtmRouteNode;
 use Yii;
 use humhub\modules\transport\models\PtmRoute;
 use humhub\modules\transport\models\PtmRouteSearch;
-use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
@@ -36,6 +35,7 @@ class PtmRouteController extends AdminController
      */
     public function actionIndex()
     {
+        $this->getBreadCrumbs();
         $searchModel = new PtmRouteSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
@@ -46,24 +46,13 @@ class PtmRouteController extends AdminController
     }
 
     /**
-     * Displays a single PtmRoute model.
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionView($id)
-    {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
-    }
-
-    /**
      * Creates a new PtmRoute model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
+        $this->getBreadCrumbs();
         $model = new PtmRoute();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -97,16 +86,12 @@ class PtmRouteController extends AdminController
                         $n->save();
                     }
                 }
-
-                return $this->render('update', [
-                    'model' => $model,
-                ]);
             }
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
         }
+
+        return $this->render('update', [
+            'model' => $model,
+        ]);
     }
 
     /**
@@ -118,14 +103,6 @@ class PtmRouteController extends AdminController
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
-
-        return $this->redirect(['index']);
-    }
-
-    public function actionDeleteNode($id)
-    {
-        var_dump($id, $this, PtmRouteNode::find()->where(['node_id' => $id, 'route_id' => $this->id])->all());die;
-        PtmRouteNode::deleteAll(['node_id' => $id, 'route_id' => $this->id]);
 
         return $this->redirect(['index']);
     }

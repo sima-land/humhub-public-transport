@@ -7,28 +7,31 @@ use yii\grid\GridView;
 /* @var $searchModel humhub\modules\transport\models\PtmRouteSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Ptm Routes';
+$this->title = 'Маршруты';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
+<?= $this->render('../layouts/breadcrumbs.php')?>
+<div class="container">
 <div class="ptm-route-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Create Ptm Route', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Создать', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
-            'id',
             'name',
-            'direction_id',
+            'direction.name',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'template' => '{update} {delete}'
+            ],
         ],
     ]); ?>
 </div>
+    </div>

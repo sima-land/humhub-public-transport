@@ -7,29 +7,30 @@ use yii\grid\GridView;
 /* @var $searchModel humhub\modules\transport\models\PtmNodeSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Ptm Nodes';
+$this->title = 'Остановки';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
+<?= $this->render('../layouts/breadcrumbs.php')?>
+<div class="container">
 <div class="ptm-node-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Create Ptm Node', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Добавить остановку', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
-            'id',
             'name',
-            'lat',
-            'lng',
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'template' => '{view} {delete}'
 
-            ['class' => 'yii\grid\ActionColumn'],
+            ],
         ],
     ]); ?>
+</div>
 </div>

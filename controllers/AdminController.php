@@ -3,8 +3,6 @@
 namespace humhub\modules\transport\controllers;
 
 use Yii;
-use humhub\modules\transport\models\PtmDirectionSearch;
-use humhub\modules\user\models\User;
 use yii\helpers\Url;
 use yii\web\Controller;
 

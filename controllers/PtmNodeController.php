@@ -5,14 +5,13 @@ namespace humhub\modules\transport\controllers;
 use Yii;
 use humhub\modules\transport\models\PtmNode;
 use humhub\modules\transport\models\PtmNodeSearch;
-use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
  * PtmNodeController implements the CRUD actions for PtmNode model.
  */
-class PtmNodeController extends Controller
+class PtmNodeController extends AdminController
 {
     /**
      * @inheritdoc
@@ -35,6 +34,7 @@ class PtmNodeController extends Controller
      */
     public function actionIndex()
     {
+        $this->getBreadCrumbs();
         $searchModel = new PtmNodeSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
@@ -51,6 +51,8 @@ class PtmNodeController extends Controller
      */
     public function actionView($id)
     {
+        $this->getBreadCrumbs();
+
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
@@ -63,31 +65,13 @@ class PtmNodeController extends Controller
      */
     public function actionCreate()
     {
+        $this->getBreadCrumbs();
         $model = new PtmNode();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
-                'model' => $model,
-            ]);
-        }
-    }
-
-    /**
-     * Updates an existing PtmNode model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionUpdate($id)
-    {
-        $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('update', [
                 'model' => $model,
             ]);
         }
