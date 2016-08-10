@@ -1,5 +1,5 @@
 {
-    "id": "public_transport_map",
+    "id": "transport",
     "name": "Public transport map for Sima-Land",
     "description": "Allows admins to create bus routes with connected map-service, and users to inspect those routes.",
     "keywords": ["bus", "public transport", "map", "route"],

@@ -6,17 +6,21 @@ class uninstall extends Migration
 {
     public function safeUp()
     {
-        $this->dropForeignKey('fk_schedule_route_id','ptm_schedule');
-        $this->dropForeignKey('fk_route_direction_id','ptm_route');
-        $this->dropForeignKey('fk_route_node_route_id','ptm_route_node');
-        $this->dropForeignKey('fk_route_node_node_id','ptm_route_node');
+        // если отключить модуль, то все таблицы с данными стираются, возможно, что это неправильно.
 
+//        $this->dropForeignKey('fk_schedule_route_id', 'ptm_schedule');
+//        $this->dropForeignKey('fk_route_direction_id', 'ptm_route');
+//        $this->dropForeignKey('fk_route_node_route_id', 'ptm_route_node');
+//        $this->dropForeignKey('fk_route_node_node_id', 'ptm_route_node');
+//
+//
+//        $this->dropTable('ptm_schedule');
+//        $this->dropTable('ptm_route_node');
+//        $this->dropTable('ptm_route');
+//        $this->dropTable('ptm_node');
+//        $this->dropTable('ptm_direction');
 
-        $this->dropTable('ptm_schedule');
-        $this->dropTable('ptm_route_node');
-        $this->dropTable('ptm_route');
-        $this->dropTable('ptm_node');
-        $this->dropTable('ptm_direction');
+        $this->delete('group', ['name' => 'transport_admin']);
     }
 
     public function down()
@@ -25,5 +29,5 @@ class uninstall extends Migration
 
         return false;
     }
-    
+
 }

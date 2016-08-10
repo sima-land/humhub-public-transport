@@ -1,10 +1,11 @@
 <?php
-namespace humhub\modules\public_transport_map;
 
-/*
- * Documentation
+namespace humhub\modules\transport;
+
+/**
+ * Class Module
+ * @package humhub\modules\transport
  */
-
 class Module extends \humhub\components\Module
 {
 

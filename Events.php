@@ -1,13 +1,8 @@
 <?php
 
-/**
- * @link https://www.humhub.org/
- * @copyright Copyright (c) 2015 HumHub GmbH & Co. KG
- * @license https://www.humhub.com/licences
- */
+namespace humhub\modules\transport;
 
-namespace humhub\modules\public_transport_map;
-
+use humhub\modules\user\models\User;
 use Yii;
 use yii\helpers\Url;
 
@@ -35,18 +30,18 @@ class Events extends \yii\base\Object
             return;
         }
         $event->sender->addItem(array(
-            'label' => Yii::t('PublicTransportMapModule.base', 'Public Transport Map'),
-            'url' => Url::to(['/public_transport_map/default/index']),
+            'label' => "Расписание автобусов",
+            'url' => Url::to(['/transport/main/index']),
             'icon' => '<i class="fa fa-bus"></i>',
             'isActive' => (Yii::$app->controller->module && Yii::$app->controller->module->id == 'public_transport_map'),
             'sortOrder' => 300,
         ));
     }
-    public static function onNotificationAddonInit($event)
-    {
-        if (Yii::$app->user->isGuest) {
-            return;
-        }
-        $event->sender->addWidget(Notifications::className(), array(), array('sortOrder' => 90));
-    }
+//    public static function onNotificationAddonInit($event)
+//    {
+//        if (Yii::$app->user->isGuest) {
+//            return;
+//        }
+//        $event->sender->addWidget(Notifications::className(), array(), array('sortOrder' => 90));
+//    }
 }

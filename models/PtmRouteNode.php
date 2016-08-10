@@ -1,58 +1,66 @@
 <?php
 
-namespace humhub\modules\public_transport_map\models;
+namespace humhub\modules\transport\models;
 
 use Yii;
 
 /**
- * This is the model class for table "ptm_route_node".
+ * This is the model class for table "{{%ptm_route_node}}".
  *
+ * @property integer $id
  * @property integer $route_id
  * @property integer $node_id
- * @property string $node_interval
+ * @property integer $node_interval
  *
  * @property PtmNode $node
  * @property PtmRoute $route
  */
 class PtmRouteNode extends \yii\db\ActiveRecord
 {
-
-    public $newRouteID;
-    public $newNodeID;
-    public $newNodeInterval;
-
-
-
+    /**
+     * @inheritdoc
+     */
     public static function tableName()
     {
-        return 'ptm_route_node';
+        return '{{%ptm_route_node}}';
     }
 
+    /**
+     * @inheritdoc
+     */
     public function rules()
     {
         return [
-            [['route_id', 'node_id'], 'required'],
-            [['route_id', 'node_id'], 'integer'],
-            [['node_interval'], 'string'],
+            [['route_id', 'node_id', 'node_interval'], 'integer'],
             [['node_id'], 'exist', 'skipOnError' => true, 'targetClass' => PtmNode::className(), 'targetAttribute' => ['node_id' => 'id']],
             [['route_id'], 'exist', 'skipOnError' => true, 'targetClass' => PtmRoute::className(), 'targetAttribute' => ['route_id' => 'id']],
         ];
     }
 
+    /**
+     * @inheritdoc
+     */
     public function attributeLabels()
     {
         return [
-            'route_id' => Yii::t('PublicTransportMapModule', 'Route ID'),
-            'node_id' => Yii::t('PublicTransportMapModule', 'Node ID'),
-            'node_interval' => Yii::t('PublicTransportMapModule', 'Node Interval'),
+            'id' => 'ID',
+            'route_id' => 'Route ID',
+            'node_id' => 'Node ID',
+            'node_interval' => 'Node Interval',
         ];
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getNode()
     {
         return $this->hasOne(PtmNode::className(), ['id' => 'node_id']);
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getRoute()
     {
         return $this->hasOne(PtmRoute::className(), ['id' => 'route_id']);

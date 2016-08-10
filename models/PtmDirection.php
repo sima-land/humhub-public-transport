@@ -1,14 +1,14 @@
 <?php
 
-namespace humhub\modules\public_transport_map\models;
+namespace humhub\modules\transport\models;
 
 use Yii;
 
 /**
- * This is the model class for table "ptm_direction".
+ * This is the model class for table "{{%ptm_direction}}".
  *
  * @property integer $id
- * @property string $description
+ * @property string $name
  *
  * @property PtmRoute[] $ptmRoutes
  */
@@ -19,7 +19,7 @@ class PtmDirection extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'ptm_direction';
+        return '{{%ptm_direction}}';
     }
 
     /**
@@ -28,7 +28,7 @@ class PtmDirection extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['description'], 'string', 'max' => 10],
+            [['name'], 'string', 'max' => 100],
         ];
     }
 
@@ -38,8 +38,7 @@ class PtmDirection extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('PublicTransportMapModule', 'ID'),
-            'description' => Yii::t('PublicTransportMapModule', 'Description'),
+            'name' => 'Название направления',
         ];
     }
 
@@ -49,5 +48,16 @@ class PtmDirection extends \yii\db\ActiveRecord
     public function getPtmRoutes()
     {
         return $this->hasMany(PtmRoute::className(), ['direction_id' => 'id']);
+    }
+
+    public static function getAll()
+    {
+        $all = self::find()->select('id, name')->asArray()->all();
+        $directions = [];
+        foreach ($all as $key => $d) {
+            $directions[$d['id']] = $d['name'];
+        }
+
+        return $directions;
     }
 }
