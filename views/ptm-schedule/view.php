@@ -14,12 +14,12 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="ptm-schedule-view">
 
         <h1><?= Html::encode($this->title) ?></h1>
-
         <?= DetailView::widget([
             'model'=> $model,
             'attributes' => [
                 'departure_at',
                 'route.name',
+                'route.direction.name',
                 'comment:ntext',
             ],
         ]) ?>

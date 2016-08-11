@@ -10,6 +10,10 @@
 .nav-pills li.colored :hover {
   background-color: grey;
 }
+#ptmroute-nodesarr label {
+  display: block;
+  margin-left: 10px;
+}
 #map {
   width: auto;
   height: 500px;

@@ -30,5 +30,3 @@ class MapAsset extends AssetBundle
         'yii\web\JqueryAsset',
     ];
 }
-
-?>

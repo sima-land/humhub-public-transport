@@ -48,7 +48,7 @@ class PtmRoute extends \yii\db\ActiveRecord
             'id' => 'ID',
             'name' => 'Название',
             'direction_id' => 'Направление',
-            'nodesArr' => 'Остановки',
+            'nodesArr' => 'Остановки:',
             'direction.name' => 'Направление'
         ];
     }

@@ -11,18 +11,18 @@ class Assets extends AssetBundle
     ];
 
     public $css = [
-        'less/styles.css'
+        'less/styles.css',
+        'css/leaflet.css'
     ];
 
     public $js = [
+        'js/map.js',
+        'js/leaflet/leaflet.js',
     ];
 
     public function init()
     {
-     //   $this->sourcePath = dirname(__FILE__) . '/assets';
         $this->sourcePath = __DIR__ . '/assets';
         parent::init();
     }
 }
-
-?>

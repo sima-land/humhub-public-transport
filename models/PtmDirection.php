@@ -38,7 +38,7 @@ class PtmDirection extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'name' => 'Название направления',
+            'name' => 'Направление',
         ];
     }
 
