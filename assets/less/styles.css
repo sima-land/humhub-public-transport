@@ -43,9 +43,15 @@ hr {
 .ptm-schedule-index .input-group-addon {
   background-color: #ffffff !important;
 }
+.ptm-schedule-index tbody,
+.ptm-schedule-index th {
+  text-align: center;
+}
 .ptm-schedule-index .detail-view th {
+  text-align: left;
   color: black;
-  padding: 10px;
+  padding-left: 15px;
+  font-size: 13px;
 }
 #map {
   width: auto;
