@@ -20,7 +20,6 @@ class Assets extends AssetBundle
         'js/map.js',
         'js/leaflet/leaflet.js',
         'js/datetimePicker/moment.min.js',
-        'js/datetimePicker/bootstrap.min.js',
         'js/datetimePicker/bootstrap-datetimepicker.min.js',
     ];
 
@@ -31,6 +30,6 @@ class Assets extends AssetBundle
     }
 
     public $depends = [
-        'yii\web\JqueryAsset',
+        'yii\bootstrap\BootstrapPluginAsset',
     ];
 }

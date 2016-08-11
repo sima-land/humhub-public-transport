@@ -47,6 +47,9 @@ hr {
 .ptm-schedule-index th {
   text-align: center;
 }
+.ptm-schedule-index td {
+  padding: 10px 10px 10px 10px !important;
+}
 .ptm-schedule-index .detail-view th {
   text-align: left;
   color: black;
