@@ -7,6 +7,7 @@ use humhub\modules\transport\models\PtmNode;
 use humhub\modules\transport\models\PtmNodeSearch;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\View;
 
 /**
  * PtmNodeController implements the CRUD actions for PtmNode model.
@@ -52,9 +53,20 @@ class PtmNodeController extends AdminController
     public function actionView($id)
     {
         $this->getBreadCrumbs();
+        $model = $this->findModel($id);
+        \Yii::$app->view->registerJs(
+            $this->renderPartial(
+                '/admin/_js-node.php',
+                [
+                    'jsonNodeList' => json_encode([$model->getAttributes()]),
+                ]
+            ),
+            View::POS_BEGIN,
+            'nodes'
+        );
 
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $model,
         ]);
     }
 
@@ -67,6 +79,16 @@ class PtmNodeController extends AdminController
     {
         $this->getBreadCrumbs();
         $model = new PtmNode();
+        \Yii::$app->view->registerJs(
+            $this->renderPartial(
+                '/admin/_js-node.php',
+                [
+                    'jsonNodeList' => '[]',
+                ]
+            ),
+            View::POS_BEGIN,
+            'nodes'
+        );
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);

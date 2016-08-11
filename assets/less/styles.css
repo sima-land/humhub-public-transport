@@ -10,3 +10,8 @@
 .nav-pills li.colored :hover {
   background-color: grey;
 }
+#map {
+  width: auto;
+  height: 500px;
+  cursor: pointer;
+}

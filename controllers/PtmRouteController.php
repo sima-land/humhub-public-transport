@@ -8,6 +8,7 @@ use humhub\modules\transport\models\PtmRoute;
 use humhub\modules\transport\models\PtmRouteSearch;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\View;
 
 /**
  * PtmRouteController implements the CRUD actions for PtmRoute model.
@@ -56,7 +57,7 @@ class PtmRouteController extends AdminController
         $model = new PtmRoute();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['index']);
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -74,6 +75,21 @@ class PtmRouteController extends AdminController
     {
         $this->getBreadCrumbs();
         $model = $this->findModel($id);
+        $nodes = [];
+        foreach ($model->nodes as $node) {
+            $nodes[] = $node->getAttributes();
+        }
+        \Yii::$app->view->registerJs(
+            $this->renderPartial(
+                '/admin/_js-node.php',
+                [
+                    'jsonNodeList' => json_encode($nodes),
+                ]
+            ),
+            View::POS_BEGIN,
+            'nodes'
+        );
+
         $post = Yii::$app->request->post();
         if ($post) {
             if ($model->load($post) && $model->save()) {

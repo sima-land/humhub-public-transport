@@ -1,13 +1,13 @@
 <?php
 
 use yii\helpers\Html;
-
+\humhub\modules\transport\MapAsset::register($this);
 
 /* @var $this yii\web\View */
 /* @var $model humhub\modules\transport\models\PtmNode */
 
-$this->title = 'Create Ptm Node';
-$this->params['breadcrumbs'][] = ['label' => 'Ptm Nodes', 'url' => ['index']];
+$this->title = 'Добавить остановку';
+$this->params['breadcrumbs'][] = ['label' => 'Остановки', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <?= $this->render('../layouts/breadcrumbs.php')?>
@@ -19,6 +19,6 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= $this->render('_form', [
         'model' => $model,
     ]) ?>
-
+    <div id="map"></div>
 </div>
 </div>

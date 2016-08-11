@@ -2,6 +2,8 @@
 
 use yii\helpers\Html;
 
+\humhub\modules\transport\MapAsset::register($this);
+
 /* @var $this yii\web\View */
 /* @var $model humhub\modules\transport\models\PtmRoute */
 
@@ -19,6 +21,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= $this->render('_form', [
             'model' => $model,
         ]) ?>
-
+        <div id="map"></div>
     </div>
 </div>
+
