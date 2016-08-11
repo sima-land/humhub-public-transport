@@ -20,7 +20,7 @@ class uninstall extends Migration
 //        $this->dropTable('ptm_node');
 //        $this->dropTable('ptm_direction');
 
-        $this->delete('group', ['name' => 'transport_admin']);
+      //  $this->delete('group', ['name' => 'transport_admin']);
     }
 
     public function down()
