@@ -2,14 +2,43 @@
   margin-top: 15px;
 }
 
+hr {
+  border-top: 1px solid #96aad6 !important;
+}
+
 .nav-pills {
   li.colored {
     padding-right: 5px;
     a {
-      background-color: darkgray;
+      background-color: #5f7ec1;
+      color: white;
     }
     :hover {
-      background-color: grey;
+      background-color: #5f7ec1;
+    }
+  }
+}
+
+.nav-tabs {
+  li.main {
+    a {
+      font-size: 15px;
+      color: #555;
+      cursor: default;
+      background-color: #ededed;
+      border: 1px solid #ddd;
+      border-bottom-color: transparent;
+    }
+    :hover {
+      text-decoration: none;
+      border: 1px solid #ddd;
+      border-bottom: none;
+    }
+  }
+  li {
+    :hover {
+      text-decoration: none;
+      border-bottom: none;
     }
   }
 }
@@ -18,5 +47,21 @@
   label {
     display: block;
     margin-left: 10px;
+  }
+}
+
+.ptm-schedule-index {
+  background-color: #ffffff;
+  padding: 15px;
+  color: #000000;
+  .input-group-addon {
+    background-color: #ffffff !important;
+  }
+
+  .detail-view {
+    th {
+      color: black;
+      padding: 10px;
+    }
   }
 }

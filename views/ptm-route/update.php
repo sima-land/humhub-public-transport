@@ -2,19 +2,16 @@
 
 use yii\helpers\Html;
 
-\humhub\modules\transport\MapAsset::register($this);
-
 /* @var $this yii\web\View */
 /* @var $model humhub\modules\transport\models\PtmRoute */
 
 $this->title = 'Изменить маршрут: ' . $model->name;
 $this->params['breadcrumbs'][] = ['label' => 'Маршруты', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->name, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <?= $this->render('../layouts/breadcrumbs.php')?>
 <div class="container">
-    <div class="ptm-route-update">
+    <div class="ptm-schedule-index">
 
         <h1><?= Html::encode($this->title) ?></h1>
 

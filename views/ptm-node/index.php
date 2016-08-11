@@ -12,12 +12,12 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <?= $this->render('../layouts/breadcrumbs.php')?>
 <div class="container">
-<div class="ptm-node-index">
+<div class="ptm-schedule-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Добавить остановку', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Добавить остановку', ['create'], ['class' => 'btn btn-primary']) ?>
     </p>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,

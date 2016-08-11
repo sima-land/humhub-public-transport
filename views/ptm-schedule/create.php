@@ -12,7 +12,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <?= $this->render('../layouts/breadcrumbs.php') ?>
 <div class="container">
-    <div class="ptm-schedule-create">
+    <div class="ptm-schedule-index">
 
         <h1><?= Html::encode($this->title) ?></h1>
 

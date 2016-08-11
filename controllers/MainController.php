@@ -2,6 +2,7 @@
 
 namespace humhub\modules\transport\controllers;
 
+use humhub\modules\transport\Assets;
 use humhub\modules\transport\models\PtmDirection;
 use humhub\modules\transport\models\PtmSchedule;
 use humhub\modules\user\models\User;
@@ -13,6 +14,7 @@ class MainController extends Controller
 {
     public function actionIndex()
     {
+        \Yii::$app->view->registerAssetBundle(Assets::className());
         $is_t_admin = false;
         $user = User::findOne(\Yii::$app->user->id);
         foreach ($user->groups as $group) {

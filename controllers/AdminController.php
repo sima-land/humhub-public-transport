@@ -2,12 +2,18 @@
 
 namespace humhub\modules\transport\controllers;
 
+use humhub\modules\transport\Assets;
 use Yii;
 use yii\helpers\Url;
 use yii\web\Controller;
 
 class AdminController extends Controller
 {
+    public function init()
+    {
+        parent::init();
+        Yii::$app->view->registerAssetBundle(Assets::className());
+    }
     public function actionIndex()
     {
         return $this->render('index');
@@ -24,4 +30,7 @@ class AdminController extends Controller
             'url' => Url::to(['/transport/admin/index']),
         ];
     }
+
+
+
 }

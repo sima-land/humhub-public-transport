@@ -11,7 +11,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <?= $this->render('../layouts/breadcrumbs.php') ?>
 <div class="container">
-    <div class="ptm-schedule-view">
+    <div class="ptm-schedule-index">
 
         <h1><?= Html::encode($this->title) ?></h1>
         <?= DetailView::widget([

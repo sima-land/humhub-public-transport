@@ -5,7 +5,6 @@ use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
 /* @var $model humhub\modules\transport\models\PtmNode */
-\humhub\modules\transport\MapAsset::register($this);
 
 $this->title = $model->name;
 $this->params['breadcrumbs'][] = ['label' => 'Остановки', 'url' => ['index']];
@@ -13,7 +12,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <?= $this->render('../layouts/breadcrumbs.php') ?>
 <div class="container">
-    <div class="ptm-node-view">
+    <div class="ptm-schedule-index">
 
         <h1><?= Html::encode($this->title) ?></h1>
 

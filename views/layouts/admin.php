@@ -1,16 +1,13 @@
 <?php
 
 use \yii\helpers\Url;
-
-\humhub\modules\transport\Assets::register($this);
-
 ?>
 <div class="container">
     <div class="row">
-        <ul class="nav nav-pills">
-            <li class="noround"><a href="<?= Url::to(['/transport/main/index']) ?>">Запись на автобус</a>
+        <ul class="nav nav-tabs">
+            <li class=""><a href="<?= Url::to(['/transport/main/index']) ?>">Запись на автобус</a>
             </li>
-            <li class="noround active"><a href="<?= Url::to(['/transport/admin/index']) ?>">Администрирование</a>
+            <li class="main"><a href="<?= Url::to(['/transport/admin/index']) ?>">Администрирование</a>
             </li>
         </ul>
     </div>

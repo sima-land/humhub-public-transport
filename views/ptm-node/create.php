@@ -1,7 +1,6 @@
 <?php
 
 use yii\helpers\Html;
-\humhub\modules\transport\MapAsset::register($this);
 
 /* @var $this yii\web\View */
 /* @var $model humhub\modules\transport\models\PtmNode */
@@ -12,7 +11,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <?= $this->render('../layouts/breadcrumbs.php')?>
 <div class="container">
-<div class="ptm-node-create">
+<div class="ptm-schedule-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
 

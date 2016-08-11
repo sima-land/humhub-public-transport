@@ -21,7 +21,7 @@ use humhub\modules\transport\models\PtmNode;
     <?= $form->field($model, 'nodesArr')->checkboxList(PtmNode::getAll(), ['multiple' => true]) ?>
 
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Создать' : 'Изменить', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitButton($model->isNewRecord ? 'Создать' : 'Изменить', ['class' => 'btn btn-primary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

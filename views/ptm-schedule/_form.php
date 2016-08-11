@@ -8,13 +8,6 @@ use humhub\modules\transport\models\PtmRoute;
 /* @var $model humhub\modules\transport\models\PtmSchedule */
 /* @var $form yii\widgets\ActiveForm */
 ?>
-<link rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css"/>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-<script
-    src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
 
 <div class="ptm-schedule-form">
     <?php $form = ActiveForm::begin(); ?>
@@ -30,7 +23,7 @@ use humhub\modules\transport\models\PtmRoute;
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Создать' : 'Изменить',
-            ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+            ['class' => 'btn btn-primary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>
@@ -39,7 +32,8 @@ use humhub\modules\transport\models\PtmRoute;
 <script type="text/javascript">
     $(function () {
         $('#datetimepicker1').datetimepicker({
-            format: 'DD.MM HH:mm'
+            format: 'DD.MM HH:mm',
+            minDate: moment()
         });
     });
 </script>
