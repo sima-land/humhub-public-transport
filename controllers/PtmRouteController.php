@@ -55,8 +55,17 @@ class PtmRouteController extends AdminController
     {
         $this->getBreadCrumbs();
         $model = new PtmRoute();
+        $post = Yii::$app->request->post();
+        if ($model->load($post) && $model->save()) {
+            if ($post['PtmRoute']['nodesArr']) {
+                foreach ($post['PtmRoute']['nodesArr'] as $node) {
+                    $n = new PtmRouteNode();
+                    $n->route_id = $model->id;
+                    $n->node_id = $node;
+                    $n->save();
+                }
+            }
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['index']);
         } else {
             return $this->render('create', [
@@ -102,6 +111,8 @@ class PtmRouteController extends AdminController
                         $n->save();
                     }
                 }
+
+                return $this->redirect(['index']);
             }
         }
 
