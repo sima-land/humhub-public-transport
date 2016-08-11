@@ -9,7 +9,10 @@ return [
     'class' => 'humhub\modules\transport\Module',
     'namespace' => 'humhub\modules\transport',
     'urlManagerRules' => [
-        ['class' => 'humhub\modules\space\components\UrlRule']
+        [
+            'class' => 'humhub\modules\transport\components\UrlRule',
+
+        ]
     ],
     'events' => [
         [
@@ -21,12 +24,7 @@ return [
             'class' => TopMenu::className(),
             'event'=> TopMenu::EVENT_INIT,
             'callback' => ['humhub\modules\transport\Events', 'onTopMenuInit']
-        ],
-//        [
-//            'class' => ProfileHeaderControls::className(),
-//            'event' => ProfileHeaderControls::EVENT_INIT,
-//            'callback' => ['humhub\modules\public_transport_map\Events', 'onProfileHeaderControlsInit']
-//        ],
+        ]
     ],
 ];
 ?>

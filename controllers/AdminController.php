@@ -14,6 +14,7 @@ class AdminController extends Controller
         parent::init();
         Yii::$app->view->registerAssetBundle(Assets::className());
     }
+
     public function actionIndex()
     {
         return $this->render('index');
@@ -30,7 +31,4 @@ class AdminController extends Controller
             'url' => Url::to(['/transport/admin/index']),
         ];
     }
-
-
-
 }

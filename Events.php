@@ -37,11 +37,4 @@ class Events extends \yii\base\Object
             'sortOrder' => 300,
         ));
     }
-//    public static function onNotificationAddonInit($event)
-//    {
-//        if (Yii::$app->user->isGuest) {
-//            return;
-//        }
-//        $event->sender->addWidget(Notifications::className(), array(), array('sortOrder' => 90));
-//    }
 }

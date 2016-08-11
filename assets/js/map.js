@@ -53,7 +53,6 @@ $(document).ready(function () {
         }
     }
 
-
     var direction = $('#direction');
     var route = $('#route');
     if (direction.val()) {
@@ -71,7 +70,6 @@ $(document).ready(function () {
             }
         });
     });
-
 
     function fillRoutes() {
         route.find('option').remove();
