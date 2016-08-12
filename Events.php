@@ -2,7 +2,7 @@
 
 namespace humhub\modules\transport;
 
-use humhub\modules\user\models\User;
+use humhub\models\Setting;
 use Yii;
 use yii\helpers\Url;
 
@@ -14,11 +14,6 @@ use yii\helpers\Url;
 class Events extends \yii\base\Object
 {
     /**
-     * On User delete, also delete all comments
-     *
-     * @param type $event
-     */
-    /**
      * On build of the TopMenu, check if module is enabled
      * When enabled add a menu item
      *
@@ -26,9 +21,18 @@ class Events extends \yii\base\Object
      */
     public static function onTopMenuInit($event)
     {
-        if (Yii::$app->user->isGuest) {
+        $not_admin = true;
+        $groups = Yii::$app->user->getIdentity()->groups;
+        foreach ($groups as $group) {
+            if ($group->name == 'transport_admin') {
+                $not_admin = false;
+                break;
+            }
+        }
+        if (Yii::$app->user->isGuest || (Setting::Get('is_shown', 'transport') == 0 && $not_admin)) {
             return;
         }
+
         $event->sender->addItem(array(
             'label' => "Расписание автобусов",
             'url' => Url::to(['/transport/main/index']),

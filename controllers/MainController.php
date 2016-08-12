@@ -16,8 +16,8 @@ class MainController extends Controller
     {
         \Yii::$app->view->registerAssetBundle(Assets::className());
         $is_t_admin = false;
-        $user = User::findOne(\Yii::$app->user->id);
-        foreach ($user->groups as $group) {
+        $groups = \Yii::$app->user->getIdentity()->groups;
+        foreach ($groups as $group) {
             if ($group->name == 'transport_admin') {
                 $is_t_admin = true;
                 break;

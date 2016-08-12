@@ -2,7 +2,9 @@
 
 namespace humhub\modules\transport\controllers;
 
+use humhub\models\Setting;
 use humhub\modules\transport\Assets;
+use humhub\modules\transport\models\ConfigForm;
 use Yii;
 use yii\helpers\Url;
 use yii\web\Controller;
@@ -20,15 +22,27 @@ class AdminController extends Controller
         return $this->render('index');
     }
 
+    public function actionConfig()
+    {
+        $model = new ConfigForm(['is_shown' => Setting::Get('is_shown', 'transport')]);
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+            $model->is_shown = Setting::Set('is_shown', $model->is_shown, 'transport');
+
+            return $this->redirect('config');
+        }
+
+        return $this->render('config', ['model' => $model]);
+    }
+
     public function getBreadCrumbs()
     {
         \Yii::$app->view->params['breadcrumbs'][] = [
             'label' => 'Расписание автобусов',
-            'url' => Url::to(['/transport/main/index']),
+            'url'   => Url::to(['/transport/main/index']),
         ];
         \Yii::$app->view->params['breadcrumbs'][] = [
             'label' => 'Администрирование',
-            'url' => Url::to(['/transport/admin/index']),
+            'url'   => Url::to(['/transport/admin/index']),
         ];
     }
 }
