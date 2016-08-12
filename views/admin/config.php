@@ -13,14 +13,13 @@ use \yii\widgets\ActiveForm;
         <br/>
         <?php $form = ActiveForm::begin(); ?>
         <div class="form-group">
-            <?php echo $form->field($model, 'is_shown')->checkbox([$model->is_shown ? 'checked' : '']); ?>
+            <?= $form->field($model, 'is_shown')->checkbox([$model->is_shown ? 'checked' : '']); ?>
         </div>
 
         <hr>
-        <?php echo Html::submitButton('Сохранить', array('class' => 'btn btn-primary')); ?>
+        <?= Html::submitButton('Сохранить', array('class' => 'btn btn-primary')); ?>
         <a class="btn btn-default"
-           href="<?php echo Url::to(['/admin/module']); ?>"><?php echo Yii::t('TransportModule.base',
-                'Back to modules'); ?></a>
+           href="<?= Url::to(['/admin/module']); ?>">Вернуться к модулям</a>
 
         <?php ActiveForm::end(); ?>
     </div>
