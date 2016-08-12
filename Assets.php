@@ -1,28 +1,35 @@
 <?php
-/**
- * Linking assets.
- */
- 
-namespace humhub\modules\public_transport_map;
+
+namespace humhub\modules\transport;
 
 use yii\web\AssetBundle;
 
 class Assets extends AssetBundle
 {
+    public $publishOptions = [
+        'forceCopy' => true
+    ];
+
     public $css = [
-        'leaflet-routing-machine.css',
-        'nodes.css',
-        'adminPanel.css'
+        'less/styles.css',
+        'css/leaflet.css',
+        'css/datetimePicker.min.css'
     ];
+
     public $js = [
-        'map_script.js',
-        'jquery.maskedinput.min.js',
-        'admin_script.js'
+        'js/map.js',
+        'js/leaflet/leaflet.js',
+        'js/datetimePicker/moment.min.js',
+        'js/datetimePicker/bootstrap-datetimepicker.min.js',
     ];
+
     public function init()
     {
-        $this->sourcePath = dirname(__FILE__) . '/assets';
+        $this->sourcePath = __DIR__ . '/assets';
         parent::init();
     }
+
+    public $depends = [
+        'yii\bootstrap\BootstrapPluginAsset',
+    ];
 }
-?>
