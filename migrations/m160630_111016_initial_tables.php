@@ -49,15 +49,16 @@ class m160630_111016_initial_tables extends Migration
             ]);
             $this->addForeignKey('fk_schedule_route_id', 'ptm_schedule', 'route_id', 'ptm_route', 'id', 'CASCADE', 'CASCADE');
 
-            $this->insert('ptm_direction', [
-                'name' => 'На работу',
-            ]);
-            $this->insert('ptm_direction', [
-                'name' => 'С работы',
-            ]);
         } catch (Exception $ex) {
 
         }
+
+        $this->insert('ptm_direction', [
+            'name' => 'На работу',
+        ]);
+        $this->insert('ptm_direction', [
+            'name' => 'С работы',
+        ]);
     }
 
     public function down()
