@@ -17,8 +17,6 @@ use Yii;
  */
 class PtmRoute extends \yii\db\ActiveRecord
 {
-    public $nodes_arr = [];
-
     /**
      * @inheritdoc
      */
@@ -89,6 +87,15 @@ class PtmRoute extends \yii\db\ActiveRecord
             $nodes[] = $node->id;
         }
         return $nodes;
+    }
+
+    public function getNodesTimeArr()
+    {
+        $time = [];
+        foreach ($this->ptmRouteNodes as $node) {
+            $time[] = substr($node->node_interval, 0, 5);
+        }
+        return $time;
     }
 
     public static function getAll()

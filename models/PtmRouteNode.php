@@ -10,7 +10,7 @@ use Yii;
  * @property integer $id
  * @property integer $route_id
  * @property integer $node_id
- * @property integer $node_interval
+ * @property string $node_interval
  *
  * @property PtmNode $node
  * @property PtmRoute $route
@@ -31,9 +31,10 @@ class PtmRouteNode extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['route_id', 'node_id', 'node_interval'], 'integer'],
+            [['route_id', 'node_id'], 'integer'],
             [['node_id'], 'exist', 'skipOnError' => true, 'targetClass' => PtmNode::className(), 'targetAttribute' => ['node_id' => 'id']],
             [['route_id'], 'exist', 'skipOnError' => true, 'targetClass' => PtmRoute::className(), 'targetAttribute' => ['route_id' => 'id']],
+            ['node_interval', 'string']
         ];
     }
 

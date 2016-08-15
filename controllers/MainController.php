@@ -4,6 +4,7 @@ namespace humhub\modules\transport\controllers;
 
 use humhub\modules\transport\Assets;
 use humhub\modules\transport\models\PtmDirection;
+use humhub\modules\transport\models\PtmRouteNode;
 use humhub\modules\transport\models\PtmSchedule;
 use humhub\modules\user\models\User;
 use yii\helpers\Json;
@@ -27,10 +28,14 @@ class MainController extends Controller
         $time_table = PtmSchedule::find()->all();
         $direction = [];
         foreach ($time_table as $route) {
+            $rn = PtmRouteNode::find()->where(['route_id' => $route->route_id])->orderBy('node_interval ASC')->all();
             $nodes = [];
-            foreach ($route->route->nodes as $node) {
-                $nodes[] = $node->getAttributes();
+            foreach ($rn as $n) {
+                $attrs = $n->node->getAttributes();
+                $attrs['time'] = $n->node_interval;
+                $nodes[] = $attrs;
             }
+
             $direction[] = [
                 'id' => $route->id,
                 'direction' => $route->route->direction->name,

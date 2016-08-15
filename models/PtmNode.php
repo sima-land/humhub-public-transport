@@ -59,7 +59,9 @@ class PtmNode extends \yii\db\ActiveRecord
     public static function getAll()
     {
         $all = self::find()->select('id, name')->asArray()->all();
-        $nodes = [];
+        $nodes = [
+            0 => 'Выберите остановку'
+        ];
         foreach ($all as $d) {
             $nodes[$d['id']] = $d['name'];
         }

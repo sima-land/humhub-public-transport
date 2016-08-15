@@ -34,7 +34,7 @@ class m160630_111016_initial_tables extends Migration
             'id' => $this->primaryKey(),
             'route_id'=> $this->integer(),
             'node_id' => $this->integer(),
-            'node_interval' => $this->integer(),
+            'node_interval' => $this->time(),
         ]);
         $this->addForeignKey('fk_route_node_route_id', 'ptm_route_node', 'route_id', 'ptm_route', 'id', 'CASCADE', 'CASCADE');
         $this->addForeignKey('fk_route_node_node_id', 'ptm_route_node', 'node_id', 'ptm_node', 'id', 'CASCADE', 'CASCADE');

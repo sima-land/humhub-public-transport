@@ -1,6 +1,7 @@
 <?php
 
 use yii\widgets\ActiveForm;
+
 ?>
 <?= $this->render('/layouts/main', ['is_admin' => $is_admin]) ?>
 
@@ -25,6 +26,16 @@ use yii\widgets\ActiveForm;
         </div>
         <div role="tabpanel" class="tab-pane active" id="tomorrow">
         </div>
+    </div>
+    <div class="ptm-schedule-index">
+        <table class="table table-striped table-bordered">
+            <thead>
+            <th>Остановка</th>
+            <th>Время</th>
+            </thead>
+            <tbody id="t-body">
+            </tbody>
+        </table>
     </div>
     <div id="map"></div>
 

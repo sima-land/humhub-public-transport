@@ -4,7 +4,7 @@ $(document).ready(function () {
     if (document.getElementById("map")) {
         var map = L.map('map').setView([56.838, 60.605], 12);
         var popup = L.popup();
-        var marker, mapRoute;
+        var markers = [], mapRoute;
 
         L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiYXNhbmgiLCJhIjoiY2lweHZzN2E1MDA3cmh4bm83a3BqeTFhYSJ9._Nf0tZAU-7JSwX8zcUnELA', {
             attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
@@ -13,40 +13,46 @@ $(document).ready(function () {
             accessToken: 'pk.eyJ1IjoiYXNhbmgiLCJhIjoiY2lweHZzN2E1MDA3cmh4bm83a3BqeTFhYSJ9._Nf0tZAU-7JSwX8zcUnELA'
         }).addTo(map);
         drawRoute();
-        map.on('click', onMapClick);
+        if (window.location.pathname == '/transport/ptm-node/create') {
+            map.on('click', onMapClick);
+        }
     }
 
     function onMapClick(e) {
         clearMap();
         var coordinates = e.latlng;
+        var marker;
         $('#ptmnode-lat').val(coordinates.lat);
         $('#ptmnode-lng').val(coordinates.lng);
-        L.marker([coordinates.lat, coordinates.lng]).addTo(map);
+        marker = L.marker([coordinates.lat, coordinates.lng]).addTo(map);
+        markers.push(marker);
     }
 
     function drawRoute() {
+        var marker;
         clearMap();
         if (app.jsonNodeList) {
-            if (app.jsonNodeList.length > 1) {
-                mapRoute = L.polyline([], {color: 'blue'}).addTo(map);
-                app.jsonNodeList.forEach(function (routePoint) {
+            mapRoute = L.polyline([], {color: 'blue'}).addTo(map);
+            app.jsonNodeList.forEach(function (routePoint) {
+                if (app.jsonNodeList.length > 1) {
                     mapRoute.addLatLng(L.latLng(
                         parseFloat(routePoint.lat),
                         parseFloat(routePoint.lng)
                     ));
-                });
-            } else {
-                app.jsonNodeList.forEach(function (item) {
-                    marker = L.marker([item.lat, item.lng]).addTo(map);
-                    marker.bindPopup(item.name).openPopup();
-                });
-            }
+                }
+                marker = L.marker([routePoint.lat, routePoint.lng]).addTo(map);
+                marker.bindPopup(routePoint.name);
+                markers.push(marker);
+            });
         }
     }
 
     function clearMap() {
-        if (marker) {
-            map.removeLayer(marker);
+        if (markers) {
+            for (var i = 0; i < markers.length; i++) {
+                map.removeLayer(markers[i]);
+            }
+            markers = [];
         }
         if (mapRoute) {
             map.removeLayer(mapRoute);
@@ -67,6 +73,11 @@ $(document).ready(function () {
             if ((item.direction == direction.val()) && (route.val() == "route_" + item.id)) {
                 app.jsonNodeList = item.nodes;
                 drawRoute();
+                var data = '';
+                item.nodes.forEach(function (node, i) {
+                    data += '<tr><td>' + node.name + '</td><td>' + node.time + '</td></tr>';
+                });
+                drawTable(item.nodes);
             }
         });
     });
@@ -83,8 +94,17 @@ $(document).ready(function () {
                 if (route.val() == "route_" + item.id) {
                     app.jsonNodeList = item.nodes;
                     drawRoute();
+                    drawTable(item.nodes);
                 }
             }
         });
+    }
+
+    function drawTable(nodes) {
+        var data = '';
+        nodes.forEach(function (node, i) {
+            data += '<tr><td>' + node.name + '</td><td>' + node.time + '</td></tr>';
+        });
+        $('tbody').html(data);
     }
 });
