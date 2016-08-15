@@ -58,10 +58,11 @@ class PtmRouteController extends AdminController
         $post = Yii::$app->request->post();
         if ($model->load($post) && $model->save()) {
             if ($post['PtmRoute']['nodesArr']) {
-                foreach ($post['PtmRoute']['nodesArr'] as $node) {
+                foreach ($post['PtmRoute']['nodesArr'] as $key => $node) {
                     $n = new PtmRouteNode();
                     $n->route_id = $model->id;
                     $n->node_id = $node;
+                    $n->node_interval = date('Y-m-d H:i:s', strtotime($post['PtmRoute']['nodesTimeArr'][$key]));
                     $n->save();
                 }
             }
@@ -104,10 +105,11 @@ class PtmRouteController extends AdminController
             if ($model->load($post) && $model->save()) {
                 if ($post['PtmRoute']['nodesArr']) {
                     PtmRouteNode::deleteAll(['route_id' => $model->id]);
-                    foreach ($post['PtmRoute']['nodesArr'] as $node) {
+                    foreach ($post['PtmRoute']['nodesArr'] as $key => $node) {
                         $n = new PtmRouteNode();
                         $n->route_id = $model->id;
                         $n->node_id = $node;
+                        $n->node_interval = date('Y-m-d H:i:s', strtotime($post['PtmRoute']['nodesTimeArr'][$key]));
                         $n->save();
                     }
                 }
