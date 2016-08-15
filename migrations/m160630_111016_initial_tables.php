@@ -52,13 +52,6 @@ class m160630_111016_initial_tables extends Migration
         } catch (Exception $ex) {
 
         }
-
-        $this->insert('ptm_direction', [
-            'name' => 'На работу',
-        ]);
-        $this->insert('ptm_direction', [
-            'name' => 'С работы',
-        ]);
     }
 
     public function down()
