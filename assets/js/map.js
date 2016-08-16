@@ -13,7 +13,7 @@ $(document).ready(function () {
             accessToken: 'pk.eyJ1IjoiYXNhbmgiLCJhIjoiY2lweHZzN2E1MDA3cmh4bm83a3BqeTFhYSJ9._Nf0tZAU-7JSwX8zcUnELA'
         }).addTo(map);
         drawRoute();
-        if (window.location.pathname == '/transport/ptm-node/create') {
+        if ($.inArray(window.location.pathname,['/transport/ptm-node/create', '/transport/ptm-node/update']) >= 0 ) {
             map.on('click', onMapClick);
         }
     }
