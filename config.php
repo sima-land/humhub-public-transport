@@ -9,7 +9,6 @@ return [
     'class' => 'humhub\modules\transport\Module',
     'namespace' => 'humhub\modules\transport',
     'urlManagerRules' => [
-        'class' => 'humhub\modules\transport\components\UrlRule',
         'transport' => 'transport/main/index',
         'transport/admin' => 'transport/admin/index',
         'transport/admin/schedule' => 'transport/ptm-schedule/index',
