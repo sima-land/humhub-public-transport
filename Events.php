@@ -22,13 +22,16 @@ class Events extends \yii\base\Object
     public static function onTopMenuInit($event)
     {
         $not_admin = true;
-        $groups = Yii::$app->user->getIdentity()->groups;
-        foreach ($groups as $group) {
-            if ($group->name == 'transport_admin') {
-                $not_admin = false;
-                break;
+
+        if ($groups = Yii::$app->user->getIdentity()->groups) {
+            foreach ($groups as $group) {
+                if ($group->name == 'transport_admin') {
+                    $not_admin = false;
+                    break;
+                }
             }
         }
+        
         if (Yii::$app->user->isGuest || (Setting::Get('is_shown', 'transport') == 0 && $not_admin)) {
             return;
         }
