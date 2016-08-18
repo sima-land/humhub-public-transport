@@ -34,6 +34,7 @@ class PtmDirectionController extends AdminController
      */
     public function actionIndex()
     {
+        $this->getView()->pageTitle = 'Направления';
         $this->getBreadCrumbs();
         $searchModel = new PtmDirectionSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
@@ -51,6 +52,7 @@ class PtmDirectionController extends AdminController
      */
     public function actionCreate()
     {
+        $this->getView()->pageTitle = 'Создать';
         $this->getBreadCrumbs();
         $model = new PtmDirection();
 
@@ -73,7 +75,7 @@ class PtmDirectionController extends AdminController
     {
         $this->getBreadCrumbs();
         $model = $this->findModel($id);
-
+        $this->getView()->pageTitle = 'Изменить направление: ' . $model->name;
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['index']);
         } else {

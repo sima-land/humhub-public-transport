@@ -15,6 +15,7 @@ class MainController extends Controller
 {
     public function actionIndex()
     {
+        $this->getView()->pageTitle = 'Расписание автобусов';
         \Yii::$app->view->registerAssetBundle(Assets::className());
         $is_t_admin = false;
         $groups = \Yii::$app->user->getIdentity()->groups;
