@@ -47,7 +47,9 @@ $(document).ready(function () {
                 marker.bindPopup(routePoint.name);
                 markers.push(marker);
             });
-            map.setView([mlt/app.jsonNodeList.length, mlg/app.jsonNodeList.length], 12)
+            if (mlt && mlg) {
+                map.setView([mlt/app.jsonNodeList.length, mlg/app.jsonNodeList.length], 12);
+            }
         }
     }
 
