@@ -52,7 +52,7 @@ class PtmDirectionController extends AdminController
      */
     public function actionCreate()
     {
-        $this->getView()->pageTitle = 'Создать';
+        $this->getView()->pageTitle = 'Добавить направление';
         $this->getBreadCrumbs();
         $model = new PtmDirection();
 

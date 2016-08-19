@@ -75,7 +75,7 @@ class PtmScheduleController extends AdminController
      */
     public function actionCreate()
     {
-        $this->getView()->pageTitle = 'Создать';
+        $this->getView()->pageTitle = 'Добавить расписание';
         $this->getBreadCrumbs();
         $model = new PtmSchedule();
 
@@ -101,7 +101,7 @@ class PtmScheduleController extends AdminController
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
-            $this->getView()->pageTitle = $model->route->name;
+            $this->getView()->pageTitle = 'Изменить расписание по маршруту: ' . $model->route->name;
 
             return $this->render('update', [
                 'model' => $model,

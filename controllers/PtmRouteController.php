@@ -54,7 +54,7 @@ class PtmRouteController extends AdminController
      */
     public function actionCreate()
     {
-        $this->getView()->pageTitle = 'Создать маршрут';
+        $this->getView()->pageTitle = 'Добавить маршрут';
         $this->getBreadCrumbs();
         $model = new PtmRoute();
         $post = Yii::$app->request->post();
@@ -87,7 +87,7 @@ class PtmRouteController extends AdminController
     {
         $this->getBreadCrumbs();
         $model = $this->findModel($id);
-        $this->getView()->pageTitle = $model->name;
+        $this->getView()->pageTitle = 'Изменить маршрут: ' . $model->name;
         $nodes = [];
         foreach ($model->nodes as $node) {
             $nodes[] = $node->getAttributes();
