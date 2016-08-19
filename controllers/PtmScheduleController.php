@@ -37,6 +37,7 @@ class PtmScheduleController extends AdminController
      */
     public function actionIndex()
     {
+        $this->getView()->pageTitle = 'Расписание';
         $this->getBreadCrumbs();
         $searchModel = new PtmScheduleSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
@@ -58,9 +59,11 @@ class PtmScheduleController extends AdminController
         $nodesDataProvider = new ActiveDataProvider([
             'query' => PtmNode::find()->joinWith('ptmRouteNodes', ['id' => 'node_id'])->where(['route_id' => $id]),
         ]);
+        $model = $this->findModel($id);
+        $this->getView()->pageTitle = $model->route->name;
 
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $model,
             'nodesDataProvider' => $nodesDataProvider
         ]);
     }
@@ -72,6 +75,7 @@ class PtmScheduleController extends AdminController
      */
     public function actionCreate()
     {
+        $this->getView()->pageTitle = 'Добавить расписание';
         $this->getBreadCrumbs();
         $model = new PtmSchedule();
 
@@ -97,6 +101,8 @@ class PtmScheduleController extends AdminController
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
+            $this->getView()->pageTitle = 'Изменить расписание по маршруту: ' . $model->route->name;
+
             return $this->render('update', [
                 'model' => $model,
             ]);

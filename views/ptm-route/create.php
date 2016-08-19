@@ -6,7 +6,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model humhub\modules\transport\models\PtmRoute */
 
-$this->title = 'Создать маршрут';
+$this->title = 'Добавить маршрут';
 $this->params['breadcrumbs'][] = ['label' => 'Маршруты', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>

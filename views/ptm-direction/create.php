@@ -6,7 +6,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model humhub\modules\transport\models\PtmDirection */
 
-$this->title = 'Создать';
+$this->title = 'Добавить направление';
 $this->params['breadcrumbs'][] = ['label' => 'Направления', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>

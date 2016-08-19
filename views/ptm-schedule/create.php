@@ -6,7 +6,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model humhub\modules\transport\models\PtmSchedule */
 
-$this->title = 'Создать';
+$this->title = 'Добавить расписание';
 $this->params['breadcrumbs'][] = ['label' => 'Расписание', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>

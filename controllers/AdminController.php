@@ -19,11 +19,14 @@ class AdminController extends Controller
 
     public function actionIndex()
     {
+        $this->getView()->pageTitle = 'Администрирование';
+
         return $this->render('index');
     }
 
     public function actionConfig()
     {
+        $this->getView()->pageTitle = 'Настройка модуля';
         $model = new ConfigForm(['is_shown' => Setting::Get('is_shown', 'transport')]);
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             $model->is_shown = Setting::Set('is_shown', $model->is_shown, 'transport');

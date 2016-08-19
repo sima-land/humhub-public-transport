@@ -36,6 +36,7 @@ class PtmRouteController extends AdminController
      */
     public function actionIndex()
     {
+        $this->getView()->pageTitle = 'Маршруты';
         $this->getBreadCrumbs();
         $searchModel = new PtmRouteSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
@@ -53,6 +54,7 @@ class PtmRouteController extends AdminController
      */
     public function actionCreate()
     {
+        $this->getView()->pageTitle = 'Добавить маршрут';
         $this->getBreadCrumbs();
         $model = new PtmRoute();
         $post = Yii::$app->request->post();
@@ -85,6 +87,7 @@ class PtmRouteController extends AdminController
     {
         $this->getBreadCrumbs();
         $model = $this->findModel($id);
+        $this->getView()->pageTitle = 'Изменить маршрут: ' . $model->name;
         $nodes = [];
         foreach ($model->nodes as $node) {
             $nodes[] = $node->getAttributes();

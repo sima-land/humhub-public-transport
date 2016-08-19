@@ -35,6 +35,7 @@ class PtmNodeController extends AdminController
      */
     public function actionIndex()
     {
+        $this->getView()->pageTitle = 'Остановки';
         $this->getBreadCrumbs();
         $searchModel = new PtmNodeSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
@@ -54,6 +55,7 @@ class PtmNodeController extends AdminController
     {
         $this->getBreadCrumbs();
         $model = $this->findModel($id);
+        $this->getView()->pageTitle = $model->name;
         \Yii::$app->view->registerJs(
             $this->renderPartial(
                 '/admin/_js-node.php',
@@ -77,6 +79,7 @@ class PtmNodeController extends AdminController
      */
     public function actionCreate()
     {
+        $this->getView()->pageTitle = 'Добавить остановку';
         $this->getBreadCrumbs();
         $model = new PtmNode();
         \Yii::$app->view->registerJs(
@@ -108,6 +111,8 @@ class PtmNodeController extends AdminController
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $this->getBreadCrumbs();
+        $this->getView()->pageTitle = 'Изменить остановку: ' . $model->name;
         \Yii::$app->view->registerJs(
             $this->renderPartial(
                 '/admin/_js-node.php',
