@@ -13,7 +13,7 @@ $(document).ready(function () {
             accessToken: 'pk.eyJ1IjoiYXNhbmgiLCJhIjoiY2lweHZzN2E1MDA3cmh4bm83a3BqeTFhYSJ9._Nf0tZAU-7JSwX8zcUnELA'
         }).addTo(map);
         drawRoute();
-        if ($.inArray(window.location.pathname, ['/transport/admin/node/create', '/transport/admin/node/update']) >= 0) {
+        if (window.location.pathname == '/transport/admin/node/create' || window.location.pathname.indexOf('/transport/admin/node/update') !== -1) {
             map.on('click', onMapClick);
         }
     }
