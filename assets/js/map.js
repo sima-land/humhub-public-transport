@@ -13,7 +13,7 @@ $(document).ready(function () {
             accessToken: 'pk.eyJ1IjoiYXNhbmgiLCJhIjoiY2lweHZzN2E1MDA3cmh4bm83a3BqeTFhYSJ9._Nf0tZAU-7JSwX8zcUnELA'
         }).addTo(map);
         drawRoute();
-        if ($.inArray(window.location.pathname,['/transport/admin/node/create', '/transport/admin/node/update']) >= 0 ) {
+        if ($.inArray(window.location.pathname, ['/transport/admin/node/create', '/transport/admin/node/update']) >= 0) {
             map.on('click', onMapClick);
         }
     }
@@ -33,22 +33,27 @@ $(document).ready(function () {
         clearMap();
         if (app.jsonNodeList) {
             mapRoute = L.polyline([], {color: 'blue'}).addTo(map);
-            var mlt = 0, mlg = 0;
+            var mlt = 0, mlg = 0, count = 0;
             app.jsonNodeList.forEach(function (routePoint) {
-                if (app.jsonNodeList.length > 1) {
-                    mapRoute.addLatLng(L.latLng(
-                        parseFloat(routePoint.lat),
-                        parseFloat(routePoint.lng)
-                    ));
+                // check if node has coordinates
+                if (routePoint.lat && routePoint.lng) {
+                    count++;
+                    if (app.jsonNodeList.length > 1) {
+                        mapRoute.addLatLng(L.latLng(
+                            parseFloat(routePoint.lat),
+                            parseFloat(routePoint.lng)
+                        ));
+                    }
+                    mlt = mlt + parseFloat(routePoint.lat);
+                    mlg = mlg + routePoint.lng;
+
+                    marker = L.marker([routePoint.lat, routePoint.lng]).addTo(map);
+                    marker.bindPopup(routePoint.name);
+                    markers.push(marker);
                 }
-                mlt = mlt + parseFloat(routePoint.lat);
-                mlg = mlg + routePoint.lng;
-                marker = L.marker([routePoint.lat, routePoint.lng]).addTo(map);
-                marker.bindPopup(routePoint.name);
-                markers.push(marker);
             });
             if (mlt && mlg) {
-                map.setView([mlt/app.jsonNodeList.length, mlg/app.jsonNodeList.length], 12);
+                map.setView([mlt / count, mlg / count], 12);
             }
         }
     }

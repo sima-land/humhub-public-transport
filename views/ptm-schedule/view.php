@@ -17,7 +17,10 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= DetailView::widget([
             'model'=> $model,
             'attributes' => [
-                'departure_at',
+                [
+                    'label' => 'Время отправления',
+                    'value' => date('H:i', strtotime($model->departure_at)),
+                ],
                 'route.name',
                 'route.direction.name',
                 'comment:ntext',
