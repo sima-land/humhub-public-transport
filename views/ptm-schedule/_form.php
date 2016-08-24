@@ -12,7 +12,7 @@ use humhub\modules\transport\models\PtmRoute;
 <div class="ptm-schedule-form">
     <?php $form = ActiveForm::begin(); ?>
     <div class='input-group date' id='datetimepicker1'>
-        <?= $form->field($model, 'departure_at')->textInput(['class' => 'form-control', 'value' => date('d.m H:i', strtotime($model->departure_at))]) ?>
+        <?= $form->field($model, 'departure_at')->textInput(['class' => 'form-control', 'value' => date('H:i', strtotime($model->departure_at))]) ?>
         <span class="input-group-addon" style="padding-top: 26px;">
                         <span class="glyphicon glyphicon-calendar"></span>
                     </span>
@@ -32,8 +32,7 @@ use humhub\modules\transport\models\PtmRoute;
 <script type="text/javascript">
     $(function () {
         $('#datetimepicker1').datetimepicker({
-            format: 'DD.MM HH:mm',
-            minDate: moment()
+            format: 'HH:mm'
         });
     });
 </script>

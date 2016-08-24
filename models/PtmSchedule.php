@@ -35,9 +35,7 @@ class PtmSchedule extends \yii\db\ActiveRecord
             [['comment'], 'string'],
             [['route_id'], 'exist', 'skipOnError' => true, 'targetClass' => PtmRoute::className(), 'targetAttribute' => ['route_id' => 'id']],
             [['departure_at'], 'filter', 'filter' => function($value) {
-                list($date, $time) = explode(' ', $value);
-                $date = explode('.', $date);
-                return date('Y') . "-$date[1]-$date[0] $time:00";
+                return "0000-00-00 $value:00";
             }]
         ];
     }

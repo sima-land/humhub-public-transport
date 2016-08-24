@@ -21,10 +21,16 @@ $this->params['breadcrumbs'][] = $this->title;
         </p>
         <?= GridView::widget([
             'dataProvider' => $dataProvider,
-            'filterModel'  => $searchModel,
-            'columns'      => [
+            'filterModel' => $searchModel,
+            'columns' => [
                 ['class' => 'yii\grid\SerialColumn'],
-                'departure_at',
+                [
+                    'class' => 'yii\grid\DataColumn',
+                    'attribute' => 'departure_at',
+                    'value' => function ($data) {
+                        return date('H:i', strtotime($data->departure_at));
+                    }
+                ],
                 'route.name',
                 'comment:ntext',
                 [
