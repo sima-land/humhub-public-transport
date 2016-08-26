@@ -82,9 +82,12 @@ class PtmRoute extends \yii\db\ActiveRecord
 
     public function getNodesArr()
     {
+        $rn = PtmRouteNode::find()->where(['route_id' => $this->id])->orderBy('node_interval ASC')->all();
         $nodes = [];
-        foreach ($this->nodes as $node) {
-            $nodes[] = $node->id;
+        foreach ($rn as $n) {
+            $attrs = $n->node->getAttributes();
+            $attrs['time'] = $n->node_interval;
+            $nodes[] = $attrs;
         }
         return $nodes;
     }
