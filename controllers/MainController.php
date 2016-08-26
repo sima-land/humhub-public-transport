@@ -28,21 +28,13 @@ class MainController extends Controller
         $time_table = PtmSchedule::find()->all();
         $direction = [];
         foreach ($time_table as $route) {
-            $rn = PtmRouteNode::find()->where(['route_id' => $route->route_id])->orderBy('node_interval ASC')->all();
-            $nodes = [];
-            foreach ($rn as $n) {
-                $attrs = $n->node->getAttributes();
-                $attrs['time'] = $n->node_interval;
-                $nodes[] = $attrs;
-            }
-
             $direction[] = [
                 'id' => $route->id,
                 'direction' => $route->route->direction->name,
                 'departure_at' => $route->departure_at,
                 'route_name' => $route->route->name,
                 'comment' => $route->comment,
-                'nodes' => $nodes
+                'nodes' => $route->route->nodesArr
             ];
         }
 

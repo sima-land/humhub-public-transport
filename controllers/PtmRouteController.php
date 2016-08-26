@@ -88,15 +88,12 @@ class PtmRouteController extends AdminController
         $this->getBreadCrumbs();
         $model = $this->findModel($id);
         $this->getView()->pageTitle = 'Изменить маршрут: ' . $model->name;
-        $nodes = [];
-        foreach ($model->nodes as $node) {
-            $nodes[] = $node->getAttributes();
-        }
+
         \Yii::$app->view->registerJs(
             $this->renderPartial(
                 '/admin/_js-node.php',
                 [
-                    'jsonNodeList' => json_encode($nodes),
+                    'jsonNodeList' => json_encode($model->nodesArr),
                 ]
             ),
             View::POS_BEGIN,
